@@ -2,21 +2,12 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-
-  // ✅ Auto-fill Tank from URL (?tank=FV-5)
-  const tank = params.get("tank");
-  if (tank) {
-    const tankInput = document.getElementById("tank");
-    if (tankInput) tankInput.value = tank;
+  const params = new URLSearchParams(location.search);
+  if (params.get("tank")) {
+    document.getElementById("tank").value = params.get("tank");
   }
 
-  // Default date to today
-  const dateInput = document.getElementById("date");
-  if (dateInput && !dateInput.value) {
-    dateInput.valueAsDate = new Date();
-  }
-
+  document.getElementById("date").valueAsDate = new Date();
   loadRecipes();
 });
 
@@ -24,60 +15,63 @@ function loadRecipes() {
   fetch(`${API}?action=recipes`)
     .then(r => r.json())
     .then(recipes => {
-      const select = document.getElementById("recipe");
-      select.innerHTML = `<option value="">Select recipe</option>`;
-
+      const sel = document.getElementById("recipe");
+      sel.innerHTML = `<option></option>`;
       recipes.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.RecipeID;
-        opt.textContent = r.Beer;
-        select.appendChild(opt);
+        const o = document.createElement("option");
+        o.value = r.RecipeID;
+        o.textContent = r.Beer;
+        sel.appendChild(o);
       });
-
-      select.addEventListener("change", () => {
-        if (select.value) loadRecipe(select.value);
-      });
+      sel.onchange = () => loadRecipe(sel.value);
     });
 }
 
 function loadRecipe(id) {
   fetch(`${API}?action=recipe&recipe=${id}`)
     .then(r => r.json())
-    .then(data => {
+    .then(d => {
 
-      // Targets
-      Object.entries(data.targets || {}).forEach(([key, val]) => {
-        const el = document.getElementById(key);
-        if (el) el.value = val;
+      Object.entries(d.targets).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
       });
 
-      fillTable("grainTable", data.grain, ["Grain", "Target", "Milled"]);
-      fillTable("mashTable", data.mash, ["Step", "Temp", "Time", "pH"]);
+      // Grain Bill (WITH MILLED INPUT)
+      const gtb = document.querySelector("#grainTable tbody");
+      gtb.innerHTML = "";
+      d.grain.forEach(g => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${g.Grain}</td>
+          <td>${g.Target}</td>
+          <td><input type="number" step="0.01"></td>
+        `;
+        gtb.appendChild(tr);
+      });
+
+      // Mash (pH only for Mash in + Mash out)
+      const mtb = document.querySelector("#mashTable tbody");
+      mtb.innerHTML = "";
+      d.mash.forEach(m => {
+        const phEditable =
+          m.Step.toLowerCase().includes("mash in") ||
+          m.Step.toLowerCase().includes("mash out");
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${m.Step}</td>
+          <td>${m.Temp}</td>
+          <td>${m.Time}</td>
+          <td>${phEditable ? `<input>` : "—"}</td>
+        `;
+        mtb.appendChild(tr);
+      });
 
       // Water
-      Object.entries(data.water || {}).forEach(([key, val]) => {
-        const el = document.getElementById(key.toLowerCase());
-        if (el) el.value = val;
+      Object.entries(d.water).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
       });
     });
-}
-
-function fillTable(id, rows = [], cols = []) {
-  const tbody = document.querySelector(`#${id} tbody`);
-  tbody.innerHTML = "";
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="${cols.length}" class="muted">— No data loaded —</td></tr>`;
-    return;
-  }
-
-  rows.forEach(r => {
-    const tr = document.createElement("tr");
-    cols.forEach(c => {
-      const td = document.createElement("td");
-      td.textContent = r[c] ?? "";
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
 }
