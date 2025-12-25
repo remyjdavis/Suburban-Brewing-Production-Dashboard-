@@ -1,11 +1,14 @@
 const API =
-  "PASTE_YOUR_SCRIPT_URL_HERE?action=tanks";
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
 
 fetch(API)
   .then(r => r.json())
   .then(tanks => {
     const ferm = document.getElementById("fermentation");
     const brite = document.getElementById("brite");
+
+    ferm.innerHTML = "";
+    brite.innerHTML = "";
 
     tanks.forEach(t => {
       const status = (t.Status || "empty").toLowerCase();
@@ -21,8 +24,16 @@ fetch(API)
       if (status === "empty") {
         card.onclick = () =>
           location.href = `brew-log.html?tank=${encodeURIComponent(t.TankID)}`;
+      } else {
+        card.onclick = () => {
+          alert(
+            `Tank: ${t.TankID}\nStatus: ${t.Status}\nBatch: ${t.Batch || "—"}`
+          );
+        };
       }
 
-      (t.Type === "Fermenter" ? ferm : brite).appendChild(card);
+      if (t.Type === "Fermenter") ferm.appendChild(card);
+      if (t.Type === "Brite") brite.appendChild(card);
     });
-  });
+  })
+  .catch(err => console.error("Error loading tanks:", err));
