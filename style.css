@@ -8,20 +8,20 @@ body {
 header {
   text-align: center;
   margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 section {
   margin-bottom: 40px;
 }
 
-h3 {
-  margin-bottom: 15px;
-}
-
 .tank-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  position: relative;
+  z-index: 2;
 }
 
 .tank {
@@ -30,27 +30,20 @@ h3 {
   padding: 15px;
   border: 2px solid #ccc;
   cursor: pointer;
+  position: relative;
+  z-index: 3; /* 🔑 REQUIRED FOR SAFARI */
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tank:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
 /* STATUS COLORS */
-.status-fermenting {
-  border-color: #28a745;
-}
-
-.status-conditioning {
-  border-color: #ffc107;
-}
-
-.status-cip {
-  border-color: #17a2b8;
-}
-
+.status-fermenting { border-color: #28a745; }
+.status-conditioning { border-color: #ffc107; }
+.status-cip { border-color: #17a2b8; }
 .status-empty {
   border-color: #adb5bd;
   background: #f8f9fa;
