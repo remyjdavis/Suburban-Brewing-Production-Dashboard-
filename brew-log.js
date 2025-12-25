@@ -2,73 +2,120 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const p = new URLSearchParams(location.search);
-  if (p.get("tank")) document.getElementById("tank").value = p.get("tank");
+  const params = new URLSearchParams(window.location.search);
+
+  // Auto-fill tank from URL
+  if (params.get("tank")) {
+    document.getElementById("tank").value = params.get("tank");
+  }
+
+  // Default date = today
   document.getElementById("date").valueAsDate = new Date();
+
   loadRecipes();
 });
 
 function loadRecipes() {
   fetch(`${API}?action=recipes`)
-    .then(r => r.json())
-    .then(rs => {
-      const s = document.getElementById("recipe");
-      s.innerHTML = "<option></option>";
-      rs.forEach(r => {
+    .then(res => res.json())
+    .then(recipes => {
+      const sel = document.getElementById("recipe");
+      sel.innerHTML = `<option value=""></option>`;
+
+      recipes.forEach(r => {
         const o = document.createElement("option");
         o.value = r.RecipeID;
         o.textContent = r.Beer;
-        s.appendChild(o);
+        sel.appendChild(o);
       });
-      s.onchange = () => loadRecipe(s.value);
+
+      sel.onchange = () => loadRecipe(sel.value);
     });
 }
 
 function loadRecipe(id) {
-  fetch(`${API}?action=recipe&recipe=${id}`)
-    .then(r => r.json())
-    .then(d => {
+  if (!id) return;
 
-      Object.entries(d.targets).forEach(([k, v]) => {
+  fetch(`${API}?action=recipe&recipe=${id}`)
+    .then(res => res.json())
+    .then(data => {
+      // Targets
+      Object.entries(data.targets).forEach(([k, v]) => {
         const el = document.getElementById(k);
         if (el) el.value = v;
       });
 
-      fillGrain(d.grain);
-      fillMash(d.mash);
+      fillGrainTable(data.grain);
+      fillMashTable(data.mash);
 
-      Object.entries(d.water).forEach(([k, v]) => {
+      // Water
+      Object.entries(data.water).forEach(([k, v]) => {
         const el = document.getElementById(k);
         if (el) el.value = v;
       });
     });
 }
 
-function fillGrain(rows) {
+/* ---------- Grain Bill ---------- */
+function fillGrainTable(rows) {
   const tb = document.getElementById("grainTable");
   tb.innerHTML = "";
+
   rows.forEach(r => {
-    tb.innerHTML += `
-      <tr>
-        <td>${r.Grain}</td>
-        <td>${r.Target}</td>
-        <td><input></td>
-      </tr>`;
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${r.Grain}</td>
+      <td data-target="${r.Target}">${r.Target}</td>
+      <td>
+        <input type="number" step="0.01"
+               oninput="validateMilled(this, ${r.Target})">
+      </td>
+    `;
+
+    tb.appendChild(tr);
   });
 }
 
-function fillMash(rows) {
+function validateMilled(input, target) {
+  const val = parseFloat(input.value);
+  if (!val || !target) return;
+
+  const min = target * 0.9;
+  const max = target * 1.1;
+
+  if (val < min || val > max) {
+    input.style.border = "2px solid #d93025";
+  } else {
+    input.style.border = "";
+  }
+}
+
+/* ---------- Mash Schedule ---------- */
+function fillMashTable(rows) {
   const tb = document.getElementById("mashTable");
   tb.innerHTML = "";
-  rows.forEach(r => {
+
+  rows.forEach(step => {
+    const isPHAllowed =
+      step.Step.toLowerCase().includes("mash in") ||
+      step.Step.toLowerCase().includes("mash out");
+
     tb.innerHTML += `
       <tr>
-        <td>${r.Step}</td>
-        <td>${r.Temp}</td>
-        <td>${r.Time}</td>
-        <td><input></td>
+        <td>${step.Step}</td>
+        <td>${step.Temp}</td>
+        <td>${step.Time || ""}</td>
+        <td>
+          ${
+            isPHAllowed
+              ? `<input type="number" step="0.01">`
+              : "—"
+          }
+        </td>
         <td><input type="time"></td>
         <td><input type="time"></td>
-      </tr>`;
+      </tr>
+    `;
   });
 }
