@@ -1,30 +1,62 @@
-const API =
+var API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-fetch(`${API}?action=tanks`)
-  .then(r => r.json())
-  .then(tanks => {
-    if (!Array.isArray(tanks)) throw "Tank data invalid";
+var xhr = new XMLHttpRequest();
+xhr.open("GET", API + "?action=tanks", true);
 
-    const ferm = document.getElementById("fermentation");
-    const brite = document.getElementById("brite");
+xhr.onload = function () {
+  if (xhr.status !== 200) {
+    console.error("Request failed");
+    return;
+  }
 
-    tanks.forEach(t => {
-      const status = (t.Status || "empty").toLowerCase();
+  var tanks;
+  try {
+    tanks = JSON.parse(xhr.responseText);
+  } catch (e) {
+    console.error("Invalid JSON");
+    return;
+  }
 
-      const card = document.createElement("div");
-      card.className = `tank ${status}`;
-      card.innerHTML = `
-        <h4>${t.TankID}</h4>
-        <div>${t.Status || "Empty"}</div>
-      `;
+  if (!Array.isArray(tanks)) {
+    console.error("Tank data invalid");
+    return;
+  }
 
-      if (status === "empty") {
-        card.onclick = () =>
-          window.location.href = `brew-log.html?tank=${t.TankID}`;
-      }
+  var ferm = document.getElementById("fermentation");
+  var brite = document.getElementById("brite");
 
-      (t.Type === "Fermenter" ? ferm : brite).appendChild(card);
-    });
-  })
-  .catch(err => console.error(err));
+  tanks.forEach(function (t) {
+    var status = (t.Status || "empty").toLowerCase();
+
+    var card = document.createElement("div");
+    card.className = "tank " + status;
+
+    var title = document.createElement("h4");
+    title.textContent = t.TankID;
+
+    var state = document.createElement("div");
+    state.textContent = t.Status || "Empty";
+
+    card.appendChild(title);
+    card.appendChild(state);
+
+    if (status === "empty") {
+      card.onclick = function () {
+        window.location.href = "brew-log.html?tank=" + t.TankID;
+      };
+    }
+
+    if (t.Type === "Fermenter") {
+      ferm.appendChild(card);
+    } else {
+      brite.appendChild(card);
+    }
+  });
+};
+
+xhr.onerror = function () {
+  console.error("Network error");
+};
+
+xhr.send();
