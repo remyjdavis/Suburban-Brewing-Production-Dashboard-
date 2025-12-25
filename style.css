@@ -1,3 +1,4 @@
+/* ===== Base ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,15 +8,15 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f6f7f9;
-  color: #1f2933;
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
-/* Header */
+/* ===== Header ===== */
 .app-header {
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  padding: 24px 32px;
+  padding: 18px 32px;
 }
 
 .header-content {
@@ -24,75 +25,93 @@ body {
 }
 
 .app-header h1 {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
 }
 
 .app-header h2 {
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
   color: #6b7280;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
-/* Layout */
+/* ===== Layout ===== */
 .dashboard {
   max-width: 1200px;
-  margin: 32px auto;
+  margin: 28px auto;
   padding: 0 32px;
 }
 
+/* ===== Sections ===== */
 .dashboard-section {
-  margin-bottom: 40px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 24px 24px;
+  margin-bottom: 28px;
+  border: 1px solid #e5e7eb;
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  color: #111827;
 }
 
-/* Tank Grid */
+/* ===== Tank Grid ===== */
 .tank-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
 }
 
-/* Tank Cards */
+/* ===== Tank Cards ===== */
 .tank {
-  background: #ffffff;
+  background: #f9fafb;
   border-radius: 12px;
-  padding: 14px;
-  border: 2px solid #ccc;
+  padding: 14px 16px;
+  border: 2px solid #d1d5db;
   cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
+.tank:hover {
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* Tank title */
 .tank h4 {
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
+/* Tank status text */
 .tank div {
   font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
 }
 
-/* Status */
-.status-empty {
-  border-color: #adb5bd;
-  background-color: #f8f9fa;
-}
-
+/* ===== Status Styling ===== */
 .status-fermenting {
-  border-color: #28a745;
-  background-color: rgba(40, 167, 69, 0.04);
+  border-color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.06);
 }
 
 .status-conditioning {
-  border-color: #ffc107;
-  background-color: rgba(255, 193, 7, 0.05);
+  border-color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.07);
 }
 
 .status-cip {
-  border-color: #17a2b8;
-  background-color: rgba(23, 162, 184, 0.04);
+  border-color: #0ea5e9;
+  background-color: rgba(14, 165, 233, 0.07);
+}
+
+.status-empty {
+  border-color: #9ca3af;
+  background-color: #f3f4f6;
 }
