@@ -1,60 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Suburban Brewing Company – Production Dashboard</title>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 20px;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-section {
-  margin-bottom: 40px;
-}
-
-.tank-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.tank {
-  background: white;
-  border-radius: 10px;
-  padding: 15px;
-  border: 2px solid #ccc;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  pointer-events: auto;
-}
-
-.tank:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
-.status-fermenting { border-color: #28a745; }
-.status-conditioning { border-color: #ffc107; }
-.status-cip { border-color: #17a2b8; }
-.status-empty { border-color: #adb5bd; }
-
-.tank h4 {
-  margin: 0 0 8px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Suburban Brewing Company – Production Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
 <header>
   <h1>Suburban Brewing Company</h1>
   <h2>Production Dashboard</h2>
@@ -70,49 +22,6 @@ section {
   <div id="brite" class="tank-grid"></div>
 </section>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
-
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(data => renderTanks(data))
-    .catch(err => console.error(err));
-});
-
-function renderTanks(tanks) {
-  const ferm = document.getElementById("fermentation");
-  const brite = document.getElementById("brite");
-
-  ferm.innerHTML = "";
-  brite.innerHTML = "";
-
-  tanks.forEach(t => {
-    const status = (t.Status || "empty").toLowerCase();
-
-    const card = document.createElement("div");
-    card.className = `tank status-${status}`;
-
-    card.innerHTML = `
-      <h4>${t.TankID}</h4>
-      <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
-      <div><strong>Day:</strong> ${t.Day || "—"}</div>
-      <div><strong>Status:</strong> ${t.Status || "—"}</div>
-    `;
-
-    // CLICK HANDLER
-    card.addEventListener("click", () => {
-      alert(
-        `Tank: ${t.TankID}\nStatus: ${t.Status}\nBatch: ${t.Batch || "—"}`
-      );
-    });
-
-    if (t.Type === "Fermenter") ferm.appendChild(card);
-    if (t.Type === "Brite") brite.appendChild(card);
-  });
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
