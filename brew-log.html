@@ -31,6 +31,7 @@
 
 <main class="grid">
 
+  <!-- Recipe Targets -->
   <section class="card">
     <h3>Recipe Targets</h3>
     <div class="two-col">
@@ -43,6 +44,7 @@
     </div>
   </section>
 
+  <!-- Grain Bill -->
   <section class="card">
     <h3>Grain Bill</h3>
     <table id="grainTable">
@@ -55,18 +57,20 @@
     </table>
   </section>
 
+  <!-- Water -->
   <section class="card">
     <h3>Water Profile (ppm)</h3>
     <div class="two-col">
-      <div><label>Ca</label><input id="ca"></div>
-      <div><label>Mg</label><input id="mg"></div>
-      <div><label>Na</label><input id="na"></div>
-      <div><label>SO₄</label><input id="so4"></div>
-      <div><label>Cl</label><input id="cl"></div>
-      <div><label>HCO₃</label><input id="hco3"></div>
+      <div><label>Ca</label><input></div>
+      <div><label>Mg</label><input></div>
+      <div><label>Na</label><input></div>
+      <div><label>SO₄</label><input></div>
+      <div><label>Cl</label><input></div>
+      <div><label>HCO₃</label><input></div>
     </div>
   </section>
 
+  <!-- Mash -->
   <section class="card">
     <h3>Mash Schedule</h3>
     <table id="mashTable">
@@ -79,51 +83,45 @@
     </table>
   </section>
 
+  <!-- Lauter -->
   <section class="card">
     <h3>Lauter</h3>
 
-    <div class="block">
-      <h4>First Runnings</h4>
-      <div class="three-col">
-        <input type="time">
-        <input type="time">
-        <input placeholder="Gravity">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
-      </div>
+    <div class="lauter-row">
+      <strong>First Runnings</strong>
+      <input type="time">
+      <input type="time">
+      <input placeholder="Gravity">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
-    <div class="block">
-      <h4>First Sparge</h4>
-      <div class="three-col">
-        <input type="time">
-        <input type="time">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
-      </div>
+    <div class="lauter-row">
+      <strong>First Sparge</strong>
+      <input type="time">
+      <input type="time">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
-    <div class="block">
-      <h4>Second Sparge</h4>
-      <div class="three-col">
-        <input type="time">
-        <input type="time">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
-      </div>
+    <div class="lauter-row">
+      <strong>Second Sparge</strong>
+      <input type="time">
+      <input type="time">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
-    <div class="block">
-      <h4>Final Runnings</h4>
-      <div class="three-col">
-        <input type="time">
-        <input type="time">
-        <input placeholder="Gravity">
-        <input placeholder="Volume">
-      </div>
+    <div class="lauter-row">
+      <strong>Final Runnings</strong>
+      <input type="time">
+      <input type="time">
+      <input placeholder="Gravity">
+      <input placeholder="Volume">
     </div>
   </section>
 
+  <!-- Boil -->
   <section class="card">
     <h3>Boil</h3>
     <div class="two-col">
@@ -132,6 +130,7 @@
     </div>
   </section>
 
+  <!-- Knockout -->
   <section class="card">
     <h3>Knockout</h3>
     <div class="two-col">
