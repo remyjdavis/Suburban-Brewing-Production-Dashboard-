@@ -3,9 +3,9 @@ const API =
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch(API + "?action=tanks")
-    .then(res => res.json())
+    .then(r => r.json())
     .then(renderTanks)
-    .catch(err => console.error(err));
+    .catch(err => console.error("Tank fetch error:", err));
 });
 
 function renderTanks(tanks) {
