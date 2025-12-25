@@ -1,52 +1,80 @@
-const API =
+const API_URL =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const p = new URLSearchParams(location.search);
-  if (p.get("tank")) document.getElementById("tank").value = p.get("tank");
+document.addEventListener("DOMContentLoaded", init);
+
+function init() {
+  hydrateFromURL();
   loadRecipes();
-});
-
-function loadRecipes() {
-  fetch(`${API}?action=recipes`)
-    .then(r => r.json())
-    .then(rs => {
-      const s = document.getElementById("recipe");
-      s.innerHTML = "<option></option>";
-      rs.forEach(r => {
-        const o = document.createElement("option");
-        o.value = r.RecipeID;
-        o.textContent = r.Beer;
-        s.appendChild(o);
-      });
-      s.onchange = () => loadRecipe(s.value);
-    });
 }
 
-function loadRecipe(id) {
-  fetch(`${API}?action=recipe&recipe=${id}`)
-    .then(r => r.json())
-    .then(d => {
-      Object.entries(d.targets).forEach(([k, v]) => {
-        const el = document.getElementById(k);
-        if (el) el.value = v;
-      });
-
-      fill("grainTable", d.grain, ["Grain","Target"]);
-      fill("mashTable", d.mash, ["Step","Temp","Time","pH"]);
-      fill("hopTable", d.hops, ["Hop","Amount","Time"]);
-
-      Object.entries(d.water).forEach(([k, v]) => {
-        const el = document.getElementById(k);
-        if (el) el.value = v;
-      });
-    });
+function hydrateFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const tank = params.get("tank");
+  if (tank) document.getElementById("tank").value = tank;
 }
 
-function fill(id, rows, cols) {
-  const tb = document.querySelector(`#${id} tbody`);
-  tb.innerHTML = "";
-  rows.forEach(r => {
-    tb.innerHTML += `<tr>${cols.map(c => `<td>${r[c]||""}</td>`).join("")}</tr>`;
+async function loadRecipes() {
+  try {
+    const res = await fetch(`${API_URL}?action=recipes`);
+    const recipes = await res.json();
+
+    const select = document.getElementById("recipe");
+    select.innerHTML = `<option value=""></option>`;
+
+    recipes.forEach(r => {
+      const o = document.createElement("option");
+      o.value = r.RecipeID;
+      o.textContent = r.Beer;
+      select.appendChild(o);
+    });
+
+    select.addEventListener("change", () => {
+      if (select.value) loadRecipe(select.value);
+    });
+
+  } catch (err) {
+    console.error("Recipe load failed", err);
+  }
+}
+
+async function loadRecipe(id) {
+  try {
+    const res = await fetch(`${API_URL}?action=recipe&recipe=${id}`);
+    const data = await res.json();
+
+    applyValues(data.targets);
+    applyValues(data.water);
+
+    populateTable("grainTable", data.grain, ["Grain", "Target", "Milled"]);
+    populateTable("mashTable", data.mash, ["Step", "Temp", "Time", "pH"]);
+    populateTable("hopTable", data.hops, ["Hop", "Amount", "Time"]);
+
+  } catch (err) {
+    console.error("Recipe load failed", err);
+  }
+}
+
+function applyValues(map = {}) {
+  Object.entries(map).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = value ?? "";
+  });
+}
+
+function populateTable(tableId, rows = [], cols = []) {
+  const tbody = document.querySelector(`#${tableId} tbody`);
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  rows.forEach(row => {
+    const tr = document.createElement("tr");
+    cols.forEach(col => {
+      const td = document.createElement("td");
+      td.textContent = row[col] ?? "";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
   });
 }
