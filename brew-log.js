@@ -37,20 +37,19 @@ function loadRecipe(id) {
         if (el) el.value = v;
       });
 
-      // Grain Bill (WITH MILLED INPUT)
+      // Grain Bill
       const gtb = document.querySelector("#grainTable tbody");
       gtb.innerHTML = "";
       d.grain.forEach(g => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${g.Grain}</td>
-          <td>${g.Target}</td>
-          <td><input type="number" step="0.01"></td>
-        `;
-        gtb.appendChild(tr);
+        gtb.innerHTML += `
+          <tr>
+            <td>${g.Grain}</td>
+            <td>${g.Target}</td>
+            <td><input type="number" step="0.01"></td>
+          </tr>`;
       });
 
-      // Mash (pH only for Mash in + Mash out)
+      // Mash Tun with Start/End + pH logic
       const mtb = document.querySelector("#mashTable tbody");
       mtb.innerHTML = "";
       d.mash.forEach(m => {
@@ -58,14 +57,15 @@ function loadRecipe(id) {
           m.Step.toLowerCase().includes("mash in") ||
           m.Step.toLowerCase().includes("mash out");
 
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${m.Step}</td>
-          <td>${m.Temp}</td>
-          <td>${m.Time}</td>
-          <td>${phEditable ? `<input>` : "—"}</td>
-        `;
-        mtb.appendChild(tr);
+        mtb.innerHTML += `
+          <tr>
+            <td>${m.Step}</td>
+            <td>${m.Temp}</td>
+            <td>${m.Time}</td>
+            <td><input type="time"></td>
+            <td><input type="time"></td>
+            <td>${phEditable ? `<input>` : "—"}</td>
+          </tr>`;
       });
 
       // Water
