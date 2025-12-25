@@ -11,138 +11,124 @@
 <header class="page-header">
   <div class="brew-meta">
     <input type="date" id="date" />
-    <input id="tank" placeholder="Tank" />
+    <select id="tank"></select>
     <select id="recipe"></select>
-    <input id="brewer" placeholder="Brewer" />
+    <input placeholder="Brewer" />
   </div>
 </header>
 
-<main class="grid">
+<!-- ROW 1 -->
+<main class="grid grid-4">
 
-  <!-- Recipe Targets -->
   <div class="card">
-    <h2>Recipe Targets</h2>
-    <div class="inline-fields">
-      <input placeholder="Efficiency %">
-      <input placeholder="Target OG">
-      <input placeholder="Target FG">
-      <input placeholder="Volume">
-      <input placeholder="IBU">
-      <input placeholder="SRM">
+    <h3>Recipe Targets</h3>
+    <div class="inline-3">
+      <input id="efficiency" placeholder="Eff %" />
+      <input id="targetOG" placeholder="OG" />
+      <input id="targetFG" placeholder="FG" />
+      <input id="targetVolume" placeholder="Vol" />
+      <input id="ibu" placeholder="IBU" />
+      <input id="srm" placeholder="SRM" />
     </div>
   </div>
 
-  <!-- Grain Bill -->
   <div class="card">
-    <h2>Grain Bill</h2>
+    <h3>Grain Bill</h3>
     <table>
       <thead>
-        <tr>
-          <th>Grain</th>
-          <th>Target</th>
-          <th>Milled</th>
-        </tr>
+        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
       </thead>
       <tbody id="grainTable"></tbody>
     </table>
   </div>
 
-  <!-- Water Profile -->
-  <div class="card compact">
-    <h2>Water Profile (ppm)</h2>
+  <div class="card water-card">
+    <h3>Water Profile (ppm)</h3>
     <div class="water-grid">
-      <label>Ca <input type="number"></label>
-      <label>Mg <input type="number"></label>
-      <label>Na <input type="number"></label>
-      <label>SO₄ <input type="number"></label>
-      <label>Cl <input type="number"></label>
-      <label>HCO₃ <input type="number"></label>
+      <label>Ca <input id="Ca"></label>
+      <label>Mg <input id="Mg"></label>
+      <label>Na <input id="Na"></label>
+      <label>SO₄ <input id="SO4"></label>
+      <label>Cl <input id="Cl"></label>
+      <label>HCO₃ <input id="HCO3"></label>
     </div>
   </div>
 
-  <!-- Mash Schedule -->
-  <div class="card mash-card">
-    <h2>Mash Schedule</h2>
-
-    <div class="mash-row">
-      <div class="label">Mash In</div>
-      <div>62°C</div>
-      <input placeholder="pH">
-      <input type="time">
-      <input type="time">
-    </div>
-
-    <div class="mash-row">
-      <div class="label">First Rest</div>
-      <div>62°C / 60m</div>
-      <span>—</span>
-      <input type="time">
-      <input type="time">
-    </div>
-
-    <div class="mash-row">
-      <div class="label">Mash Out</div>
-      <div>77°C / 1m</div>
-      <input placeholder="pH">
-      <input type="time">
-      <input type="time">
-    </div>
+  <div class="card">
+    <h3>Mash Schedule</h3>
+    <table class="tight">
+      <thead>
+        <tr>
+          <th>Step</th><th>Temp</th><th>Time</th><th>pH</th><th>Start</th><th>End</th>
+        </tr>
+      </thead>
+      <tbody id="mashTable"></tbody>
+    </table>
   </div>
 
 </main>
 
-<!-- Lauter Tun -->
-<section class="full-width-wrapper">
+<!-- ROW 2 -->
+<section class="full-width">
   <div class="card">
-    <h2>Lauter Tun</h2>
+    <h3>Lauter Tun</h3>
+    <div class="lauter-grid">
+      <div class="lauter-row header">
+        <span></span><span>Start</span><span>End</span><span>Vol</span><span>Deep Cuts</span><span>Gravity</span>
+      </div>
 
-    <div class="lauter-header">
-      <span></span>
-      <span>Start</span>
-      <span>End</span>
-      <span>Volume</span>
-      <span>Deep Cuts</span>
-      <span>Gravity</span>
+      <div class="lauter-row">
+        <strong>First Runnings</strong>
+        <input type="time"><input type="time">
+        <input><input><input>
+      </div>
+
+      <div class="lauter-row">
+        <strong>First Sparge</strong>
+        <input type="time"><input type="time">
+        <input><input><span></span>
+      </div>
+
+      <div class="lauter-row">
+        <strong>Second Sparge</strong>
+        <input type="time"><input type="time">
+        <input><input><span></span>
+      </div>
+
+      <div class="lauter-row">
+        <strong>Final Runnings</strong>
+        <input type="time"><input type="time">
+        <input><span></span><input>
+      </div>
     </div>
-
-    <div class="lauter-row">
-      <strong>First Runnings</strong>
-      <input type="time">
-      <input type="time">
-      <input>
-      <input>
-      <input>
-    </div>
-
-    <div class="lauter-row">
-      <strong>First Sparge</strong>
-      <input type="time">
-      <input type="time">
-      <input>
-      <input>
-      <span></span>
-    </div>
-
-    <div class="lauter-row">
-      <strong>Second Sparge</strong>
-      <input type="time">
-      <input type="time">
-      <input>
-      <input>
-      <span></span>
-    </div>
-
-    <div class="lauter-row">
-      <strong>Final Runnings</strong>
-      <input type="time">
-      <input type="time">
-      <input>
-      <span></span>
-      <input>
-    </div>
-
   </div>
 </section>
+
+<!-- ROW 3 -->
+<main class="grid grid-3">
+
+  <div class="card">
+    <h3>Boil</h3>
+    <input type="time" id="boilStart">
+    <input type="time" id="boilEnd">
+  </div>
+
+  <div class="card">
+    <h3>Knockout</h3>
+    <input placeholder="Volume">
+    <input placeholder="Gravity">
+    <input placeholder="pH">
+  </div>
+
+  <div class="card">
+    <h3>Yeast</h3>
+    <input placeholder="Strain">
+    <input placeholder="Pitch Rate">
+    <input placeholder="Temp">
+    <input placeholder="Generation">
+  </div>
+
+</main>
 
 <footer class="footer">
   <button class="save">Save Brew Log</button>
