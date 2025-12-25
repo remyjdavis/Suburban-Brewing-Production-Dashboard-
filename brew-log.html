@@ -12,7 +12,7 @@
 
   <div class="brew-meta">
     <input id="date" type="date">
-    <input id="tank" placeholder="Tank" readonly>
+    <input id="tank" readonly placeholder="Tank">
     <select id="recipe"></select>
     <input id="brewer" placeholder="Brewer">
   </div>
@@ -44,7 +44,7 @@
           <th>Milled</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="grainBody"></tbody>
     </table>
   </div>
 
@@ -61,13 +61,39 @@
     </div>
   </div>
 
-  <!-- MASH -->
+  <!-- MASH SCHEDULE -->
   <div class="card">
-    <h2>Mash</h2>
-    <input placeholder="Strike Temp">
-    <input placeholder="Mash Temp">
-    <input placeholder="Mash Time (min)">
-    <input placeholder="Mash pH">
+    <h2>Mash Schedule</h2>
+    <table id="mashTable">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Temp</th>
+          <th>Time (min)</th>
+          <th>pH</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Strike</td>
+          <td><input></td>
+          <td><input></td>
+          <td><input></td>
+        </tr>
+        <tr>
+          <td>Saccharification</td>
+          <td><input></td>
+          <td><input></td>
+          <td><input></td>
+        </tr>
+        <tr>
+          <td>Mash Out</td>
+          <td><input></td>
+          <td><input></td>
+          <td><input></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- LAUTER -->
