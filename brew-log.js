@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tankInput) tankInput.value = tank;
   }
 
-  // Optional: auto-fill date if empty
+  // Default date to today
   const dateInput = document.getElementById("date");
   if (dateInput && !dateInput.value) {
     dateInput.valueAsDate = new Date();
@@ -53,7 +53,6 @@ function loadRecipe(id) {
 
       fillTable("grainTable", data.grain, ["Grain", "Target", "Milled"]);
       fillTable("mashTable", data.mash, ["Step", "Temp", "Time", "pH"]);
-      fillTable("hopTable", data.hops, ["Hop", "Amount", "Time"]);
 
       // Water
       Object.entries(data.water || {}).forEach(([key, val]) => {
