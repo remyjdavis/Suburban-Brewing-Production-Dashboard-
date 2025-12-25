@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Brew Log</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <h1>Suburban Brewing Company</h1>
+  <h2>Brew Log</h2>
+</header>
+
+<main>
+  <form id="brewForm">
+    <label>Brew Date
+      <input type="date" name="BrewDate" required>
+    </label>
+
+    <label>Beer
+      <input type="text" name="Beer" required>
+    </label>
+
+    <label>Brewer
+      <input type="text" name="Brewer">
+    </label>
+
+    <label>Tank
+      <select name="Tank">
+        <option>FV-1</option>
+        <option>FV-2</option>
+        <option>FV-3</option>
+        <option>BT-1</option>
+      </select>
+    </label>
+
+    <label>Stage
+      <select name="Stage">
+        <option>Brew Day</option>
+        <option>Fermenting</option>
+        <option>Conditioning</option>
+        <option>Packaged</option>
+      </select>
+    </label>
+
+    <label>Notes
+      <textarea name="Notes"></textarea>
+    </label>
+
+    <button type="submit">Save Brew</button>
+  </form>
+
+  <hr>
+
+  <h2>Previous Brews</h2>
+  <div id="brewHistory"></div>
+</main>
+
+<script src="brew-log.js"></script>
+</body>
+</html>
