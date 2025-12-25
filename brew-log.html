@@ -72,7 +72,7 @@
     </div>
   </section>
 
-  <!-- Mash -->
+  <!-- Mash Tun -->
   <section class="card">
     <h3>Mash Schedule</h3>
     <table id="mashTable">
@@ -81,6 +81,8 @@
           <th>Step</th>
           <th>Temp</th>
           <th>Time</th>
+          <th>Start</th>
+          <th>End</th>
           <th>pH</th>
         </tr>
       </thead>
@@ -88,41 +90,43 @@
     </table>
   </section>
 
-  <!-- Lauter -->
-  <section class="card">
+  <!-- Lauter Tun (FULL WIDTH) -->
+  <section class="card span-full">
     <h3>Lauter</h3>
 
-    <div class="lauter-block">
-      <h4>First Runnings</h4>
-      <input type="time">
-      <input type="time">
-      <input placeholder="Gravity">
-      <input placeholder="Volume">
-      <input placeholder="Deep Cuts">
-    </div>
+    <div class="lauter-grid">
+      <div class="lauter-row">
+        <strong>First Runnings</strong>
+        <input type="time">
+        <input type="time">
+        <input placeholder="Gravity">
+        <input placeholder="Volume">
+        <input placeholder="Deep Cuts">
+      </div>
 
-    <div class="lauter-block">
-      <h4>First Sparge</h4>
-      <input type="time">
-      <input type="time">
-      <input placeholder="Volume">
-      <input placeholder="Deep Cuts">
-    </div>
+      <div class="lauter-row">
+        <strong>First Sparge</strong>
+        <input type="time">
+        <input type="time">
+        <input placeholder="Volume">
+        <input placeholder="Deep Cuts">
+      </div>
 
-    <div class="lauter-block">
-      <h4>Second Sparge</h4>
-      <input type="time">
-      <input type="time">
-      <input placeholder="Volume">
-      <input placeholder="Deep Cuts">
-    </div>
+      <div class="lauter-row">
+        <strong>Second Sparge</strong>
+        <input type="time">
+        <input type="time">
+        <input placeholder="Volume">
+        <input placeholder="Deep Cuts">
+      </div>
 
-    <div class="lauter-block">
-      <h4>Final Runnings</h4>
-      <input type="time">
-      <input type="time">
-      <input placeholder="Gravity">
-      <input placeholder="Volume">
+      <div class="lauter-row">
+        <strong>Final Runnings</strong>
+        <input type="time">
+        <input type="time">
+        <input placeholder="Gravity">
+        <input placeholder="Volume">
+      </div>
     </div>
   </section>
 
@@ -132,11 +136,11 @@
     <div class="two-col">
       <div>
         <label>Start</label>
-        <input type="time" id="boilStart" name="boilStart">
+        <input type="time" id="boilStart">
       </div>
       <div>
         <label>End</label>
-        <input type="time" id="boilEnd" name="boilEnd">
+        <input type="time" id="boilEnd">
       </div>
     </div>
   </section>
