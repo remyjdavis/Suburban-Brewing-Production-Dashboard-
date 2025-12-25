@@ -5,7 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch(API_URL)
     .then(res => res.json())
-    .then(data => renderTanks(data))
+    .then(data => {
+      console.log("RAW DATA:", data);
+      renderTanks(Array.isArray(data) ? data : data.data);
+    })
     .catch(err => console.error("FETCH ERROR:", err));
 });
 
@@ -20,7 +23,7 @@ function renderTanks(tanks) {
     const status = (t.Status || "empty").toLowerCase().trim();
 
     const card = document.createElement("div");
-    card.className = `tank status-${status}`;
+    card.classList.add("tank", `status-${status}`);
 
     card.innerHTML = `
       <h4>${t.TankID}</h4>
