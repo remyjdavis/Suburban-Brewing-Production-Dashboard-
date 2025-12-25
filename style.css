@@ -14,16 +14,6 @@ h1, h2, h3 {
   margin: 6px 0;
 }
 
-.btn {
-  display: inline-block;
-  background: #28a745;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 section {
   margin-bottom: 40px;
 }
@@ -39,7 +29,6 @@ section {
   border-radius: 10px;
   padding: 15px;
   border: 2px solid #ccc;
-  cursor: default;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -48,73 +37,21 @@ section {
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
-.tank.selectable {
-  cursor: pointer;
-  border-color: #28a745;
-}
-
 .status-fermenting { border-color: #28a745; }
 .status-conditioning { border-color: #ffc107; }
 .status-cip { border-color: #17a2b8; }
 .status-empty { border-color: #adb5bd; }
 
-.hidden {
-  display: none;
-}
-
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 800px;
-  margin: auto;
-}
-
-label {
-  display: block;
-  margin-top: 14px;
+.btn {
+  display: inline-block;
+  background: #28a745;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
   font-weight: bold;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-textarea {
-  min-height: 80px;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 6px;
-  text-align: left;
-}
-
-th {
-  background: #f1f1f1;
+.hidden {
+  display: none;
 }
