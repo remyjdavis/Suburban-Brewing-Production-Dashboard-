@@ -10,8 +10,9 @@
 
 <header class="page-header">
   <h1>Brew Day Log</h1>
+
   <div class="brew-meta">
-    <input id="tank" readonly>
+    <input id="tank" readonly placeholder="Tank">
     <select id="recipe"></select>
     <input id="brewer" placeholder="Brewer">
     <input id="date" type="date">
@@ -20,13 +21,22 @@
 
 <section class="grid">
 
-  <!-- GRAIN BILL -->
+  <!-- GRAIN BILL CARD -->
   <div class="card">
     <h2>Grain Bill</h2>
-    <table id="grain-table"></table>
+    <table id="grainTable">
+      <thead>
+        <tr>
+          <th>Grain</th>
+          <th>Target</th>
+          <th>Milled</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <!-- WATER -->
+  <!-- WATER CARD -->
   <div class="card">
     <h2>Water Profile</h2>
     <div class="inline-fields">
@@ -39,13 +49,13 @@
     </div>
   </div>
 
-  <!-- MASH -->
+  <!-- MASH CARD -->
   <div class="card">
     <h2>Mash</h2>
     <input id="mashPH" placeholder="Mash pH">
   </div>
 
-  <!-- LAUTER -->
+  <!-- LAUTER CARD -->
   <div class="card">
     <h2>Lauter</h2>
     <input id="lauterStart" type="time">
@@ -55,14 +65,26 @@
     <input id="finalRun" placeholder="Final Runnings SG">
   </div>
 
-  <!-- BOIL -->
+  <!-- BOIL CARD -->
   <div class="card">
     <h2>Boil</h2>
-    <input id="boilTime" placeholder="Boil Time (min)">
-    <table id="hop-table"></table>
+    <input id="boilStart" type="time">
+    <input id="boilEnd" type="time">
+    <input id="boilDuration" readonly placeholder="Boil Duration (min)">
+
+    <table id="hopTable">
+      <thead>
+        <tr>
+          <th>Hop</th>
+          <th>Amount</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
-  <!-- KNOCKOUT -->
+  <!-- KNOCKOUT CARD -->
   <div class="card">
     <h2>Knockout</h2>
     <input id="koVol" placeholder="KO Volume">
