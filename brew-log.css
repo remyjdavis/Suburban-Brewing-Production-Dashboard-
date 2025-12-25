@@ -1,42 +1,80 @@
-body {
-  margin: 0;
-  background: #f4f6f8;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Brew Log</title>
+  <link rel="stylesheet" href="brew-log.css">
+</head>
+<body>
 
-.page-header {
-  background: #111;
-  color: white;
-  padding: 20px;
-}
+<header class="page-header">
+  <h1>Brew Day Log</h1>
+  <div class="brew-meta">
+    <input id="tank" readonly>
+    <input id="date" type="date">
+    <select id="recipe"></select>
+    <input id="brewer" placeholder="Brewer">
+  </div>
+</header>
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 16px;
-  padding: 16px;
-}
+<section class="grid">
 
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-}
+  <!-- GRAIN BILL -->
+  <div class="card">
+    <h2>Grain Bill</h2>
+    <table id="grainTable">
+      <thead>
+        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-.card.wide {
-  grid-column: 1 / -1;
-}
+  <!-- MASH -->
+  <div class="card">
+    <h2>Mash</h2>
+    <input placeholder="Strike Temp">
+    <input placeholder="Mash Temp">
+    <input placeholder="Mash pH">
+  </div>
 
-textarea, input {
-  width: 100%;
-  margin-bottom: 8px;
-}
+  <!-- LAUTER -->
+  <div class="card">
+    <h2>Lauter</h2>
+    <input type="time" id="lauterStart">
+    <input type="time" id="lauterEnd">
+    <input id="lauterDuration" readonly placeholder="Minutes">
+    <input placeholder="First Runnings SG">
+    <input placeholder="Final Runnings SG">
+  </div>
 
-.footer {
-  text-align: center;
-  padding: 20px;
-}
+  <!-- BOIL -->
+  <div class="card">
+    <h2>Boil</h2>
+    <input type="time" id="boilStart">
+    <input type="time" id="boilEnd">
+    <input id="boilDuration" readonly placeholder="Minutes">
+    <table id="hopTable">
+      <thead>
+        <tr><th>Hop</th><th>Amount</th><th>Time</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-.save {
-  padding: 14px 22px;
-  font-size: 16px;
-}
+  <!-- KNOCKOUT -->
+  <div class="card">
+    <h2>Knockout</h2>
+    <input placeholder="KO Temp">
+    <input placeholder="KO pH">
+  </div>
+
+</section>
+
+<footer class="footer">
+  <button class="save" onclick="saveBrew()">Save Brew Log</button>
+</footer>
+
+<script src="brew-log.js"></script>
+</body>
+</html>
