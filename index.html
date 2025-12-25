@@ -31,7 +31,23 @@
 <section id="brew-log-modal" class="modal hidden">
   <div class="modal-content">
     <span id="close-log" class="close">&times;</span>
-    <h3 id="log-title">Brew Log</h3>
+    <h3 id="log-title"></h3>
+
+    <form id="log-form">
+      <label>Date</label>
+      <input type="date" id="log-date" required>
+
+      <label>Stage / Action</label>
+      <input type="text" id="log-stage" required>
+
+      <label>Notes</label>
+      <textarea id="log-notes"></textarea>
+
+      <button type="submit">Add Log Entry</button>
+    </form>
+
+    <hr>
+
     <div id="brew-log-entries"></div>
   </div>
 </section>
