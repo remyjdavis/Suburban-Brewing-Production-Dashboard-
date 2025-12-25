@@ -10,18 +10,22 @@ header {
   margin-bottom: 30px;
 }
 
-h1, h2, h3 {
-  margin: 6px 0;
-}
-
-section {
-  margin-bottom: 40px;
-}
-
 .tank-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
   gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .tank-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .tank-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .tank {
@@ -29,12 +33,7 @@ section {
   border-radius: 10px;
   padding: 15px;
   border: 2px solid #ccc;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tank:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  cursor: pointer;
 }
 
 .status-fermenting { border-color: #28a745; }
@@ -42,16 +41,6 @@ section {
 .status-cip { border-color: #17a2b8; }
 .status-empty { border-color: #adb5bd; }
 
-.btn {
-  display: inline-block;
-  background: #28a745;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
+.tank h4 {
+  margin: 0 0 8px;
 }
