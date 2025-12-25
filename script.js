@@ -1,17 +1,12 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
 
+function loadDashboard() {
   fetch(API_URL)
     .then(res => res.json())
-    .then(json => {
-      console.log("RAW RESPONSE:", json);
-
-      const tanks = Array.isArray(json) ? json : json.data;
-      renderTanks(tanks);
-    })
-    .catch(err => console.error("FETCH ERROR:", err));
-});
+    .then(json => renderTanks(Array.isArray(json) ? json : json.data))
+    .catch(err => console.error(err));
+}
 
 function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
@@ -33,7 +28,11 @@ function renderTanks(tanks) {
       <div><strong>Status:</strong> ${t.Status || "—"}</div>
     `;
 
-    if (t.Type === "Fermenter") ferm.appendChild(card);
-    if (t.Type === "Brite") brite.appendChild(card);
+    (t.Type === "Fermenter" ? ferm : brite).appendChild(card);
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadDashboard();
+  setInterval(loadDashboard, 60000); // auto refresh every minute
+});
