@@ -36,7 +36,7 @@
   <!-- GRAIN BILL -->
   <div class="card">
     <h2>Grain Bill</h2>
-    <table id="grainTable">
+    <table>
       <thead>
         <tr>
           <th>Grain</th>
@@ -61,10 +61,10 @@
     </div>
   </div>
 
-  <!-- MASH SCHEDULE -->
+  <!-- MASH -->
   <div class="card">
     <h2>Mash Schedule</h2>
-    <table id="mashTable">
+    <table>
       <thead>
         <tr>
           <th>Step</th>
@@ -73,26 +73,7 @@
           <th>pH</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Strike</td>
-          <td><input></td>
-          <td><input></td>
-          <td><input></td>
-        </tr>
-        <tr>
-          <td>Saccharification</td>
-          <td><input></td>
-          <td><input></td>
-          <td><input></td>
-        </tr>
-        <tr>
-          <td>Mash Out</td>
-          <td><input></td>
-          <td><input></td>
-          <td><input></td>
-        </tr>
-      </tbody>
+      <tbody id="mashBody"></tbody>
     </table>
   </div>
 
@@ -113,7 +94,7 @@
     <input type="time" id="boilEnd">
     <input id="boilDuration" placeholder="Duration (min)" readonly>
 
-    <table id="hopTable">
+    <table>
       <thead>
         <tr>
           <th>Addition</th>
@@ -121,7 +102,7 @@
           <th>Time (min)</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="hopBody"></tbody>
     </table>
   </div>
 
