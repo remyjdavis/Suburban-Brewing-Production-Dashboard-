@@ -74,6 +74,40 @@
 <footer class="footer">
   <button class="save" onclick="saveBrew()">Save Brew Log</button>
 </footer>
+/* =========================
+   SAFARI FIXES – REQUIRED
+   ========================= */
+
+/* Ensure grid renders cards in Safari */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* Force cards to size correctly */
+.card {
+  min-width: 0;
+}
+
+/* Safari table rendering fix */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 6px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Inputs inside cards/tables */
+input, select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 
 <script src="brew-log.js"></script>
 </body>
