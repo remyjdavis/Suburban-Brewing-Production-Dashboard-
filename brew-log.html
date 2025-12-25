@@ -1,115 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Brew Day Log</title>
   <link rel="stylesheet" href="brew-log.css">
 </head>
 <body>
 
-<header class="page-header">
-  <h1>Brew Day Log</h1>
-  <div class="brew-meta">
-    <input id="date" type="date">
-    <input id="tank" placeholder="Tank">
-    <select id="recipe"></select>
-    <input id="brewer" placeholder="Brewer">
-  </div>
+<header>
+  <input id="date" type="date">
+  <input id="tank" readonly>
+  <select id="recipe"></select>
+  <input id="brewer">
 </header>
 
 <section class="grid">
 
-  <!-- TARGETS -->
-  <div class="card">
-    <h2>Recipe Targets</h2>
-    <div class="inline-fields">
-      <input id="targetEff" placeholder="Brewhouse Efficiency %">
-      <input id="targetOG" placeholder="Target OG">
-      <input id="targetFG" placeholder="Target FG">
-      <input id="targetVol" placeholder="Target Volume">
-      <input id="targetIBU" placeholder="IBUs">
-      <input id="targetColor" placeholder="Color (SRM)">
-    </div>
-  </div>
+<div class="card">
+<h3>Recipe Targets</h3>
+<input id="efficiency">
+<input id="targetOG">
+<input id="targetFG">
+<input id="targetVolume">
+<input id="ibu">
+<input id="srm">
+</div>
 
-  <!-- GRAIN -->
-  <div class="card">
-    <h2>Grain Bill</h2>
-    <table>
-      <thead>
-        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
-      </thead>
-      <tbody id="grainBody"></tbody>
-    </table>
-  </div>
+<div class="card">
+<h3>Grain Bill</h3>
+<table id="grainTable">
+<thead><tr><th>Grain</th><th>Target</th><th>Milled</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
 
-  <!-- WATER -->
-  <div class="card">
-    <h2>Water Profile</h2>
-    <div class="inline-fields">
-      <input id="ca" placeholder="Ca">
-      <input id="mg" placeholder="Mg">
-      <input id="na" placeholder="Na">
-      <input id="so4" placeholder="SO4">
-      <input id="cl" placeholder="Cl">
-      <input id="hco3" placeholder="HCO3">
-    </div>
-  </div>
+<div class="card">
+<h3>Water Profile</h3>
+<input id="Ca"><input id="Mg"><input id="Na">
+<input id="SO4"><input id="Cl"><input id="HCO3">
+</div>
 
-  <!-- MASH -->
-  <div class="card">
-    <h2>Mash Schedule</h2>
-    <table>
-      <thead>
-        <tr><th>Step</th><th>Temp</th><th>Time (min)</th><th>pH</th></tr>
-      </thead>
-      <tbody id="mashBody"></tbody>
-    </table>
-  </div>
+<div class="card">
+<h3>Mash Schedule</h3>
+<table id="mashTable">
+<thead><tr><th>Step</th><th>Temp</th><th>Time</th><th>pH</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
 
-  <!-- LAUTER -->
-  <div class="card">
-    <h2>Lauter</h2>
-    <div class="inline-fields">
-      <input type="time">
-      <input type="time">
-      <input placeholder="Duration (min)">
-      <input placeholder="First Runnings SG">
-      <input placeholder="Final Runnings SG">
-    </div>
-  </div>
+<div class="card">
+<h3>Boil</h3>
+<table id="hopTable">
+<thead><tr><th>Hop</th><th>Amount</th><th>Time</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
 
-  <!-- BOIL -->
-  <div class="card">
-    <h2>Boil</h2>
-    <div class="inline-fields">
-      <input type="time">
-      <input type="time">
-      <input placeholder="Duration (min)">
-    </div>
-    <table>
-      <thead>
-        <tr><th>Addition</th><th>Amount</th><th>Time (min)</th></tr>
-      </thead>
-      <tbody id="hopBody"></tbody>
-    </table>
-  </div>
-
-  <!-- KNOCKOUT -->
-  <div class="card">
-    <h2>Knockout</h2>
-    <div class="inline-fields">
-      <input placeholder="KO Volume">
-      <input placeholder="KO Gravity">
-      <input placeholder="KO pH">
-    </div>
-  </div>
+<div class="card">
+<h3>Knockout</h3>
+<input id="koVolume">
+<input id="koGravity">
+<input id="koPH">
+</div>
 
 </section>
 
-<footer class="footer">
-  <button class="save">Save Brew Log</button>
-</footer>
+<button>Save Brew Log</button>
 
 <script src="brew-log.js"></script>
 </body>
