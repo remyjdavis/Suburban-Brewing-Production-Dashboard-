@@ -1,128 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Suburban Brewing Company Production Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Suburban Brewing Company Production Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+header {
+  background: #1f3a5f;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+section {
+  padding: 20px 40px;
+}
+
+h2 {
+  color: #1f3a5f;
+  margin-bottom: 10px;
+}
+
+.tank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.tank {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  border-top: 6px solid #ccc;
+}
+
+.fermenting { border-top-color: #4CAF50; }
+.cip { border-top-color: #FF9800; }
+.conditioning { border-top-color: #2196F3; }
+.empty { border-top-color: #9E9E9E; }
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 320px;
+  border-radius: 8px;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+}
+
+.modal-content input, select {
+  width: 100%;
+  padding: 6px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 8px;
+  width: 100%;
+}
+
+.timeline {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>Suburban Brewing Company</h1>
-    <p>Production Dashboard</p>
-  </header>
+<script>
+/* ===== PASSWORD LOCK ===== */
+const PASS = "brew";
+if (!sessionStorage.getItem("auth")) {
+  const input = prompt("Enter dashboard password:");
+  if (input !== PASS) location.reload();
+  sessionStorage.setItem("auth", "true");
+}
+</script>
 
-  <!-- FERMENTATION TANKS -->
-  <section>
-    <h2>Fermentation Tanks</h2>
+<header>
+  <h1>Suburban Brewing Company</h1>
+  <p>Production Dashboard</p>
+</header>
 
-    <div class="tank-grid">
-      <div class="tank fermenting" onclick="editTank(this)">
-        <h3>FV-1</h3>
-        <p>Batch: <span class="batch">West Coast IPA</span></p>
-        <p>Day: <span class="day">6</span></p>
-        <p>Status: <span class="status">Fermenting</span></p>
-      </div>
+<section>
+<h2>Fermentation Tanks</h2>
+<div class="tank-grid" id="fermenters"></div>
+</section>
 
-      <div class="tank fermenting" onclick="editTank(this)">
-        <h3>FV-2</h3>
-        <p>Batch: <span class="batch">Pilsner</span></p>
-        <p>Day: <span class="day">3</span></p>
-        <p>Status: <span class="status">Fermenting</span></p>
-      </div>
+<section>
+<h2>Brite Tanks</h2>
+<div class="tank-grid" id="brites"></div>
+</section>
 
-      <div class="tank cip" onclick="editTank(this)">
-        <h3>FV-3</h3>
-        <p>Batch: <span class="batch">—</span></p>
-        <p>Day: <span class="day">—</span></p>
-        <p>Status: <span class="status">CIP</span></p>
-      </div>
+<section>
+<h2>Production Timeline</h2>
+<div class="timeline" id="timeline"></div>
+</section>
 
-      <div class="tank fermenting" onclick="editTank(this)">
-        <h3>FV-4</h3>
-        <p>Batch: <span class="batch">Amber Ale</span></p>
-        <p>Day: <span class="day">9</span></p>
-        <p>Status: <span class="status">Fermenting</span></p>
-      </div>
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
 
-      <div class="tank empty" onclick="editTank(this)">
-        <h3>FV-5</h3>
-        <p>Batch: <span class="batch">—</span></p>
-        <p>Day: <span class="day">—</span></p>
-        <p>Status: <span class="status">Empty</span></p>
-      </div>
+    <label>Batch</label>
+    <input id="batch">
 
-      <div class="tank fermenting" onclick="editTank(this)">
-        <h3>FV-6</h3>
-        <p>Batch: <span class="batch">Hazy IPA</span></p>
-        <p>Day: <span class="day">2</span></p>
-        <p>Status: <span class="status">Fermenting</span></p>
-      </div>
-    </div>
-  </section>
+    <label>Status</label>
+    <select id="status">
+      <option>Fermenting</option>
+      <option>CIP</option>
+      <option>Conditioning</option>
+      <option>Empty</option>
+    </select>
 
-  <!-- BRITE TANKS -->
-  <section>
-    <h2>Brite Tanks</h2>
+    <label>Start Date</label>
+    <input type="date" id="start">
 
-    <div class="tank-grid">
-      <div class="tank conditioning" onclick="editTank(this)">
-        <h3>BT-1</h3>
-        <p>Batch: <span class="batch">Lager</span></p>
-        <p>Status: <span class="status">Conditioning</span></p>
-      </div>
+    <button onclick="saveTank()">Save</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
 
-      <div class="tank empty" onclick="editTank(this)">
-        <h3>BT-2</h3>
-        <p>Batch: <span class="batch">—</span></p>
-        <p>Status: <span class="status">Empty</span></p>
-      </div>
-    </div>
-  </section>
+<script>
+/* ===== DATA ===== */
+const tanks = JSON.parse(localStorage.getItem("tanks")) || [
+  {id:"FV-1", type:"fermenter"},
+  {id:"FV-2", type:"fermenter"},
+  {id:"FV-3", type:"fermenter"},
+  {id:"FV-4", type:"fermenter"},
+  {id:"FV-5", type:"fermenter"},
+  {id:"FV-6", type:"fermenter"},
+  {id:"BT-1", type:"brite"},
+  {id:"BT-2", type:"brite"}
+];
 
-  <!-- JAVASCRIPT -->
-  <script>
-    function editTank(tank) {
-      const batch = tank.querySelector(".batch");
-      const day = tank.querySelector(".day");
-      const status = tank.querySelector(".status");
+let currentTank = null;
 
-      const newBatch = prompt("Batch name:", batch.textContent);
-      if (newBatch !== null) batch.textContent = newBatch || "—";
+/* ===== RENDER ===== */
+function render() {
+  fermenters.innerHTML = "";
+  brites.innerHTML = "";
+  timeline.innerHTML = "";
 
-      if (day) {
-        const newDay = prompt("Day:", day.textContent);
-        if (newDay !== null) day.textContent = newDay || "—";
-      }
+  tanks.forEach(t => {
+    const div = document.createElement("div");
+    div.className = `tank ${t.status?.toLowerCase() || "empty"}`;
+    div.innerHTML = `
+      <h3>${t.id}</h3>
+      <p>Batch: ${t.batch || "—"}</p>
+      <p>Status: ${t.status || "Empty"}</p>
+      <p>Day: ${calcDay(t.start)}</p>
+    `;
+    div.onclick = () => openModal(t);
 
-      const newStatus = prompt(
-        "Status (Fermenting, CIP, Conditioning, Empty):",
-        status.textContent
-      );
+    if (t.type === "fermenter") fermenters.appendChild(div);
+    else brites.appendChild(div);
 
-      if (newStatus !== null) {
-        status.textContent = newStatus;
-
-        tank.classList.remove("fermenting", "cip", "conditioning", "empty");
-
-        switch (newStatus.toLowerCase()) {
-          case "fermenting":
-            tank.classList.add("fermenting");
-            break;
-          case "cip":
-            tank.classList.add("cip");
-            break;
-          case "conditioning":
-            tank.classList.add("conditioning");
-            break;
-          default:
-            tank.classList.add("empty");
-        }
-      }
+    if (t.batch) {
+      timeline.innerHTML += `<p>${t.id} — ${t.batch} (Day ${calcDay(t.start)})</p>`;
     }
-  </script>
+  });
+
+  localStorage.setItem("tanks", JSON.stringify(tanks));
+}
+
+/* ===== DAY CALC ===== */
+function calcDay(start) {
+  if (!start) return "—";
+  const d = Math.floor((new Date() - new Date(start)) / 86400000) + 1;
+  return d > 0 ? d : "—";
+}
+
+/* ===== MODAL ===== */
+function openModal(t) {
+  currentTank = t;
+  modal.style.display = "flex";
+  modalTitle.textContent = t.id;
+  batch.value = t.batch || "";
+  status.value = t.status || "Empty";
+  start.value = t.start || "";
+}
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+function saveTank() {
+  currentTank.batch = batch.value;
+  currentTank.status = status.value;
+  currentTank.start = start.value;
+  closeModal();
+  render();
+}
+
+render();
+</script>
 
 </body>
 </html>
