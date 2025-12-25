@@ -16,7 +16,7 @@ body {
 }
 
 input, select {
-  padding: 8px;
+  padding: 6px 8px;
   border-radius: 6px;
   border: 1px solid #dcdcdc;
 }
@@ -30,42 +30,49 @@ input, select {
 
 .card {
   background: white;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.card.compact input {
+  max-width: 90px;
 }
 
 .inline-fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-/* Water Profile */
-.water-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px 20px;
-  margin-top: 10px;
-}
-
-.water-grid label {
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  align-items: center;
   gap: 8px;
 }
 
-/* Mash */
-.mash-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Water */
+.water-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
 
-.mash-table th,
-.mash-table td {
-  padding: 6px 8px;
-  text-align: left;
+.water-grid label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Mash */
+.mash-card {
+  grid-column: span 2;
+}
+
+.mash-row {
+  display: grid;
+  grid-template-columns: 140px 120px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mash-row .label {
+  font-weight: 600;
 }
 
 /* Lauter */
@@ -73,15 +80,16 @@ input, select {
   padding: 0 20px 20px;
 }
 
-.lauter-grid {
+.lauter-header,
+.lauter-row {
   display: grid;
-  grid-template-columns: 160px repeat(5, 1fr);
+  grid-template-columns: 180px repeat(5, 1fr);
   gap: 10px;
-  margin-bottom: 8px;
+  align-items: center;
 }
 
-.lauter-grid.header {
-  font-weight: bold;
+.lauter-header {
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
@@ -92,7 +100,7 @@ input, select {
 }
 
 .save {
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 8px;
   background: #2563eb;
   color: white;
