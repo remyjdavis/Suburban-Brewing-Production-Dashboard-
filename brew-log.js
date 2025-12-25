@@ -1,96 +1,61 @@
-/*********************************************************
- * AUTO-SELECT TANK BASED ON CLICK SOURCE (LOCKED + SAFE)
- *********************************************************/
+const API =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
+
+/************ TANK AUTO SELECT (PRESERVED) ************/
 document.addEventListener("click", (e) => {
-  const tankValue = e.target?.dataset?.tank;
-  if (!tankValue) return;
-
-  const tankSelect = document.getElementById("tank");
-  if (!tankSelect) return;
-
-  // Ensure this works ONLY for <select>
-  if (tankSelect.tagName !== "SELECT") {
-    console.warn("Tank auto-select failed: #tank is not a <select>");
-    return;
+  if (e.target.dataset?.tank) {
+    const tank = document.getElementById("tank");
+    tank.value = e.target.dataset.tank;
+    tank.dispatchEvent(new Event("change", { bubbles: true }));
   }
-
-  // Set value
-  tankSelect.value = tankValue;
-
-  // Force downstream listeners to fire
-  tankSelect.dispatchEvent(new Event("change", { bubbles: true }));
 });
 
+/************ LOAD RECIPES (PRESERVED) ************/
+document.addEventListener("DOMContentLoaded", () => {
+  const p = new URLSearchParams(location.search);
+  if (p.get("tank")) document.getElementById("tank").value = p.get("tank");
+  loadRecipes();
+});
 
-/*********************************************************
- * GRAIN BILL – POPULATE GRAINS
- *********************************************************/
-const grains = ["Pilsner", "Munich"];
-const grainTable = document.getElementById("grainTable");
-
-if (grainTable) {
-  grainTable.innerHTML = "";
-
-  grains.forEach(grain => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${grain}</td>
-      <td>—</td>
-      <td><input type="number"></td>
-    `;
-    grainTable.appendChild(tr);
-  });
+function loadRecipes() {
+  fetch(`${API}?action=recipes`)
+    .then(r => r.json())
+    .then(rs => {
+      const s = document.getElementById("recipe");
+      s.innerHTML = "<option></option>";
+      rs.forEach(r => {
+        const o = document.createElement("option");
+        o.value = r.RecipeID;
+        o.textContent = r.Beer;
+        s.appendChild(o);
+      });
+      s.onchange = () => loadRecipe(s.value);
+    });
 }
 
+function loadRecipe(id) {
+  fetch(`${API}?action=recipe&recipe=${id}`)
+    .then(r => r.json())
+    .then(d => {
+      Object.entries(d.targets).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
+      });
 
-/*********************************************************
- * MASH SCHEDULE
- *********************************************************
- * STATIC BY DESIGN
- * HTML controls layout, spacing, pH, start/end times
- * JS MUST NOT TOUCH THIS
- *********************************************************/
+      fill("grainTable", d.grain, ["Grain","Target"]);
+      fill("mashTable", d.mash, ["Step","Temp","Time","pH"]);
 
+      Object.entries(d.water).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
+      });
+    });
+}
 
-/*********************************************************
- * WATER PROFILE
- *********************************************************
- * Grid + inputs controlled in HTML/CSS
- * JS intentionally does nothing
- *********************************************************/
-
-
-/*********************************************************
- * LAUTER TUN
- *********************************************************
- * Static layout for column alignment
- * JS intentionally does nothing
- *********************************************************/
-
-
-/*********************************************************
- * BOIL
- *********************************************************
- * Start / End handled in HTML
- *********************************************************/
-
-
-/*********************************************************
- * KNOCKOUT
- *********************************************************
- * Volume / Gravity / pH handled in HTML
- *********************************************************/
-
-
-/*********************************************************
- * YEAST (NEXT CARD)
- *********************************************************
- * Placeholder — do not implement yet
- *********************************************************/
-
-
-/*********************************************************
- * SAVE LOG (FUTURE)
- *********************************************************
- * Data collection later
- *********************************************************/
+function fill(id, rows, cols) {
+  const tb = document.getElementById(id);
+  tb.innerHTML = "";
+  rows.forEach(r => {
+    tb.innerHTML += `<tr>${cols.map(c => `<td>${r[c]||""}</td>`).join("")}</tr>`;
+  });
+}
