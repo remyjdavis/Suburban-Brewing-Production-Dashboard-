@@ -1,4 +1,4 @@
-const API = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.getElementById("brewForm").addEventListener("submit", e => {
   e.preventDefault();
