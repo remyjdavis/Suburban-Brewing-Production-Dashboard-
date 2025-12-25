@@ -1,17 +1,39 @@
-<script>
 document.addEventListener("DOMContentLoaded", () => {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
+
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(json => {
+      console.log("RAW RESPONSE:", json);
+
+      const tanks = Array.isArray(json) ? json : json.data;
+      renderTanks(tanks);
+    })
+    .catch(err => console.error("FETCH ERROR:", err));
+});
+
+function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
   const brite = document.getElementById("brite");
 
-  console.log("FERM DIV:", ferm);
-  console.log("BRITE DIV:", brite);
+  ferm.innerHTML = "";
+  brite.innerHTML = "";
 
-  const testCard = document.createElement("div");
-  testCard.style.border = "2px solid red";
-  testCard.style.padding = "10px";
-  testCard.style.color = "black";
-  testCard.textContent = "TEST CARD — IF YOU SEE THIS, DOM IS WORKING";
+  tanks.forEach(t => {
+    const status = (t.Status || "empty").toLowerCase();
 
-  ferm.appendChild(testCard);
-});
-</script>
+    const card = document.createElement("div");
+    card.className = `tank status-${status}`;
+
+    card.innerHTML = `
+      <h4>${t.TankID}</h4>
+      <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
+      <div><strong>Day:</strong> ${t.Day || "—"}</div>
+      <div><strong>Status:</strong> ${t.Status || "—"}</div>
+    `;
+
+    if (t.Type === "Fermenter") ferm.appendChild(card);
+    if (t.Type === "Brite") brite.appendChild(card);
+  });
+}
