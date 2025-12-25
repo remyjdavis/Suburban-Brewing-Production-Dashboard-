@@ -5,13 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const tankParam = params.get("tank");
 
-  if (tank) {
-    tank.value = tankParam || "";
-    date.valueAsDate = new Date();
-    loadRecipes();
-  }
+  document.getElementById("tank").value = tankParam || "";
+  document.getElementById("date").valueAsDate = new Date();
 
-  lauterStart.onchange = lauterEnd.onchange = calcLauter;
+  loadRecipes();
+
+  document.getElementById("lauterStart").onchange =
+  document.getElementById("lauterEnd").onchange = calcLauter;
+
+  document.getElementById("boilStart").onchange =
+  document.getElementById("boilEnd").onchange = calcBoil;
 });
 
 /* ---------- RECIPES ---------- */
@@ -20,14 +23,15 @@ function loadRecipes() {
   fetch(API + "?action=recipes")
     .then(r => r.json())
     .then(recipes => {
-      recipe.innerHTML = `<option value="">Select Recipe</option>`;
+      const sel = document.getElementById("recipe");
+      sel.innerHTML = `<option value="">Select Recipe</option>`;
       recipes.forEach(r => {
         const o = document.createElement("option");
         o.value = r.RecipeID;
         o.textContent = r.Beer;
-        recipe.appendChild(o);
+        sel.appendChild(o);
       });
-      recipe.onchange = () => loadRecipe(recipe.value);
+      sel.onchange = () => loadRecipe(sel.value);
     });
 }
 
@@ -37,22 +41,17 @@ function loadRecipe(id) {
   fetch(`${API}?action=recipe&recipe=${id}`)
     .then(r => r.json())
     .then(data => {
-      renderGrainTable(data.grain);
-      renderHopTable(data.hops);
-      fillWater(data.water);
+      renderGrain(data.grain || []);
+      renderHops(data.hops || []);
+      fillWater(data.water || {});
     });
 }
 
 /* ---------- GRAIN BILL ---------- */
 
-function renderGrainTable(grains) {
-  grainTable.innerHTML = `
-    <tr>
-      <th>Grain</th>
-      <th>Target</th>
-      <th>Milled</th>
-    </tr>
-  `;
+function renderGrain(grains) {
+  const body = document.querySelector("#grainTable tbody");
+  body.innerHTML = "";
 
   grains.forEach(g => {
     const row = document.createElement("tr");
@@ -65,7 +64,7 @@ function renderGrainTable(grains) {
           oninput="checkGrain(this)">
       </td>
     `;
-    grainTable.appendChild(row);
+    body.appendChild(row);
   });
 }
 
@@ -85,17 +84,11 @@ function checkGrain(input) {
   row.classList.toggle("flag", actual < min || actual > max);
 }
 
-/* ---------- HOPS ---------- */
+/* ---------- HOPS / BOIL ---------- */
 
-function renderHopTable(hops) {
-  hopTable.innerHTML = `
-    <tr>
-      <th>Hop</th>
-      <th>Amount</th>
-      <th>Time</th>
-      <th>Use</th>
-    </tr>
-  `;
+function renderHops(hops) {
+  const body = document.querySelector("#hopTable tbody");
+  body.innerHTML = "";
 
   hops.forEach(h => {
     const row = document.createElement("tr");
@@ -103,16 +96,27 @@ function renderHopTable(hops) {
       <td>${h.Hop}</td>
       <td>${h.Amount}</td>
       <td>${h.Time}</td>
-      <td>${h.Use}</td>
     `;
-    hopTable.appendChild(row);
+    body.appendChild(row);
   });
+}
+
+function calcBoil() {
+  const s = document.getElementById("boilStart").value;
+  const e = document.getElementById("boilEnd").value;
+  if (!s || !e) return;
+
+  const start = new Date(`1970-01-01T${s}`);
+  const end = new Date(`1970-01-01T${e}`);
+  const mins = (end - start) / 60000;
+
+  document.getElementById("boilDuration").value =
+    mins > 0 ? mins : "";
 }
 
 /* ---------- WATER ---------- */
 
 function fillWater(w) {
-  if (!w) return;
   ca.value = w.Ca || "";
   mg.value = w.Mg || "";
   na.value = w.Na || "";
@@ -124,35 +128,19 @@ function fillWater(w) {
 /* ---------- LAUTER ---------- */
 
 function calcLauter() {
-  if (!lauterStart.value || !lauterEnd.value) return;
-  const s = new Date(`1970-01-01T${lauterStart.value}`);
-  const e = new Date(`1970-01-01T${lauterEnd.value}`);
-  const mins = (e - s) / 60000;
+  const s = lauterStart.value;
+  const e = lauterEnd.value;
+  if (!s || !e) return;
+
+  const start = new Date(`1970-01-01T${s}`);
+  const end = new Date(`1970-01-01T${e}`);
+  const mins = (end - start) / 60000;
+
   lauterDuration.value = mins > 0 ? mins : "";
 }
 
 /* ---------- SAVE ---------- */
 
 function saveBrew() {
-  const payload = {
-    tank: tank.value,
-    recipe: recipe.value,
-    brewer: brewer.value,
-    date: date.value,
-    mashPH: mashPH.value,
-    firstRun: firstRun.value,
-    finalRun: finalRun.value,
-    lauterStart: lauterStart.value,
-    lauterEnd: lauterEnd.value,
-    lauterDuration: lauterDuration.value,
-    boilTime: boilTime.value,
-    koVol: koVol.value,
-    koSG: koSG.value,
-    koPH: koPH.value
-  };
-
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  }).then(() => alert("Brew log saved"));
+  alert("Save logic already wired — next step is efficiency calc.");
 }
