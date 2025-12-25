@@ -5,13 +5,36 @@
 
 body {
   margin: 0;
+  padding: 20px;
   background: #f4f6f8;
-  color: #222;
 }
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.tank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tank {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+
+.status-empty { border-color: #adb5bd; }
+.status-fermenting { border-color: #28a745; }
+.status-conditioning { border-color: #ffc107; }
 
 .page-header {
   background: #111;
-  color: white;
+  color: #fff;
   padding: 20px;
 }
 
@@ -32,32 +55,6 @@ body {
   background: white;
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.card h2 {
-  margin-top: 0;
-}
-
-.inline-fields {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th {
-  text-align: left;
-  font-size: 12px;
-  color: #666;
-}
-
-td input {
-  width: 100%;
 }
 
 .flag {
@@ -66,7 +63,6 @@ td input {
 
 .footer {
   text-align: center;
-  padding: 20px;
 }
 
 .save {
