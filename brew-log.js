@@ -58,17 +58,23 @@ function fillTargets(t) {
 /* ---------- GRAIN ---------- */
 
 function renderGrain(grains) {
-  const body = document.querySelector("#grainTable tbody");
+  const body = document.getElementById("grainBody");
   body.innerHTML = "";
 
   grains.forEach(g => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
       <td>${g.Grain}</td>
       <td>${g.Weight}</td>
-      <td><input type="number" data-target="${g.Weight}" oninput="checkGrain(this)"></td>
+      <td>
+        <input type="number"
+               data-target="${g.Weight}"
+               oninput="checkGrain(this)">
+      </td>
     `;
-    body.appendChild(row);
+
+    body.appendChild(tr);
   });
 }
 
