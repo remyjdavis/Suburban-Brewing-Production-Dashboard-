@@ -5,96 +5,59 @@
 
 body {
   margin: 0;
+  padding: 20px;
   background: #f4f6f8;
   color: #222;
 }
 
-.page-header {
-  background: #111;
-  color: #fff;
-  padding: 20px;
+header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.page-header h1 {
-  margin: 0 0 10px;
+h1 {
+  margin: 0;
 }
 
-.brew-meta {
+h2 {
+  margin: 6px 0 0;
+  font-weight: normal;
+  color: #555;
+}
+
+h3 {
+  margin-top: 30px;
+}
+
+/* GRID */
+.tank-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
-}
-
-.brew-meta input {
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-  padding: 16px;
 }
 
-.card {
+/* CARD */
+.tank {
   background: #fff;
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 14px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.card h2 {
-  margin-top: 0;
+.tank:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.tank h4 {
+  margin: 0 0 8px;
   font-size: 18px;
 }
 
-.card input {
-  width: 100%;
-  margin-bottom: 8px;
-  padding: 6px;
-}
-
-.inline-fields {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 8px;
-}
-
-th {
-  text-align: left;
-  font-size: 12px;
-  color: #666;
-}
-
-td input {
-  width: 100%;
-}
-
-button {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
-  background: #ddd;
-  cursor: pointer;
-}
-
-.footer {
-  padding: 20px;
-  text-align: center;
-}
-
-.save {
-  padding: 12px 20px;
-  font-size: 16px;
-  background: #1a73e8;
-  color: white;
-  border-radius: 10px;
-}
+/* STATUS COLORS */
+.status-fermenting { border-color: #28a745; }
+.status-conditioning { border-color: #ffc107; }
+.status-cip { border-color: #17a2b8; }
+.status-empty { border-color: #adb5bd; }
