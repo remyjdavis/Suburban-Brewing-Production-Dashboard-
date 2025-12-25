@@ -1,38 +1,80 @@
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  font-family: system-ui, -apple-system;
 }
 
 body {
   margin: 0;
-  padding: 20px;
   background: #f4f6f8;
+  color: #222;
 }
 
 header {
   text-align: center;
-  margin-bottom: 30px;
+  padding: 20px;
 }
 
 .tank-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  padding: 16px;
 }
 
 .tank {
-  background: #fff;
+  background: white;
   border-radius: 12px;
   padding: 14px;
   border: 2px solid #ccc;
   cursor: pointer;
 }
 
-.tank h4 {
-  margin: 0 0 8px;
+.status-empty { border-color: #999; }
+.status-fermenting { border-color: #28a745; }
+.status-cip { border-color: #17a2b8; }
+
+.page-header {
+  background: #111;
+  color: white;
+  padding: 20px;
 }
 
-.status-fermenting { border-color: #28a745; }
-.status-conditioning { border-color: #ffc107; }
-.status-cip { border-color: #17a2b8; }
-.status-empty { border-color: #adb5bd; }
+.brew-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+}
+
+.flag {
+  background: #ffe6e6;
+}
+
+.save {
+  padding: 14px 24px;
+  font-size: 16px;
+  background: #1a73e8;
+  color: white;
+  border-radius: 10px;
+  border: none;
+}
