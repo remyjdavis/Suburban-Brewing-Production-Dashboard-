@@ -1,184 +1,81 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-/*********************************************************
- * STATE
- *********************************************************/
 const grainMilledState = {};
-const mashPHState = {
-  mashIn: "",
-  mashOut: ""
-};
+const mashPHState = { mashIn: "", mashOut: "" };
 
-/*********************************************************
- * INITIAL LOAD
- *********************************************************/
 document.addEventListener("DOMContentLoaded", () => {
   populateTanks();
-  applyTankFromURL();
   loadRecipes();
+  addBoilRow();
+  document.getElementById("addBoilRow").onclick = addBoilRow;
 });
 
-/*********************************************************
- * TANK LIST (6 TANKS)
- *********************************************************/
 function populateTanks() {
-  const tankSelect = document.getElementById("tank");
-  if (!tankSelect) return;
-
-  const tanks = ["FV-1", "FV-2", "FV-3", "FV-4", "FV-5", "FV-6"];
-
-  tankSelect.innerHTML = `<option value="">Tank</option>`;
-
-  tanks.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
-    tankSelect.appendChild(opt);
+  const t = document.getElementById("tank");
+  ["FV-1","FV-2","FV-3","FV-4","FV-5","FV-6"].forEach(v=>{
+    const o=document.createElement("option");o.value=v;o.text=v;t.appendChild(o);
   });
 }
 
-/*********************************************************
- * APPLY TANK FROM URL (?tank=FV-5)
- *********************************************************/
-function applyTankFromURL() {
-  const p = new URLSearchParams(location.search);
-  const tank = p.get("tank");
-  if (!tank) return;
-
-  const tankSelect = document.getElementById("tank");
-  if (!tankSelect) return;
-
-  tankSelect.value = tank;
-}
-
-/*********************************************************
- * RECIPE SELECTION
- *********************************************************/
 function loadRecipes() {
   fetch(`${API}?action=recipes`)
-    .then(r => r.json())
-    .then(recipes => {
-      const select = document.getElementById("recipe");
-      if (!select) return;
-
-      select.innerHTML = `<option value="">Select Recipe</option>`;
-
-      recipes.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.RecipeID;
-        opt.textContent = r.Beer;
-        select.appendChild(opt);
+    .then(r=>r.json())
+    .then(d=>{
+      const s=document.getElementById("recipe");
+      d.forEach(r=>{
+        const o=document.createElement("option");
+        o.value=r.RecipeID;o.text=r.Beer;s.appendChild(o);
       });
-
-      select.onchange = () => {
-        if (select.value) loadRecipe(select.value);
-      };
-    })
-    .catch(err => console.error("Recipe load error:", err));
+      s.onchange=()=>loadRecipe(s.value);
+    });
 }
 
-/*********************************************************
- * LOAD RECIPE DETAILS
- *********************************************************/
 function loadRecipe(id) {
   fetch(`${API}?action=recipe&recipe=${id}`)
-    .then(r => r.json())
-    .then(d => {
-      populateGrainTable(d.grain || []);
-      populateMashTable(d.mash || []);
-    })
-    .catch(err => console.error("Recipe detail error:", err));
+    .then(r=>r.json())
+    .then(d=>{
+      populateGrainTable(d.grain||[]);
+      populateMashTable(d.mash||[]);
+    });
 }
 
-/*********************************************************
- * GRAIN BILL (TARGET + MILLED)
- *********************************************************/
 function populateGrainTable(grains) {
-  const tbody = document.getElementById("grainTable");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  grains.forEach(g => {
-    const name = g.Grain ?? "";
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${g.Target ?? ""}</td>
-      <td>
-        <input
-          class="sm"
-          placeholder="Milled"
-          value="${grainMilledState[name] ?? ""}"
-        >
-      </td>
-    `;
-
-    tr.querySelector("input").oninput = e => {
-      grainMilledState[name] = e.target.value;
-    };
-
-    tbody.appendChild(tr);
+  const t=document.getElementById("grainTable");t.innerHTML="";
+  grains.forEach(g=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${g.Grain}</td><td>${g.Target}</td><td><input></td>`;
+    tr.querySelector("input").value=grainMilledState[g.Grain]||"";
+    tr.querySelector("input").oninput=e=>grainMilledState[g.Grain]=e.target.value;
+    t.appendChild(tr);
   });
 }
 
-/*********************************************************
- * MASH SCHEDULE
- * pH input ONLY for Mash in + Mash out
- *********************************************************/
 function populateMashTable(steps) {
-  const tbody = document.getElementById("mashTable");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  steps.forEach(s => {
-    const stepName = (s.Step || "").toLowerCase();
-    const isMashIn = stepName === "mash in";
-    const isMashOut = stepName === "mash out";
-
-    let phCell = "—";
-
-    if (isMashIn) {
-      phCell = `
-        <input
-          class="sm"
-          placeholder="pH"
-          value="${mashPHState.mashIn}"
-        >
-      `;
-    }
-
-    if (isMashOut) {
-      phCell = `
-        <input
-          class="sm"
-          placeholder="pH"
-          value="${mashPHState.mashOut}"
-        >
-      `;
-    }
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${s.Step ?? ""}</td>
-      <td>${s.Temp ?? ""}</td>
-      <td>${s.Time ?? ""}</td>
-      <td>${phCell}</td>
-      <td><input class="md" type="time"></td>
-      <td><input class="md" type="time"></td>
-    `;
-
-    const phInput = tr.querySelector("td:nth-child(4) input");
-    if (phInput && isMashIn) {
-      phInput.oninput = e => mashPHState.mashIn = e.target.value;
-    }
-    if (phInput && isMashOut) {
-      phInput.oninput = e => mashPHState.mashOut = e.target.value;
-    }
-
-    tbody.appendChild(tr);
+  const t=document.getElementById("mashTable");t.innerHTML="";
+  steps.forEach(s=>{
+    const name=s.Step.toLowerCase();
+    let ph="—";
+    if(name==="mash in") ph=`<input value="${mashPHState.mashIn}">`;
+    if(name==="mash out") ph=`<input value="${mashPHState.mashOut}">`;
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${s.Step}</td><td>${s.Temp}</td><td>${s.Time}</td><td>${ph}</td><td><input></td><td><input></td>`;
+    const p=tr.querySelector("td:nth-child(4) input");
+    if(p && name==="mash in") p.oninput=e=>mashPHState.mashIn=e.target.value;
+    if(p && name==="mash out") p.oninput=e=>mashPHState.mashOut=e.target.value;
+    t.appendChild(tr);
   });
+}
+
+function addBoilRow() {
+  const t=document.getElementById("boilTable");
+  const tr=document.createElement("tr");
+  tr.innerHTML=`
+    <td><input></td>
+    <td><select><option>Hop</option><option>Addition</option></select></td>
+    <td><input></td>
+    <td><input></td>
+    <td><input></td>
+  `;
+  t.appendChild(tr);
 }
