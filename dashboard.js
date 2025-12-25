@@ -1,12 +1,18 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch(API + "?action=tanks")
+document.addEventListener("DOMContentLoaded", loadTanks);
+
+function loadTanks() {
+  fetch(API + "?action=tanks", {
+    method: "GET",
+    mode: "cors",
+    cache: "no-store"
+  })
     .then(r => r.json())
     .then(renderTanks)
     .catch(err => console.error("Tank fetch error:", err));
-});
+}
 
 function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
@@ -22,17 +28,21 @@ function renderTanks(tanks) {
     card.className = `tank status-${status}`;
     card.innerHTML = `
       <h4>${t.TankID}</h4>
+      <div><strong>Status:</strong> ${t.Status || "—"}</div>
       <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
-      <div><strong>Status:</strong> ${t.Status || "Empty"}</div>
     `;
 
-    card.onclick = () => {
-      if (status === "empty") {
+    // ONLY empty tanks go to brew log
+    if (status === "empty") {
+      card.onclick = () =>
         window.location.href = `brew-log.html?tank=${t.TankID}`;
-      }
-    };
+    }
 
     if (t.Type === "Fermenter") ferm.appendChild(card);
     if (t.Type === "Brite") brite.appendChild(card);
   });
+
+  // Safari paint fix
+  ferm.offsetHeight;
+  brite.offsetHeight;
 }
