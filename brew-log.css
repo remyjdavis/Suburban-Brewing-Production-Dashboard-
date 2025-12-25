@@ -6,7 +6,6 @@
 body {
   margin: 0;
   background: #f4f6f8;
-  color: #222;
 }
 
 .page-header {
@@ -17,23 +16,22 @@ body {
 
 .brew-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 16px;
   padding: 16px;
 }
 
 .card {
   background: white;
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  min-width: 0;
 }
 
 .card h2 {
@@ -42,15 +40,8 @@ body {
 
 .inline-fields {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-}
-
-input, select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
 table {
@@ -61,15 +52,11 @@ table {
 th {
   text-align: left;
   font-size: 12px;
-  color: #666;
+  color: #555;
 }
 
-td {
-  padding: 6px 4px;
-}
-
-.flag {
-  background: #ffe6e6;
+td input {
+  width: 100%;
 }
 
 .footer {
@@ -82,7 +69,6 @@ td {
   font-size: 16px;
   background: #1a73e8;
   color: white;
-  border-radius: 12px;
   border: none;
-  cursor: pointer;
+  border-radius: 10px;
 }
