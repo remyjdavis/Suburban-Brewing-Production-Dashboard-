@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Suburban Brewing – Production Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <header class="app-header">
-    <div class="header-content">
-      <h1>Suburban Brewing Company</h1>
-      <h2>Production Dashboard</h2>
-    </div>
-  </header>
+<header class="page-header">
+  <h1>Suburban Brewing Company</h1>
+  <p>Production Dashboard</p>
+</header>
 
-  <main class="dashboard">
+<main class="container">
 
-    <section class="dashboard-section">
-      <h3 class="section-title">Fermentation Tanks</h3>
-      <div id="fermentation" class="tank-grid"></div>
-    </section>
+  <section>
+    <h2>Fermentation Tanks</h2>
+    <div id="fermentation" class="tank-grid"></div>
+  </section>
 
-    <section class="dashboard-section">
-      <h3 class="section-title">Brite Tanks</h3>
-      <div id="brite" class="tank-grid"></div>
-    </section>
+  <section>
+    <h2>Brite Tanks</h2>
+    <div id="brite" class="tank-grid"></div>
+  </section>
 
-  </main>
+</main>
 
-  <script src="dashboard.js"></script>
+<script src="dashboard.js"></script>
 </body>
 </html>
