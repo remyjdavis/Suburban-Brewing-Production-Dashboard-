@@ -20,7 +20,6 @@
 
 <div class="grid">
 
-  <!-- GRAIN BILL -->
   <div class="card">
     <h2>Grain Bill</h2>
     <table id="grainTable">
@@ -35,7 +34,6 @@
     </table>
   </div>
 
-  <!-- WATER -->
   <div class="card">
     <h2>Water Profile</h2>
     <div class="inline-fields">
@@ -48,7 +46,6 @@
     </div>
   </div>
 
-  <!-- LAUTER -->
   <div class="card">
     <h2>Lauter</h2>
     <input id="lauterStart" type="time">
@@ -58,7 +55,6 @@
     <input placeholder="Final Runnings Gravity">
   </div>
 
-  <!-- BOIL -->
   <div class="card">
     <h2>Boil</h2>
     <input id="boilStart" type="time">
@@ -70,7 +66,7 @@
         <tr>
           <th>Addition</th>
           <th>Amount</th>
-          <th>Time</th>
+          <th>Time (min)</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -83,6 +79,6 @@
   <button class="save" onclick="saveBrew()">Save Brew Log</button>
 </div>
 
-<script src="script.js"></script>
+<script src="brew-log.js"></script>
 </body>
 </html>
