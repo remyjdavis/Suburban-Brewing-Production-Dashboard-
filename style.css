@@ -1,18 +1,84 @@
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f6f7f9;
+  color: #1f2933;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 24px 32px;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.app-header h2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* ---------- Layout ---------- */
+.dashboard {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 32px;
+}
+
+.dashboard-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ---------- Tank Grid ---------- */
 .tank-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
+/* ---------- Tank Cards ---------- */
 .tank {
-  background: white;
+  background: #ffffff;
   border-radius: 12px;
   padding: 14px;
   border: 2px solid #ccc;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.status-empty { border-color: #adb5bd; }
-.status-fermenting { border-color: #28a745; }
-.status-conditioning { border-color: #ffc107; }
-.status-cip { border-color: #17a2b8; }
+.tank:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.tank h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.tank
