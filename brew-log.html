@@ -1,96 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Brew Day Log</title>
+  <meta charset="UTF-8">
+  <title>Brew Log</title>
   <link rel="stylesheet" href="brew-log.css">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
 
 <header class="page-header">
   <h1>Brew Day Log</h1>
-  <div class="brew-meta">
-    <input placeholder="Batch ID" />
-    <input placeholder="Beer Name" />
-    <input placeholder="Brewer" />
-    <input type="date" />
-    <input placeholder="Tank" disabled />
-  </div>
 </header>
 
-<main class="grid">
+<section class="grid">
 
-  <!-- Grain Bill -->
-  <section class="card">
-    <h2>🌾 Grain Bill</h2>
-    <table>
-      <tr><th>Grain</th><th>Weight</th><th>%</th></tr>
-      <tr><td><input></td><td><input></td><td><input></td></tr>
-    </table>
-    <button>Add Grain</button>
-  </section>
+  <div class="card wide" id="meta"></div>
+  <div class="card" id="targets"></div>
+  <div class="card" id="grain"></div>
+  <div class="card" id="water"></div>
+  <div class="card" id="mash"></div>
+  <div class="card" id="hops"></div>
+  <div class="card" id="lauter"></div>
+  <div class="card" id="boil"></div>
+  <div class="card" id="ko"></div>
+  <div class="card" id="qa"></div>
+  <div class="card wide" id="signoff"></div>
 
-  <!-- Water Profile -->
-  <section class="card">
-    <h2>💧 Water Profile</h2>
-    <div class="inline-fields">
-      <input placeholder="Ca">
-      <input placeholder="Mg">
-      <input placeholder="Na">
-      <input placeholder="SO₄">
-      <input placeholder="Cl">
-      <input placeholder="pH">
-    </div>
-  </section>
-
-  <!-- Mash -->
-  <section class="card">
-    <h2>🔥 Mash Schedule</h2>
-    <table>
-      <tr><th>Step</th><th>Temp</th><th>Time</th></tr>
-      <tr><td><input></td><td><input></td><td><input></td></tr>
-    </table>
-    <button>Add Step</button>
-  </section>
-
-  <!-- Lauter -->
-  <section class="card">
-    <h2>🚿 Lauter</h2>
-    <input placeholder="Vorlauf Start">
-    <input placeholder="Lauter Start">
-    <input placeholder="Runoff End">
-    <input placeholder="Efficiency %">
-  </section>
-
-  <!-- Boil -->
-  <section class="card">
-    <h2>🍲 Boil</h2>
-    <input placeholder="Boil Duration (min)">
-    <table>
-      <tr><th>Hop</th><th>Time</th><th>Amount</th></tr>
-      <tr><td><input></td><td><input></td><td><input></td></tr>
-    </table>
-    <button>Add Hop</button>
-  </section>
-
-  <!-- Knockout -->
-  <section class="card">
-    <h2>❄ Knockout</h2>
-    <input placeholder="KO Time">
-    <input placeholder="Temp to FV">
-    <input placeholder="Volume to FV">
-    <label>
-      <input type="checkbox"> Oxygenated
-    </label>
-  </section>
-
-</main>
+</section>
 
 <footer class="footer">
-  <button class="save">Save Brew Log</button>
+  <button class="save" onclick="saveBrew()">SAVE BREW LOG</button>
 </footer>
 
+<script src="brew-log.js"></script>
 </body>
 </html>
