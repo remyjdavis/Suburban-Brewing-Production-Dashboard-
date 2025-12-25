@@ -7,7 +7,6 @@ body {
   margin: 0;
   padding: 20px;
   background: #f4f6f8;
-  color: #222;
 }
 
 header {
@@ -15,48 +14,24 @@ header {
   margin-bottom: 30px;
 }
 
-h1 {
-  margin: 0;
-}
-
-h2 {
-  margin: 6px 0 0;
-  font-weight: normal;
-  color: #555;
-}
-
-h3 {
-  margin-top: 30px;
-}
-
-/* GRID */
 .tank-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* CARD */
 .tank {
   background: #fff;
   border-radius: 12px;
   padding: 14px;
   border: 2px solid #ccc;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tank:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
 .tank h4 {
   margin: 0 0 8px;
-  font-size: 18px;
 }
 
-/* STATUS COLORS */
 .status-fermenting { border-color: #28a745; }
 .status-conditioning { border-color: #ffc107; }
 .status-cip { border-color: #17a2b8; }
