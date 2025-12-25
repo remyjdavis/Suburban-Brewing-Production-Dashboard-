@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Brew Log – Production</title>
-  <link rel="stylesheet" href="brew-log.css">
+  <link rel="stylesheet" href="brew-log.css" />
 </head>
 
 <body>
@@ -12,12 +12,12 @@
   <div class="header-group">
     <label>
       <span>Date</span>
-      <input id="date" type="date">
+      <input id="date" type="date" />
     </label>
 
     <label>
       <span>Tank</span>
-      <input id="tank" readonly>
+      <input id="tank" readonly />
     </label>
 
     <label>
@@ -27,7 +27,7 @@
 
     <label>
       <span>Brewer</span>
-      <input id="brewer" placeholder="Name">
+      <input id="brewer" placeholder="Name" />
     </label>
   </div>
 </header>
@@ -37,12 +37,12 @@
   <section class="card">
     <h3>Recipe Targets</h3>
     <div class="field-grid">
-      <label><span>Efficiency %</span><input id="efficiency"></label>
-      <label><span>Target OG</span><input id="targetOG"></label>
-      <label><span>Target FG</span><input id="targetFG"></label>
-      <label><span>Volume</span><input id="targetVolume"></label>
-      <label><span>IBU</span><input id="ibu"></label>
-      <label><span>SRM</span><input id="srm"></label>
+      <label><span>Efficiency %</span><input id="efficiency" /></label>
+      <label><span>Target OG</span><input id="targetOG" /></label>
+      <label><span>Target FG</span><input id="targetFG" /></label>
+      <label><span>Volume</span><input id="targetVolume" /></label>
+      <label><span>IBU</span><input id="ibu" /></label>
+      <label><span>SRM</span><input id="srm" /></label>
     </div>
   </section>
 
@@ -50,11 +50,7 @@
     <h3>Grain Bill</h3>
     <table id="grainTable">
       <thead>
-        <tr>
-          <th>Grain</th>
-          <th>Target</th>
-          <th>Milled</th>
-        </tr>
+        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -63,12 +59,12 @@
   <section class="card">
     <h3>Water Profile (ppm)</h3>
     <div class="field-grid">
-      <label><span>Ca</span><input id="Ca"></label>
-      <label><span>Mg</span><input id="Mg"></label>
-      <label><span>Na</span><input id="Na"></label>
-      <label><span>SO₄</span><input id="SO4"></label>
-      <label><span>Cl</span><input id="Cl"></label>
-      <label><span>HCO₃</span><input id="HCO3"></label>
+      <label><span>Ca</span><input id="Ca" /></label>
+      <label><span>Mg</span><input id="Mg" /></label>
+      <label><span>Na</span><input id="Na" /></label>
+      <label><span>SO₄</span><input id="SO4" /></label>
+      <label><span>Cl</span><input id="Cl" /></label>
+      <label><span>HCO₃</span><input id="HCO3" /></label>
     </div>
   </section>
 
@@ -76,12 +72,7 @@
     <h3>Mash Schedule</h3>
     <table id="mashTable">
       <thead>
-        <tr>
-          <th>Step</th>
-          <th>Temp</th>
-          <th>Time</th>
-          <th>pH</th>
-        </tr>
+        <tr><th>Step</th><th>Temp</th><th>Time</th><th>pH</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -91,11 +82,7 @@
     <h3>Boil</h3>
     <table id="hopTable">
       <thead>
-        <tr>
-          <th>Hop</th>
-          <th>Amount</th>
-          <th>Time</th>
-        </tr>
+        <tr><th>Hop</th><th>Amount</th><th>Time</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -104,9 +91,9 @@
   <section class="card">
     <h3>Knockout</h3>
     <div class="field-grid">
-      <label><span>Volume</span><input id="koVolume"></label>
-      <label><span>Gravity</span><input id="koGravity"></label>
-      <label><span>pH</span><input id="koPH"></label>
+      <label><span>Volume</span><input id="koVolume" /></label>
+      <label><span>Gravity</span><input id="koGravity" /></label>
+      <label><span>pH</span><input id="koPH" /></label>
     </div>
   </section>
 
