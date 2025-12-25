@@ -2,90 +2,51 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
-  date.valueAsDate = new Date();
+  const p = new URLSearchParams(location.search);
+  if (p.get("tank")) document.getElementById("tank").value = p.get("tank");
   loadRecipes();
 });
 
 function loadRecipes() {
   fetch(`${API}?action=recipes`)
     .then(r => r.json())
-    .then(data => {
-      recipe.innerHTML = `<option value="">Select Recipe</option>`;
-      data.forEach(r => {
+    .then(rs => {
+      const s = document.getElementById("recipe");
+      s.innerHTML = "<option></option>";
+      rs.forEach(r => {
         const o = document.createElement("option");
         o.value = r.RecipeID;
         o.textContent = r.Beer;
-        recipe.appendChild(o);
+        s.appendChild(o);
       });
-      recipe.onchange = () => loadRecipe(recipe.value);
+      s.onchange = () => loadRecipe(s.value);
     });
 }
 
 function loadRecipe(id) {
-  if (!id) return;
-
   fetch(`${API}?action=recipe&recipe=${id}`)
     .then(r => r.json())
     .then(d => {
-      fillTargets(d.targets);
-      renderGrain(d.grain);
-      renderMash(d.mash);
-      renderHops(d.hops);
-      fillWater(d.water);
+      Object.entries(d.targets).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
+      });
+
+      fill("grainTable", d.grain, ["Grain","Target"]);
+      fill("mashTable", d.mash, ["Step","Temp","Time","pH"]);
+      fill("hopTable", d.hops, ["Hop","Amount","Time"]);
+
+      Object.entries(d.water).forEach(([k, v]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = v;
+      });
     });
 }
 
-function fillTargets(t) {
-  targetEff.value   = t.Efficiency || "";
-  targetOG.value    = t.TargetOG || "";
-  targetFG.value    = t.TargetFG || "";
-  targetVol.value   = t.TargetVolume || "";
-  targetIBU.value   = t.IBU || "";
-  targetColor.value = t.SRM || "";
-}
-
-function renderGrain(rows) {
-  grainBody.innerHTML = "";
+function fill(id, rows, cols) {
+  const tb = document.querySelector(`#${id} tbody`);
+  tb.innerHTML = "";
   rows.forEach(r => {
-    grainBody.innerHTML += `
-      <tr>
-        <td>${r.Grain}</td>
-        <td>${r.Weight}</td>
-        <td><input></td>
-      </tr>`;
+    tb.innerHTML += `<tr>${cols.map(c => `<td>${r[c]||""}</td>`).join("")}</tr>`;
   });
-}
-
-function renderMash(rows) {
-  mashBody.innerHTML = "";
-  rows.forEach(r => {
-    mashBody.innerHTML += `
-      <tr>
-        <td>${r.Step}</td>
-        <td><input value="${r.Temp}"></td>
-        <td><input value="${r.Time}"></td>
-        <td><input value="${r.pH || ""}"></td>
-      </tr>`;
-  });
-}
-
-function renderHops(rows) {
-  hopBody.innerHTML = "";
-  rows.forEach(r => {
-    hopBody.innerHTML += `
-      <tr>
-        <td>${r.Hop}</td>
-        <td>${r.Amount}</td>
-        <td>${r.Time}</td>
-      </tr>`;
-  });
-}
-
-function fillWater(w) {
-  ca.value   = w.Ca || "";
-  mg.value   = w.Mg || "";
-  na.value   = w.Na || "";
-  so4.value  = w.SO4 || "";
-  cl.value   = w.Cl || "";
-  hco3.value = w.HCO3 || "";
 }
