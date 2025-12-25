@@ -1,5 +1,12 @@
-.flag {
-  background: #ffe6e6;
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #222;
 }
 
 .page-header {
@@ -25,12 +32,41 @@
   background: white;
   border-radius: 12px;
   padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-top: 0;
 }
 
 .inline-fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 12px;
+  color: #666;
+}
+
+td input {
+  width: 100%;
+}
+
+.flag {
+  background: #ffe6e6;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
 }
 
 .save {
