@@ -1,117 +1,124 @@
-/* ===== Base ===== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* ================== BASE ================== */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f3f4f6;
-  color: #1f2937;
-}
-
-/* ===== Header ===== */
-.app-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 18px 32px;
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.app-header h1 {
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.app-header h2 {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  margin-top: 2px;
-}
-
-/* ===== Layout ===== */
-.dashboard {
-  max-width: 1200px;
-  margin: 28px auto;
-  padding: 0 32px;
-}
-
-/* ===== Sections ===== */
-.dashboard-section {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 20px 24px 24px;
-  margin-bottom: 28px;
-  border: 1px solid #e5e7eb;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 18px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #f8fafc;
   color: #111827;
 }
 
-/* ===== Tank Grid ===== */
-.tank-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 14px;
+.container {
+  max-width: 1200px;
+  padding: 24px;
+  margin: auto;
 }
 
-/* ===== Tank Cards ===== */
+/* ================== HEADER ================== */
+.page-header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 20px 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  color: #6b7280;
+}
+
+/* ================== SECTIONS ================== */
+section {
+  margin-top: 32px;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+/* ================== GRID ================== */
+.tank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* ================== CARD ================== */
 .tank {
-  background: #f9fafb;
+  background: white;
   border-radius: 12px;
-  padding: 14px 16px;
-  border: 2px solid #d1d5db;
-  cursor: pointer;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .tank:hover {
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
 
-/* Tank title */
-.tank h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 6px;
+/* ================== STATUS COLORS ================== */
+.status-empty { border-color: #9ca3af; }
+.status-fermenting { border-color: #22c55e; }
+.status-conditioning { border-color: #f59e0b; }
+.status-cip { border-color: #0ea5e9; }
+
+/* ================== HEADER ROW ================== */
+.tank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-/* Tank status text */
-.tank div {
-  font-size: 13px;
-  font-weight: 500;
+.tank-id {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ================== BADGE ================== */
+.tank-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-fermenting .tank-badge {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-conditioning .tank-badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-cip .tank-badge {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.status-empty .tank-badge {
+  background: #f3f4f6;
   color: #4b5563;
 }
 
-/* ===== Status Styling ===== */
-.status-fermenting {
-  border-color: #22c55e;
-  background-color: rgba(34, 197, 94, 0.06);
+/* ================== DETAILS ================== */
+.tank-details {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #374151;
 }
 
-.status-conditioning {
-  border-color: #f59e0b;
-  background-color: rgba(245, 158, 11, 0.07);
-}
-
-.status-cip {
-  border-color: #0ea5e9;
-  background-color: rgba(14, 165, 233, 0.07);
-}
-
-.status-empty {
-  border-color: #9ca3af;
-  background-color: #f3f4f6;
+.tank-details strong {
+  font-weight: 600;
+  color: #111827;
 }
