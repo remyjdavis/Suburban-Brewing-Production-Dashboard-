@@ -23,12 +23,12 @@
   <div class="card">
     <h2>Recipe Targets</h2>
     <div class="inline-fields">
-      <input placeholder="Efficiency %" id="efficiency">
-      <input placeholder="Target OG" id="og">
-      <input placeholder="Target FG" id="fg">
-      <input placeholder="Volume" id="volume">
-      <input placeholder="IBU" id="ibu">
-      <input placeholder="SRM" id="srm">
+      <input placeholder="Efficiency %">
+      <input placeholder="Target OG">
+      <input placeholder="Target FG">
+      <input placeholder="Volume">
+      <input placeholder="IBU">
+      <input placeholder="SRM">
     </div>
   </div>
 
@@ -48,44 +48,55 @@
   </div>
 
   <!-- Water Profile -->
-  <div class="card">
+  <div class="card compact">
     <h2>Water Profile (ppm)</h2>
     <div class="water-grid">
-      <label>Ca <input id="Ca" type="number"></label>
-      <label>Mg <input id="Mg" type="number"></label>
-      <label>Na <input id="Na" type="number"></label>
-      <label>SO₄ <input id="SO4" type="number"></label>
-      <label>Cl <input id="Cl" type="number"></label>
-      <label>HCO₃ <input id="HCO3" type="number"></label>
+      <label>Ca <input type="number"></label>
+      <label>Mg <input type="number"></label>
+      <label>Na <input type="number"></label>
+      <label>SO₄ <input type="number"></label>
+      <label>Cl <input type="number"></label>
+      <label>HCO₃ <input type="number"></label>
     </div>
   </div>
 
   <!-- Mash Schedule -->
-  <div class="card">
+  <div class="card mash-card">
     <h2>Mash Schedule</h2>
-    <table class="mash-table">
-      <thead>
-        <tr>
-          <th>Step</th>
-          <th>Temp</th>
-          <th>Time</th>
-          <th>pH</th>
-          <th>Start</th>
-          <th>End</th>
-        </tr>
-      </thead>
-      <tbody id="mashTable"></tbody>
-    </table>
+
+    <div class="mash-row">
+      <div class="label">Mash In</div>
+      <div>62°C</div>
+      <input placeholder="pH">
+      <input type="time">
+      <input type="time">
+    </div>
+
+    <div class="mash-row">
+      <div class="label">First Rest</div>
+      <div>62°C / 60m</div>
+      <span>—</span>
+      <input type="time">
+      <input type="time">
+    </div>
+
+    <div class="mash-row">
+      <div class="label">Mash Out</div>
+      <div>77°C / 1m</div>
+      <input placeholder="pH">
+      <input type="time">
+      <input type="time">
+    </div>
   </div>
 
 </main>
 
-<!-- FULL WIDTH LAUTER -->
+<!-- Lauter Tun -->
 <section class="full-width-wrapper">
   <div class="card">
     <h2>Lauter Tun</h2>
 
-    <div class="lauter-grid header">
+    <div class="lauter-header">
       <span></span>
       <span>Start</span>
       <span>End</span>
@@ -94,7 +105,7 @@
       <span>Gravity</span>
     </div>
 
-    <div class="lauter-grid">
+    <div class="lauter-row">
       <strong>First Runnings</strong>
       <input type="time">
       <input type="time">
@@ -103,7 +114,7 @@
       <input>
     </div>
 
-    <div class="lauter-grid">
+    <div class="lauter-row">
       <strong>First Sparge</strong>
       <input type="time">
       <input type="time">
@@ -112,7 +123,7 @@
       <span></span>
     </div>
 
-    <div class="lauter-grid">
+    <div class="lauter-row">
       <strong>Second Sparge</strong>
       <input type="time">
       <input type="time">
@@ -121,7 +132,7 @@
       <span></span>
     </div>
 
-    <div class="lauter-grid">
+    <div class="lauter-row">
       <strong>Final Runnings</strong>
       <input type="time">
       <input type="time">
@@ -132,29 +143,6 @@
 
   </div>
 </section>
-
-<main class="grid">
-
-  <!-- Boil -->
-  <div class="card">
-    <h2>Boil</h2>
-    <div class="inline-fields">
-      <input type="time" id="boilStart">
-      <input type="time" id="boilEnd">
-    </div>
-  </div>
-
-  <!-- Knockout -->
-  <div class="card">
-    <h2>Knockout</h2>
-    <div class="inline-fields">
-      <input placeholder="Volume">
-      <input placeholder="Gravity">
-      <input placeholder="pH">
-    </div>
-  </div>
-
-</main>
 
 <footer class="footer">
   <button class="save">Save Brew Log</button>
