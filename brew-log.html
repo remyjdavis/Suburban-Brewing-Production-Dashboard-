@@ -4,31 +4,92 @@
   <meta charset="UTF-8" />
   <title>Brew Day Log</title>
   <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
-<header>
+
+<header class="page-header">
   <h1>Brew Day Log</h1>
-  <h2 id="tankTitle"></h2>
+  <div class="brew-meta">
+    <input placeholder="Batch ID" />
+    <input placeholder="Beer Name" />
+    <input placeholder="Brewer" />
+    <input type="date" />
+    <input placeholder="Tank" disabled />
+  </div>
 </header>
 
-<section>
-  <form id="brewForm">
-    <label>Batch ID <input name="BatchID" required></label><br><br>
-    <label>Beer <input name="Beer" required></label><br><br>
-    <label>Brewer <input name="Brewer"></label><br><br>
-    <label>Date <input type="date" name="Date"></label><br><br>
+<main class="grid">
 
-    <button type="submit">Save Brew Log</button>
-  </form>
-</section>
+  <!-- Grain Bill -->
+  <section class="card">
+    <h2>🌾 Grain Bill</h2>
+    <table>
+      <tr><th>Grain</th><th>Weight</th><th>%</th></tr>
+      <tr><td><input></td><td><input></td><td><input></td></tr>
+    </table>
+    <button>Add Grain</button>
+  </section>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const tank = params.get("tank");
+  <!-- Water Profile -->
+  <section class="card">
+    <h2>💧 Water Profile</h2>
+    <div class="inline-fields">
+      <input placeholder="Ca">
+      <input placeholder="Mg">
+      <input placeholder="Na">
+      <input placeholder="SO₄">
+      <input placeholder="Cl">
+      <input placeholder="pH">
+    </div>
+  </section>
 
-  document.getElementById("tankTitle").innerText =
-    tank ? `Tank: ${tank}` : "No tank selected";
-</script>
+  <!-- Mash -->
+  <section class="card">
+    <h2>🔥 Mash Schedule</h2>
+    <table>
+      <tr><th>Step</th><th>Temp</th><th>Time</th></tr>
+      <tr><td><input></td><td><input></td><td><input></td></tr>
+    </table>
+    <button>Add Step</button>
+  </section>
+
+  <!-- Lauter -->
+  <section class="card">
+    <h2>🚿 Lauter</h2>
+    <input placeholder="Vorlauf Start">
+    <input placeholder="Lauter Start">
+    <input placeholder="Runoff End">
+    <input placeholder="Efficiency %">
+  </section>
+
+  <!-- Boil -->
+  <section class="card">
+    <h2>🍲 Boil</h2>
+    <input placeholder="Boil Duration (min)">
+    <table>
+      <tr><th>Hop</th><th>Time</th><th>Amount</th></tr>
+      <tr><td><input></td><td><input></td><td><input></td></tr>
+    </table>
+    <button>Add Hop</button>
+  </section>
+
+  <!-- Knockout -->
+  <section class="card">
+    <h2>❄ Knockout</h2>
+    <input placeholder="KO Time">
+    <input placeholder="Temp to FV">
+    <input placeholder="Volume to FV">
+    <label>
+      <input type="checkbox"> Oxygenated
+    </label>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <button class="save">Save Brew Log</button>
+</footer>
+
 </body>
 </html>
