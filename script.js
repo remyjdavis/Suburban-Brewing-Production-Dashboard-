@@ -1,13 +1,22 @@
-const API_URL =
-  https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks;
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
 
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => renderTanks(data));
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      console.log("TANK DATA:", data);
+      renderTanks(Array.isArray(data) ? data : data.data);
+    })
+    .catch(err => console.error("FETCH ERROR:", err));
+});
 
 function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
   const brite = document.getElementById("brite");
+
+  ferm.innerHTML = "";
+  brite.innerHTML = "";
 
   tanks.forEach(t => {
     const card = document.createElement("div");
@@ -24,3 +33,4 @@ function renderTanks(tanks) {
     if (t.Type === "Brite") brite.appendChild(card);
   });
 }
+
