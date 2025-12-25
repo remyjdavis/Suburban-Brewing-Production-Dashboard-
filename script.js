@@ -1,12 +1,17 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", loadDashboard);
+
+function loadDashboard() {
   fetch(`${API}?action=tanks`)
     .then(res => res.json())
     .then(renderDashboard)
-    .catch(err => console.error(err));
-});
+    .catch(err => {
+      console.error("API ERROR", err);
+      alert("Failed to load tanks");
+    });
+}
 
 function renderDashboard(tanks) {
   const ferm = document.getElementById("fermentation");
@@ -15,12 +20,14 @@ function renderDashboard(tanks) {
 
   ferm.innerHTML = "";
   brite.innerHTML = "";
-  timeline.innerHTML = "";
-
-  const activeBatches = [];
+  if (timeline) timeline.innerHTML = "";
 
   tanks.forEach(t => {
-    const status = (t.Status || "empty").toLowerCase();
+    const status = (t.Status || "Empty")
+      .toString()
+      .trim()
+      .toLowerCase();
+
     const card = document.createElement("div");
     card.className = `tank status-${status}`;
 
@@ -33,26 +40,15 @@ function renderDashboard(tanks) {
     if (t.Type === "Fermenter") ferm.appendChild(card);
     if (t.Type === "Brite") brite.appendChild(card);
 
-    if (t.Batch) activeBatches.push(t);
-  });
-
-  renderTimeline(activeBatches);
-}
-
-function renderTimeline(batches) {
-  if (!batches.length) {
-    timeline.innerHTML = "<em>No active batches</em>";
-    return;
-  }
-
-  batches.forEach(b => {
-    const div = document.createElement("div");
-    div.className = "tank";
-    div.innerHTML = `
-      <strong>${b.Batch}</strong><br>
-      Tank: ${b.TankID}<br>
-      Status: ${b.Status}
-    `;
-    timeline.appendChild(div);
+    if (timeline && t.Batch) {
+      const tl = document.createElement("div");
+      tl.className = "tank";
+      tl.innerHTML = `
+        <strong>${t.Batch}</strong><br>
+        Tank: ${t.TankID}<br>
+        Status: ${t.Status}
+      `;
+      timeline.appendChild(tl);
+    }
   });
 }
