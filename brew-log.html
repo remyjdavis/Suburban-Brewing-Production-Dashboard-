@@ -11,28 +11,26 @@
 <header class="page-header">
   <div class="brew-meta">
     <input type="date" id="date" />
-    <input id="tank" placeholder="Tank" />
+    <input id="tank" readonly />
     <select id="recipe"></select>
-    <input placeholder="Brewer" />
+    <input id="brewer" placeholder="Brewer" />
   </div>
 </header>
 
 <main class="grid">
 
-  <!-- Recipe Targets -->
   <div class="card">
     <h2>Recipe Targets</h2>
     <div class="inline-fields">
-      <input placeholder="Efficiency %" id="efficiency">
-      <input placeholder="Target OG" id="og">
-      <input placeholder="Target FG" id="fg">
-      <input placeholder="Volume" id="volume">
-      <input placeholder="IBU" id="ibu">
-      <input placeholder="SRM" id="srm">
+      <input id="efficiency" placeholder="Efficiency %">
+      <input id="og" placeholder="Target OG">
+      <input id="fg" placeholder="Target FG">
+      <input id="volume" placeholder="Volume">
+      <input id="ibu" placeholder="IBU">
+      <input id="srm" placeholder="SRM">
     </div>
   </div>
 
-  <!-- Grain Bill -->
   <div class="card">
     <h2>Grain Bill</h2>
     <table>
@@ -47,7 +45,6 @@
     </table>
   </div>
 
-  <!-- Water -->
   <div class="card">
     <h2>Water Profile (ppm)</h2>
     <div class="inline-fields">
@@ -60,7 +57,6 @@
     </div>
   </div>
 
-  <!-- Mash -->
   <div class="card">
     <h2>Mash Schedule</h2>
     <table>
@@ -86,37 +82,45 @@
     <h2>Lauter Tun</h2>
 
     <div class="lauter-grid">
+      <div class="lauter-row header">
+        <span></span><span>Start</span><span>End</span>
+        <span>Volume</span><span>Deep Cuts</span><span>Gravity</span>
+      </div>
+
       <div class="lauter-row">
         <strong>First Runnings</strong>
         <input type="time">
         <input type="time">
-        <input placeholder="Gravity">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
+        <input>
+        <input>
+        <input>
       </div>
 
       <div class="lauter-row">
         <strong>First Sparge</strong>
         <input type="time">
         <input type="time">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
+        <input>
+        <input>
+        <span></span>
       </div>
 
       <div class="lauter-row">
         <strong>Second Sparge</strong>
         <input type="time">
         <input type="time">
-        <input placeholder="Volume">
-        <input placeholder="Deep Cuts">
+        <input>
+        <input>
+        <span></span>
       </div>
 
       <div class="lauter-row">
         <strong>Final Runnings</strong>
         <input type="time">
         <input type="time">
-        <input placeholder="Gravity">
-        <input placeholder="Volume">
+        <input>
+        <span></span>
+        <input>
       </div>
     </div>
   </div>
@@ -124,7 +128,6 @@
 
 <main class="grid">
 
-  <!-- Boil -->
   <div class="card">
     <h2>Boil</h2>
     <div class="inline-fields">
@@ -133,7 +136,6 @@
     </div>
   </div>
 
-  <!-- Knockout -->
   <div class="card">
     <h2>Knockout</h2>
     <div class="inline-fields">
@@ -149,6 +151,6 @@
   <button class="save">Save Brew Log</button>
 </footer>
 
-<script src="script.js"></script>
+<script src="brew-log.js"></script>
 </body>
 </html>
