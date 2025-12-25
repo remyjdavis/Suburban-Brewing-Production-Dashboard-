@@ -2,134 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Suburban Brewing Company – Production Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      margin: 0;
-      background: #f4f6f8;
-      color: #222;
-    }
-
-    header {
-      background: #1f3a5f;
-      color: white;
-      padding: 24px;
-      text-align: center;
-    }
-
-    h2 {
-      margin-top: 40px;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 8px;
-    }
-
-    .tank-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .tank {
-      background: white;
-      border-radius: 10px;
-      padding: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      border-top: 6px solid #9e9e9e;
-    }
-
-    .fermenting { border-top-color: #4caf50; }
-    .cip { border-top-color: #ff9800; }
-    .conditioning { border-top-color: #2196f3; }
-    .empty { border-top-color: #bdbdbd; }
-
-    .tank h3 {
-      margin: 0 0 8px;
-    }
-
-    .label {
-      font-weight: 600;
-    }
-  </style>
+  <title>Suburban Brewing Company Production Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-  <h1>Suburban Brewing Company</h1>
-  <p>Production Dashboard</p>
-</header>
+  <!-- HEADER -->
+  <header class="header">
+    <h1>Suburban Brewing Company</h1>
+    <p>Production Dashboard</p>
+  </header>
 
-<main style="padding: 32px">
+  <!-- FERMENTATION TANKS -->
+  <section>
+    <h2>Fermentation Tanks</h2>
 
-  <!-- FERMENTATION -->
-  <h2>Fermentation Tanks</h2>
-  <div class="tank-grid">
+    <div class="tank-grid">
+      <div class="tank fermenting" onclick="editTank(this)">
+        <h3>FV-1</h3>
+        <p>Batch: <span class="batch">West Coast IPA</span></p>
+        <p>Day: <span class="day">6</span></p>
+        <p>Status: <span class="status">Fermenting</span></p>
+      </div>
 
-    <div class="tank fermenting">
-      <h3>FV-1</h3>
-      <p><span class="label">Batch:</span> West Coast IPA</p>
-      <p><span class="label">Day:</span> 6</p>
-      <p><span class="label">Status:</span> Fermenting</p>
+      <div class="tank fermenting" onclick="editTank(this)">
+        <h3>FV-2</h3>
+        <p>Batch: <span class="batch">Pilsner</span></p>
+        <p>Day: <span class="day">3</span></p>
+        <p>Status: <span class="status">Fermenting</span></p>
+      </div>
+
+      <div class="tank cip" onclick="editTank(this)">
+        <h3>FV-3</h3>
+        <p>Batch: <span class="batch">—</span></p>
+        <p>Day: <span class="day">—</span></p>
+        <p>Status: <span class="status">CIP</span></p>
+      </div>
+
+      <div class="tank fermenting" onclick="editTank(this)">
+        <h3>FV-4</h3>
+        <p>Batch: <span class="batch">Amber Ale</span></p>
+        <p>Day: <span class="day">9</span></p>
+        <p>Status: <span class="status">Fermenting</span></p>
+      </div>
+
+      <div class="tank empty" onclick="editTank(this)">
+        <h3>FV-5</h3>
+        <p>Batch: <span class="batch">—</span></p>
+        <p>Day: <span class="day">—</span></p>
+        <p>Status: <span class="status">Empty</span></p>
+      </div>
+
+      <div class="tank fermenting" onclick="editTank(this)">
+        <h3>FV-6</h3>
+        <p>Batch: <span class="batch">Hazy IPA</span></p>
+        <p>Day: <span class="day">2</span></p>
+        <p>Status: <span class="status">Fermenting</span></p>
+      </div>
     </div>
+  </section>
 
-    <div class="tank fermenting">
-      <h3>FV-2</h3>
-      <p><span class="label">Batch:</span> Pilsner</p>
-      <p><span class="label">Day:</span> 3</p>
-      <p><span class="label">Status:</span> Fermenting</p>
+  <!-- BRITE TANKS -->
+  <section>
+    <h2>Brite Tanks</h2>
+
+    <div class="tank-grid">
+      <div class="tank conditioning" onclick="editTank(this)">
+        <h3>BT-1</h3>
+        <p>Batch: <span class="batch">Lager</span></p>
+        <p>Status: <span class="status">Conditioning</span></p>
+      </div>
+
+      <div class="tank empty" onclick="editTank(this)">
+        <h3>BT-2</h3>
+        <p>Batch: <span class="batch">—</span></p>
+        <p>Status: <span class="status">Empty</span></p>
+      </div>
     </div>
+  </section>
 
-    <div class="tank cip">
-      <h3>FV-3</h3>
-      <p><span class="label">Batch:</span> —</p>
-      <p><span class="label">Status:</span> CIP</p>
-    </div>
+  <!-- JAVASCRIPT -->
+  <script>
+    function editTank(tank) {
+      const batch = tank.querySelector(".batch");
+      const day = tank.querySelector(".day");
+      const status = tank.querySelector(".status");
 
-    <div class="tank fermenting">
-      <h3>FV-4</h3>
-      <p><span class="label">Batch:</span> Amber Ale</p>
-      <p><span class="label">Day:</span> 9</p>
-      <p><span class="label">Status:</span> Fermenting</p>
-    </div>
+      const newBatch = prompt("Batch name:", batch.textContent);
+      if (newBatch !== null) batch.textContent = newBatch || "—";
 
-    <div class="tank empty">
-      <h3>FV-5</h3>
-      <p><span class="label">Batch:</span> —</p>
-      <p><span class="label">Status:</span> Empty</p>
-    </div>
+      if (day) {
+        const newDay = prompt("Day:", day.textContent);
+        if (newDay !== null) day.textContent = newDay || "—";
+      }
 
-    <div class="tank fermenting">
-      <h3>FV-6</h3>
-      <p><span class="label">Batch:</span> Hazy IPA</p>
-      <p><span class="label">Day:</span> 2</p>
-      <p><span class="label">Status:</span> Fermenting</p>
-    </div>
+      const newStatus = prompt(
+        "Status (Fermenting, CIP, Conditioning, Empty):",
+        status.textContent
+      );
 
-  </div>
+      if (newStatus !== null) {
+        status.textContent = newStatus;
 
-  <!-- BRITE -->
-  <h2>Brite Tanks</h2>
-  <div class="tank-grid">
+        tank.classList.remove("fermenting", "cip", "conditioning", "empty");
 
-    <div class="tank conditioning">
-      <h3>BT-1</h3>
-      <p><span class="label">Batch:</span> Lager</p>
-      <p><span class="label">Status:</span> Conditioning</p>
-    </div>
-
-    <div class="tank empty">
-      <h3>BT-2</h3>
-      <p><span class="label">Batch:</span> —</p>
-      <p><span class="label">Status:</span> Empty</p>
-    </div>
-
-  </div>
-
-</main>
+        switch (newStatus.toLowerCase()) {
+          case "fermenting":
+            tank.classList.add("fermenting");
+            break;
+          case "cip":
+            tank.classList.add("cip");
+            break;
+          case "conditioning":
+            tank.classList.add("conditioning");
+            break;
+          default:
+            tank.classList.add("empty");
+        }
+      }
+    }
+  </script>
 
 </body>
 </html>
