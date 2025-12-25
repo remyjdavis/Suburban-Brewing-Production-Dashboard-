@@ -1,74 +1,142 @@
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --accent: #1a73e8;
+  --border: #e5e7eb;
+  --radius: 12px;
+}
+
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body {
   margin: 0;
-  background: #f4f6f8;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.page-header {
+/* Header */
+
+.app-header {
   background: #111;
   color: white;
-  padding: 20px;
+  padding: 20px 24px;
 }
 
-.brew-meta {
+.header-group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
 }
+
+label span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* Inputs */
+
+input,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Layout Grid */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 16px;
-  padding: 16px;
+  padding: 20px;
 }
 
+/* Cards */
+
 .card {
-  background: white;
-  border-radius: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
   padding: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-.card h2 {
-  margin-top: 0;
+.card h3 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
+/* Inline / Field Grids */
+
+.field-grid,
 .inline-fields {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
 }
+
+/* Tables */
 
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.9rem;
 }
 
 th {
   text-align: left;
-  font-size: 12px;
-  color: #555;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+td {
+  padding: 6px 0;
 }
 
 td input {
   width: 100%;
 }
 
-.footer {
-  text-align: center;
+/* Footer */
+
+.app-footer {
   padding: 20px;
+  text-align: center;
 }
 
+/* Primary Button */
+
+button.primary,
 .save {
-  padding: 14px 26px;
-  font-size: 16px;
-  background: #1a73e8;
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+button.primary:hover,
+.save:hover {
+  opacity: 0.92;
 }
