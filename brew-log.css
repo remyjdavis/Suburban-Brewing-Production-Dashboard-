@@ -1,142 +1,102 @@
-:root {
-  --bg: #f4f6f8;
-  --card: #ffffff;
-  --text: #1f2933;
-  --muted: #6b7280;
-  --accent: #1a73e8;
-  --border: #e5e7eb;
-  --radius: 12px;
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
+
+/* --------------------------------------------------
+   Initialization
+-------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", init);
+
+function init() {
+  hydrateFromURL();
+  loadRecipes();
 }
 
-* {
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+/* --------------------------------------------------
+   URL State
+-------------------------------------------------- */
+
+function hydrateFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const tank = params.get("tank");
+
+  if (tank) {
+    const tankField = document.getElementById("tank");
+    if (tankField) tankField.value = tank;
+  }
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
+/* --------------------------------------------------
+   Recipes
+-------------------------------------------------- */
+
+async function loadRecipes() {
+  try {
+    const res = await fetch(`${API_URL}?action=recipes`);
+    const recipes = await res.json();
+
+    const select = document.getElementById("recipe");
+    select.innerHTML = `<option value=""></option>`;
+
+    recipes.forEach(recipe => {
+      const option = document.createElement("option");
+      option.value = recipe.RecipeID;
+      option.textContent = recipe.Beer;
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+      if (select.value) loadRecipe(select.value);
+    });
+
+  } catch (err) {
+    console.error("Failed to load recipes:", err);
+  }
 }
 
-/* Header */
+async function loadRecipe(recipeId) {
+  try {
+    const res = await fetch(`${API_URL}?action=recipe&recipe=${recipeId}`);
+    const data = await res.json();
 
-.app-header {
-  background: #111;
-  color: white;
-  padding: 20px 24px;
+    applyValues(data.targets);
+    applyValues(data.water);
+
+    populateTable("grainTable", data.grain, ["Grain", "Target", "Milled"]);
+    populateTable("mashTable", data.mash, ["Step", "Temp", "Time", "pH"]);
+    populateTable("hopTable", data.hops, ["Hop", "Amount", "Time"]);
+
+  } catch (err) {
+    console.error("Failed to load recipe:", err);
+  }
 }
 
-.header-group {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
+/* --------------------------------------------------
+   DOM Helpers
+-------------------------------------------------- */
+
+function applyValues(map = {}) {
+  Object.entries(map).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el !== null) el.value = value ?? "";
+  });
 }
 
-label span {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
+function populateTable(tableId, rows = [], columns = []) {
+  const tbody = document.querySelector(`#${tableId} tbody`);
+  if (!tbody) return;
 
-/* Inputs */
+  tbody.innerHTML = "";
 
-input,
-select {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
-}
+  rows.forEach(row => {
+    const tr = document.createElement("tr");
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: var(--accent);
-}
+    columns.forEach(col => {
+      const td = document.createElement("td");
+      td.textContent = row[col] ?? "";
+      tr.appendChild(td);
+    });
 
-/* Layout Grid */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 16px;
-  padding: 20px;
-}
-
-/* Cards */
-
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-.card h3 {
-  margin: 0 0 12px 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-/* Inline / Field Grids */
-
-.field-grid,
-.inline-fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-}
-
-/* Tables */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-th {
-  text-align: left;
-  font-size: 0.75rem;
-  color: var(--muted);
-  font-weight: 500;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 6px;
-}
-
-td {
-  padding: 6px 0;
-}
-
-td input {
-  width: 100%;
-}
-
-/* Footer */
-
-.app-footer {
-  padding: 20px;
-  text-align: center;
-}
-
-/* Primary Button */
-
-button.primary,
-.save {
-  padding: 12px 26px;
-  font-size: 0.95rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-button.primary:hover,
-.save:hover {
-  opacity: 0.92;
+    tbody.appendChild(tr);
+  });
 }
