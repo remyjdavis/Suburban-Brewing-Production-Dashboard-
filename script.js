@@ -1,11 +1,10 @@
-const API_URL =
+const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
 
-function loadDashboard() {
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(json => renderTanks(Array.isArray(json) ? json : json.data))
-    .catch(err => console.error(err));
+function loadTanks() {
+  fetch(API)
+    .then(r => r.json())
+    .then(renderTanks);
 }
 
 function renderTanks(tanks) {
@@ -20,7 +19,6 @@ function renderTanks(tanks) {
 
     const card = document.createElement("div");
     card.className = `tank status-${status}`;
-
     card.innerHTML = `
       <h4>${t.TankID}</h4>
       <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
@@ -33,6 +31,6 @@ function renderTanks(tanks) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadDashboard();
-  setInterval(loadDashboard, 60000); // auto refresh every minute
+  loadTanks();
+  setInterval(loadTanks, 60000);
 });
