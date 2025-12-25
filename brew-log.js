@@ -2,6 +2,11 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 /*********************************************************
+ * STATE
+ *********************************************************/
+const grainMilledState = {}; // preserves milled input per grain name
+
+/*********************************************************
  * INITIAL LOAD
  *********************************************************/
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*********************************************************
- * TANK LIST (REQUIRED FOR AUTO-SELECT)
+ * TANK LIST
  *********************************************************/
 function populateTanks() {
   const tankSelect = document.getElementById("tank");
@@ -45,7 +50,7 @@ function applyTankFromURL() {
 }
 
 /*********************************************************
- * AUTO-SELECT TANK FROM CLICK (PRESERVED)
+ * AUTO-SELECT TANK FROM CLICK
  *********************************************************/
 document.addEventListener("click", (e) => {
   const tankValue = e.target?.dataset?.tank;
@@ -59,7 +64,7 @@ document.addEventListener("click", (e) => {
 });
 
 /*********************************************************
- * RECIPE SELECTION (GOOGLE SHEETS)
+ * RECIPE SELECTION
  *********************************************************/
 function loadRecipes() {
   fetch(`${API}?action=recipes`)
@@ -113,7 +118,7 @@ function loadRecipe(id) {
 }
 
 /*********************************************************
- * GRAIN BILL (PRESERVES MILLED INPUT)
+ * GRAIN BILL (TARGET + MILLED INPUT)
  *********************************************************/
 function populateGrainTable(grains) {
   const tbody = document.getElementById("grainTable");
@@ -122,18 +127,32 @@ function populateGrainTable(grains) {
   tbody.innerHTML = "";
 
   grains.forEach(g => {
+    const grainName = g.Grain ?? "";
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${g.Grain ?? ""}</td>
+      <td>${grainName}</td>
       <td>${g.Target ?? ""}</td>
-      <td><input></td>
+      <td>
+        <input
+          class="sm"
+          placeholder="Milled"
+          value="${grainMilledState[grainName] ?? ""}"
+        >
+      </td>
     `;
+
+    const input = tr.querySelector("input");
+    input.addEventListener("input", () => {
+      grainMilledState[grainName] = input.value;
+    });
+
     tbody.appendChild(tr);
   });
 }
 
 /*********************************************************
- * MASH SCHEDULE (FULL INPUT SUPPORT)
+ * MASH SCHEDULE
  *********************************************************/
 function populateMashTable(steps) {
   const tbody = document.getElementById("mashTable");
@@ -147,9 +166,9 @@ function populateMashTable(steps) {
       <td>${s.Step ?? ""}</td>
       <td>${s.Temp ?? ""}</td>
       <td>${s.Time ?? ""}</td>
-      <td>${s.pH ? `<input>` : "—"}</td>
-      <td><input type="time"></td>
-      <td><input type="time"></td>
+      <td>${s.pH ? `<input class="xs">` : "—"}</td>
+      <td><input class="md" type="time"></td>
+      <td><input class="md" type="time"></td>
     `;
     tbody.appendChild(tr);
   });
