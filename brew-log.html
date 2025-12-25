@@ -1,53 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Brew Log – Production</title>
-  <link rel="stylesheet" href="brew-log.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
 <header class="page-header">
-  <div class="header-grid">
-    <div>
-      <label>Date</label>
-      <input type="date" id="date">
-    </div>
-    <div>
-      <label>Tank</label>
-      <input id="tank" readonly>
-    </div>
-    <div>
-      <label>Recipe</label>
-      <select id="recipe"></select>
-    </div>
-    <div>
-      <label>Brewer</label>
-      <input id="brewer" placeholder="Name">
-    </div>
+  <div class="brew-meta">
+    <input type="date" id="date" />
+    <input id="tank" placeholder="Tank" />
+    <select id="recipe"></select>
+    <input placeholder="Brewer" />
   </div>
 </header>
 
 <main class="grid">
 
   <!-- Recipe Targets -->
-  <section class="card">
-    <h3>Recipe Targets</h3>
-    <div class="two-col">
-      <div><label>Efficiency %</label><input id="efficiency"></div>
-      <div><label>Target OG</label><input id="targetOG" readonly></div>
-      <div><label>Target FG</label><input id="targetFG" readonly></div>
-      <div><label>Volume</label><input id="targetVolume" readonly></div>
-      <div><label>IBU</label><input id="ibu" readonly></div>
-      <div><label>SRM</label><input id="srm" readonly></div>
+  <div class="card">
+    <h2>Recipe Targets</h2>
+    <div class="inline-fields">
+      <input placeholder="Efficiency %" id="efficiency">
+      <input placeholder="Target OG" id="og">
+      <input placeholder="Target FG" id="fg">
+      <input placeholder="Volume" id="volume">
+      <input placeholder="IBU" id="ibu">
+      <input placeholder="SRM" id="srm">
     </div>
-  </section>
+  </div>
 
   <!-- Grain Bill -->
-  <section class="card">
-    <h3>Grain Bill</h3>
-    <table id="grainTable">
+  <div class="card">
+    <h2>Grain Bill</h2>
+    <table>
       <thead>
         <tr>
           <th>Grain</th>
@@ -55,44 +43,47 @@
           <th>Milled</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="grainTable"></tbody>
     </table>
-  </section>
+  </div>
 
   <!-- Water -->
-  <section class="card">
-    <h3>Water Profile (ppm)</h3>
-    <div class="two-col">
-      <div><label>Ca</label><input id="Ca"></div>
-      <div><label>Mg</label><input id="Mg"></div>
-      <div><label>Na</label><input id="Na"></div>
-      <div><label>SO₄</label><input id="SO4"></div>
-      <div><label>Cl</label><input id="Cl"></div>
-      <div><label>HCO₃</label><input id="HCO3"></div>
+  <div class="card">
+    <h2>Water Profile (ppm)</h2>
+    <div class="inline-fields">
+      <input id="Ca" placeholder="Ca">
+      <input id="Mg" placeholder="Mg">
+      <input id="Na" placeholder="Na">
+      <input id="SO4" placeholder="SO₄">
+      <input id="Cl" placeholder="Cl">
+      <input id="HCO3" placeholder="HCO₃">
     </div>
-  </section>
+  </div>
 
-  <!-- Mash Tun -->
-  <section class="card">
-    <h3>Mash Schedule</h3>
-    <table id="mashTable">
+  <!-- Mash -->
+  <div class="card">
+    <h2>Mash Schedule</h2>
+    <table>
       <thead>
         <tr>
           <th>Step</th>
           <th>Temp</th>
           <th>Time</th>
+          <th>pH</th>
           <th>Start</th>
           <th>End</th>
-          <th>pH</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="mashTable"></tbody>
     </table>
-  </section>
+  </div>
 
-  <!-- Lauter Tun (FULL WIDTH) -->
-  <section class="card span-full">
-    <h3>Lauter</h3>
+</main>
+
+<!-- FULL WIDTH LAUTER -->
+<section class="full-width-wrapper">
+  <div class="card">
+    <h2>Lauter Tun</h2>
 
     <div class="lauter-grid">
       <div class="lauter-row">
@@ -128,39 +119,36 @@
         <input placeholder="Volume">
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<main class="grid">
 
   <!-- Boil -->
-  <section class="card">
-    <h3>Boil</h3>
-    <div class="two-col">
-      <div>
-        <label>Start</label>
-        <input type="time" id="boilStart">
-      </div>
-      <div>
-        <label>End</label>
-        <input type="time" id="boilEnd">
-      </div>
+  <div class="card">
+    <h2>Boil</h2>
+    <div class="inline-fields">
+      <input type="time" id="boilStart">
+      <input type="time" id="boilEnd">
     </div>
-  </section>
+  </div>
 
   <!-- Knockout -->
-  <section class="card">
-    <h3>Knockout</h3>
-    <div class="two-col">
-      <div><label>Volume</label><input id="koVolume"></div>
-      <div><label>Gravity</label><input id="koGravity"></div>
-      <div><label>pH</label><input id="koPH"></div>
+  <div class="card">
+    <h2>Knockout</h2>
+    <div class="inline-fields">
+      <input placeholder="Volume">
+      <input placeholder="Gravity">
+      <input placeholder="pH">
     </div>
-  </section>
+  </div>
 
 </main>
 
 <footer class="footer">
-  <button>Save Brew Log</button>
+  <button class="save">Save Brew Log</button>
 </footer>
 
-<script src="brew-log.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
