@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /*********************************************************
- * TANK LIST (MUST EXIST FOR AUTO-SELECT TO WORK)
+ * TANK LIST (REQUIRED FOR AUTO-SELECT)
  *********************************************************/
 function populateTanks() {
   const tankSelect = document.getElementById("tank");
@@ -59,7 +59,7 @@ document.addEventListener("click", (e) => {
 });
 
 /*********************************************************
- * RECIPE SELECTION (GOOGLE SHEETS – RESTORED)
+ * RECIPE SELECTION (GOOGLE SHEETS)
  *********************************************************/
 function loadRecipes() {
   fetch(`${API}?action=recipes`)
@@ -80,9 +80,13 @@ function loadRecipes() {
       select.onchange = () => {
         if (select.value) loadRecipe(select.value);
       };
-    });
+    })
+    .catch(err => console.error("Recipe load error:", err));
 }
 
+/*********************************************************
+ * LOAD RECIPE DETAILS
+ *********************************************************/
 function loadRecipe(id) {
   fetch(`${API}?action=recipe&recipe=${id}`)
     .then(r => r.json())
@@ -93,32 +97,60 @@ function loadRecipe(id) {
         if (el) el.value = v;
       });
 
-      // Grain bill
-      fillTable("grainTable", d.grain, ["Grain", "Target"]);
+      // Grain Bill
+      populateGrainTable(d.grain || []);
 
-      // Mash schedule
-      fillTable("mashTable", d.mash, ["Step", "Temp", "Time", "pH"]);
+      // Mash Schedule
+      populateMashTable(d.mash || []);
 
-      // Water profile
+      // Water Profile
       Object.entries(d.water || {}).forEach(([k, v]) => {
         const el = document.getElementById(k);
         if (el) el.value = v;
       });
-    });
+    })
+    .catch(err => console.error("Recipe detail error:", err));
 }
 
 /*********************************************************
- * GENERIC TABLE FILLER
+ * GRAIN BILL (PRESERVES MILLED INPUT)
  *********************************************************/
-function fillTable(id, rows = [], cols = []) {
-  const tbody = document.getElementById(id);
+function populateGrainTable(grains) {
+  const tbody = document.getElementById("grainTable");
   if (!tbody) return;
 
   tbody.innerHTML = "";
 
-  rows.forEach(r => {
+  grains.forEach(g => {
     const tr = document.createElement("tr");
-    tr.innerHTML = cols.map(c => `<td>${r[c] ?? ""}</td>`).join("");
+    tr.innerHTML = `
+      <td>${g.Grain ?? ""}</td>
+      <td>${g.Target ?? ""}</td>
+      <td><input></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/*********************************************************
+ * MASH SCHEDULE (FULL INPUT SUPPORT)
+ *********************************************************/
+function populateMashTable(steps) {
+  const tbody = document.getElementById("mashTable");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  steps.forEach(s => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${s.Step ?? ""}</td>
+      <td>${s.Temp ?? ""}</td>
+      <td>${s.Time ?? ""}</td>
+      <td>${s.pH ? `<input>` : "—"}</td>
+      <td><input type="time"></td>
+      <td><input type="time"></td>
+    `;
     tbody.appendChild(tr);
   });
 }
