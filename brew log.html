@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Brew Day Log</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+  <h1>Brew Day Log</h1>
+  <p>Select an EMPTY tank to begin a brew</p>
+</header>
+
+<section>
+  <div id="empty-tanks" class="tank-grid"></div>
+</section>
+
+<section id="brewday-section" class="hidden">
+  <h3 id="brewday-title"></h3>
+
+  <form id="brewday-form">
+
+    <label>Batch ID</label>
+    <input id="batch-id" required>
+
+    <label>Beer</label>
+    <input id="beer-name" required>
+
+    <label>Date</label>
+    <input type="date" id="brewday-date" required>
+
+    <label>Brewer</label>
+    <input id="brewer">
+
+    <label>Grain Bill</label>
+    <table id="grain-table">
+      <tr><th>Grain</th><th>Weight</th></tr>
+      <tr><td><input></td><td><input></td></tr>
+    </table>
+    <button type="button" id="add-grain">+ Add Grain</button>
+
+    <label>Water Profile</label>
+    <textarea id="water"></textarea>
+
+    <label>Mash Schedule</label>
+    <textarea id="mash"></textarea>
+
+    <label>Lauter</label>
+    <textarea id="lauter"></textarea>
+
+    <label>Boil</label>
+    <textarea id="boil"></textarea>
+
+    <label>Knockout (KO)</label>
+    <textarea id="ko"></textarea>
+
+    <button type="submit">Start Brew</button>
+  </form>
+</section>
+
+<script src="brewlog.js"></script>
+</body>
+</html>
