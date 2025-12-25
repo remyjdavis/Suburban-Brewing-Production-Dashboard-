@@ -1,44 +1,80 @@
-// Auto-select tank based on click source (PRESERVED)
+/*********************************************************
+ * AUTO-SELECT TANK BASED ON CLICK SOURCE (DO NOT REMOVE)
+ *********************************************************/
 document.addEventListener("click", (e) => {
-  if (e.target.dataset.tank) {
-    document.getElementById("tank").value = e.target.dataset.tank;
+  if (e.target.dataset && e.target.dataset.tank) {
+    const tankInput = document.getElementById("tank");
+    if (tankInput) {
+      tankInput.value = e.target.dataset.tank;
+    }
   }
 });
 
-// Populate Mash Schedule
-const mashSteps = [
-  { step: "Mash In", temp: "62C", time: "", ph: true },
-  { step: "First Rest", temp: "62C", time: "60", ph: false },
-  { step: "Mash Out", temp: "77C", time: "1", ph: true }
-];
-
-const mashTable = document.getElementById("mashTable");
-
-mashSteps.forEach(step => {
-  const tr = document.createElement("tr");
-
-  tr.innerHTML = `
-    <td>${step.step}</td>
-    <td>${step.temp}</td>
-    <td>${step.time}</td>
-    <td>${step.ph ? `<input>` : "—"}</td>
-    <td><input type="time"></td>
-    <td><input type="time"></td>
-  `;
-
-  mashTable.appendChild(tr);
-});
-
-// Grain bill placeholder
+/*********************************************************
+ * GRAIN BILL – POPULATE GRAINS
+ *********************************************************/
 const grains = ["Pilsner", "Munich"];
 const grainTable = document.getElementById("grainTable");
 
-grains.forEach(g => {
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${g}</td>
-    <td>—</td>
-    <td><input></td>
-  `;
-  grainTable.appendChild(tr);
-});
+if (grainTable) {
+  grainTable.innerHTML = "";
+
+  grains.forEach(grain => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${grain}</td>
+      <td>—</td>
+      <td><input type="number"></td>
+    `;
+    grainTable.appendChild(tr);
+  });
+}
+
+/*********************************************************
+ * MASH SCHEDULE
+ *********************************************************
+ * Mash Schedule is intentionally STATIC HTML.
+ * Do NOT generate rows here.
+ * This preserves:
+ * - pH inputs
+ * - Start / End time inputs
+ * - Spacing & layout
+ *********************************************************/
+
+/*********************************************************
+ * WATER PROFILE
+ *********************************************************
+ * Static inputs controlled by HTML + CSS grid.
+ * JS intentionally does nothing here.
+ *********************************************************/
+
+/*********************************************************
+ * LAUTER TUN
+ *********************************************************
+ * Static layout to maintain column alignment.
+ * JS intentionally does nothing here.
+ *********************************************************/
+
+/*********************************************************
+ * BOIL
+ *********************************************************
+ * Start / End inputs handled in HTML.
+ *********************************************************/
+
+/*********************************************************
+ * KNOCKOUT
+ *********************************************************
+ * Volume / Gravity / pH handled in HTML.
+ *********************************************************/
+
+/*********************************************************
+ * YEAST (TO BE ADDED LATER)
+ *********************************************************
+ * Placeholder for future yeast logic.
+ *********************************************************/
+
+/*********************************************************
+ * SAVE BUTTON (FUTURE)
+ *********************************************************
+ * Data collection & persistence comes later.
+ *********************************************************/
