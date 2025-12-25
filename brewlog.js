@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 let selectedTank = "";
 
 document.addEventListener("DOMContentLoaded", () => {
