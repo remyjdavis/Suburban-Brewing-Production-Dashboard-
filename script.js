@@ -6,27 +6,23 @@ document.addEventListener("DOMContentLoaded", loadDashboard);
 function loadDashboard() {
   fetch(`${API}?action=tanks`)
     .then(res => res.json())
-    .then(renderDashboard)
-    .catch(err => {
-      console.error("API ERROR", err);
-      alert("Failed to load tanks");
-    });
+    .then(data => {
+      console.log("TANK DATA", data); // debug-safe
+      renderDashboard(data);
+    })
+    .catch(err => console.error("API ERROR", err));
 }
 
 function renderDashboard(tanks) {
   const ferm = document.getElementById("fermentation");
   const brite = document.getElementById("brite");
-  const timeline = document.getElementById("timeline");
 
   ferm.innerHTML = "";
   brite.innerHTML = "";
-  if (timeline) timeline.innerHTML = "";
 
   tanks.forEach(t => {
-    const status = (t.Status || "Empty")
-      .toString()
-      .trim()
-      .toLowerCase();
+    const type = (t.Type || "").toString().toLowerCase();
+    const status = (t.Status || "Empty").toString().toLowerCase();
 
     const card = document.createElement("div");
     card.className = `tank status-${status}`;
@@ -34,21 +30,14 @@ function renderDashboard(tanks) {
     card.innerHTML = `
       <h4>${t.TankID}</h4>
       <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
+      <div><strong>Day:</strong> ${t.Day || "—"}</div>
       <div><strong>Status:</strong> ${t.Status || "Empty"}</div>
     `;
 
-    if (t.Type === "Fermenter") ferm.appendChild(card);
-    if (t.Type === "Brite") brite.appendChild(card);
-
-    if (timeline && t.Batch) {
-      const tl = document.createElement("div");
-      tl.className = "tank";
-      tl.innerHTML = `
-        <strong>${t.Batch}</strong><br>
-        Tank: ${t.TankID}<br>
-        Status: ${t.Status}
-      `;
-      timeline.appendChild(tl);
+    if (type === "fermenter") {
+      ferm.appendChild(card);
+    } else if (type === "brite") {
+      brite.appendChild(card);
     }
   });
 }
