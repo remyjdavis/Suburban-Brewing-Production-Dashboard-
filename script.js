@@ -1,4 +1,4 @@
-const API = "YOUR_DEPLOYED_SCRIPT_URL";
+const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("fermentation")) loadTanks();
