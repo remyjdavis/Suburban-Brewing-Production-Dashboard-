@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Brew Log</title>
+  <title>Brew Day Log</title>
   <link rel="stylesheet" href="brew-log.css">
 </head>
 
@@ -14,17 +14,45 @@
 
 <section class="grid">
 
-  <div class="card wide" id="meta"></div>
-  <div class="card" id="targets"></div>
-  <div class="card" id="grain"></div>
-  <div class="card" id="water"></div>
-  <div class="card" id="mash"></div>
-  <div class="card" id="hops"></div>
-  <div class="card" id="lauter"></div>
-  <div class="card" id="boil"></div>
-  <div class="card" id="ko"></div>
-  <div class="card" id="qa"></div>
-  <div class="card wide" id="signoff"></div>
+  <div class="card wide">
+    <h2>Brew Meta</h2>
+    <input id="beer" placeholder="Beer">
+    <input id="brewer" placeholder="Brewer">
+    <input id="date" type="date">
+    <input id="tank" disabled>
+  </div>
+
+  <div class="card">
+    <h2>Mash</h2>
+    <input id="mashPh" placeholder="Mash pH">
+    <textarea id="mashNotes" placeholder="Mash notes"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Lauter</h2>
+    <input id="firstRun" placeholder="First Runnings Gravity">
+    <input id="finalRun" placeholder="Final Runnings Gravity">
+    <textarea id="lauterNotes"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Boil</h2>
+    <input id="preBoil" placeholder="Pre-Boil Gravity">
+    <input id="postBoil" placeholder="Post-Boil Gravity">
+    <textarea id="boilNotes"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Knockout</h2>
+    <input id="koTemp" placeholder="KO Temp">
+    <input id="koPh" placeholder="KO pH">
+    <textarea id="koNotes"></textarea>
+  </div>
+
+  <div class="card wide">
+    <h2>Sign Off</h2>
+    <input id="checkedBy" placeholder="Checked By">
+  </div>
 
 </section>
 
