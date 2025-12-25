@@ -38,3 +38,83 @@ header {
 .tank h4 {
   margin: 0 0 8px;
 }
+
+/* ===== Timeline ===== */
+
+.timeline-row {
+  background: white;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  border: 2px solid #ccc;
+}
+
+.timeline-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.timeline-track {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.timeline-step {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #e9ecef;
+  font-size: 0.85em;
+  border: 1px solid #ced4da;
+}
+
+.timeline-step.active {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+/* ===== Modal ===== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #ccc;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.close {
+  float: right;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+/* ===== Brew Log ===== */
+
+.log-entry {
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px 0;
+  font-size: 0.9em;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
