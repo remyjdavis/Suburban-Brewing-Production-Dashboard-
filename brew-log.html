@@ -9,32 +9,30 @@
 <body>
 
 <header class="page-header">
-  <div class="brew-meta">
-    <input type="date" id="date" />
-    <select id="tank"></select>
-    <select id="recipe"></select>
-    <input placeholder="Brewer" />
-  </div>
+  <input type="date">
+  <input id="tank" placeholder="FV">
+  <select id="recipe"></select>
+  <input placeholder="Brewer">
 </header>
 
-<!-- ROW 1 -->
-<main class="grid grid-4">
+<!-- FIRST ROW -->
+<section class="grid four">
 
-  <div class="card">
+  <div class="card small">
     <h3>Recipe Targets</h3>
-    <div class="inline-3">
-      <input id="efficiency" placeholder="Eff %" />
-      <input id="targetOG" placeholder="OG" />
-      <input id="targetFG" placeholder="FG" />
-      <input id="targetVolume" placeholder="Vol" />
-      <input id="ibu" placeholder="IBU" />
-      <input id="srm" placeholder="SRM" />
+    <div class="inline">
+      <input placeholder="Eff %">
+      <input placeholder="OG">
+      <input placeholder="FG">
+      <input placeholder="Vol">
+      <input placeholder="IBU">
+      <input placeholder="SRM">
     </div>
   </div>
 
-  <div class="card">
+  <div class="card small">
     <h3>Grain Bill</h3>
-    <table>
+    <table class="tight">
       <thead>
         <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
       </thead>
@@ -42,75 +40,95 @@
     </table>
   </div>
 
-  <div class="card water-card">
+  <div class="card small water-card">
     <h3>Water Profile (ppm)</h3>
     <div class="water-grid">
-      <label>Ca <input id="Ca"></label>
-      <label>Mg <input id="Mg"></label>
-      <label>Na <input id="Na"></label>
-      <label>SO₄ <input id="SO4"></label>
-      <label>Cl <input id="Cl"></label>
-      <label>HCO₃ <input id="HCO3"></label>
+      <label><span>Ca</span><input></label>
+      <label><span>Mg</span><input></label>
+      <label><span>Na</span><input></label>
+      <label><span>SO₄</span><input></label>
+      <label><span>Cl</span><input></label>
+      <label><span>HCO₃</span><input></label>
     </div>
   </div>
 
-  <div class="card">
+  <div class="card small">
     <h3>Mash Schedule</h3>
     <table class="tight">
       <thead>
         <tr>
-          <th>Step</th><th>Temp</th><th>Time</th><th>pH</th><th>Start</th><th>End</th>
+          <th>Step</th>
+          <th>Temp</th>
+          <th>Min</th>
+          <th>pH</th>
+          <th>Start</th>
+          <th>End</th>
         </tr>
       </thead>
       <tbody id="mashTable"></tbody>
     </table>
   </div>
 
-</main>
-
-<!-- ROW 2 -->
-<section class="full-width">
-  <div class="card">
-    <h3>Lauter Tun</h3>
-    <div class="lauter-grid">
-      <div class="lauter-row header">
-        <span></span><span>Start</span><span>End</span><span>Vol</span><span>Deep Cuts</span><span>Gravity</span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>First Runnings</strong>
-        <input type="time"><input type="time">
-        <input><input><input>
-      </div>
-
-      <div class="lauter-row">
-        <strong>First Sparge</strong>
-        <input type="time"><input type="time">
-        <input><input><span></span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>Second Sparge</strong>
-        <input type="time"><input type="time">
-        <input><input><span></span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>Final Runnings</strong>
-        <input type="time"><input type="time">
-        <input><span></span><input>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- ROW 3 -->
-<main class="grid grid-3">
+<!-- LAUTER -->
+<section class="card">
+  <h3>Lauter Tun</h3>
+  <table class="tight">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Vol</th>
+        <th>Deep Cuts</th>
+        <th>Gravity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>First Runnings</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+      </tr>
+      <tr>
+        <td><strong>First Sparge</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Second Sparge</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Final Runnings</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td></td>
+        <td><input></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- THIRD ROW -->
+<section class="grid three">
 
   <div class="card">
     <h3>Boil</h3>
-    <input type="time" id="boilStart">
-    <input type="time" id="boilEnd">
+    <input type="time">
+    <input type="time">
   </div>
 
   <div class="card">
@@ -128,10 +146,10 @@
     <input placeholder="Generation">
   </div>
 
-</main>
+</section>
 
-<footer class="footer">
-  <button class="save">Save Brew Log</button>
+<footer>
+  <button>Save Brew Log</button>
 </footer>
 
 <script src="brew-log.js"></script>
