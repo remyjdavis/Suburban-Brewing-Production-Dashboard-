@@ -1,70 +1,38 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var API_URL =
-    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
+document.addEventListener("DOMContentLoaded", () => {
+  const API =
+    "YOUR_SCRIPT_URL?action=tanks";
 
-  fetch(API_URL)
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      renderTanks(data);
-    })
-    .catch(function (err) {
-      console.error("FETCH ERROR:", err);
-      alert("Failed to load tank data");
-    });
+  fetch(API)
+    .then(r => r.json())
+    .then(render);
 });
 
-function renderTanks(tanks) {
-  var ferm = document.getElementById("fermentation");
-  var brite = document.getElementById("brite");
+function render(tanks) {
+  const ferm = document.getElementById("fermentation");
+  const brite = document.getElementById("brite");
 
   ferm.innerHTML = "";
   brite.innerHTML = "";
 
-  tanks.forEach(function (t) {
-    var rawStatus = (t.Status || "Empty").toString();
-    var status = rawStatus.trim().toLowerCase();
+  tanks.forEach(t => {
+    const status = (t.Status || "empty").toLowerCase();
 
-    var card = document.createElement("div");
-    card.className = "tank status-" + status;
+    const card = document.createElement("div");
+    card.className = `tank status-${status}`;
+    card.innerHTML = `
+      <h4>${t.TankID}</h4>
+      <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
+      <div><strong>Status:</strong> ${t.Status || "—"}</div>
+    `;
 
-    card.innerHTML =
-      "<h4>" +
-      t.TankID +
-      "</h4>" +
-      "<div><strong>Status:</strong> " +
-      rawStatus +
-      "</div>" +
-      "<div><strong>Batch:</strong> " +
-      (t.Batch || "—") +
-      "</div>" +
-      "<div><strong>Day:</strong> " +
-      (t.Day || "—") +
-      "</div>";
-
-    card.addEventListener("click", function () {
-      if (status === "empty") {
+    if (status === "empty") {
+      card.addEventListener("click", () => {
         window.location.href =
-          "brew-log.html?tank=" + encodeURIComponent(t.TankID);
-      } else {
-        alert(
-          "Tank: " +
-            t.TankID +
-            "\nStatus: " +
-            rawStatus +
-            "\nBatch: " +
-            (t.Batch || "—")
-        );
-      }
-    });
-
-    if (t.Type === "Fermenter") {
-      ferm.appendChild(card);
+          `brew-log.html?tank=${encodeURIComponent(t.TankID)}`;
+      });
     }
 
-    if (t.Type === "Brite") {
-      brite.appendChild(card);
-    }
+    if (t.Type === "Fermenter") ferm.appendChild(card);
+    if (t.Type === "Brite") brite.appendChild(card);
   });
 }
