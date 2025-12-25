@@ -11,7 +11,7 @@
 <header class="page-header">
   <div class="brew-meta">
     <input type="date" id="date" />
-    <input id="tank" readonly />
+    <input id="tank" placeholder="Tank" />
     <select id="recipe"></select>
     <input id="brewer" placeholder="Brewer" />
   </div>
@@ -19,18 +19,20 @@
 
 <main class="grid">
 
+  <!-- Recipe Targets -->
   <div class="card">
     <h2>Recipe Targets</h2>
     <div class="inline-fields">
-      <input id="efficiency" placeholder="Efficiency %">
-      <input id="og" placeholder="Target OG">
-      <input id="fg" placeholder="Target FG">
-      <input id="volume" placeholder="Volume">
-      <input id="ibu" placeholder="IBU">
-      <input id="srm" placeholder="SRM">
+      <input placeholder="Efficiency %" id="efficiency">
+      <input placeholder="Target OG" id="og">
+      <input placeholder="Target FG" id="fg">
+      <input placeholder="Volume" id="volume">
+      <input placeholder="IBU" id="ibu">
+      <input placeholder="SRM" id="srm">
     </div>
   </div>
 
+  <!-- Grain Bill -->
   <div class="card">
     <h2>Grain Bill</h2>
     <table>
@@ -45,20 +47,20 @@
     </table>
   </div>
 
-  <!-- WATER -->
+  <!-- Water Profile -->
   <div class="card">
     <h2>Water Profile (ppm)</h2>
     <div class="water-grid">
-      <label>Ca</label><input id="Ca">
-      <label>Mg</label><input id="Mg">
-      <label>Na</label><input id="Na">
-      <label>SO₄</label><input id="SO4">
-      <label>Cl</label><input id="Cl">
-      <label>HCO₃</label><input id="HCO3">
+      <label>Ca <input id="Ca" type="number"></label>
+      <label>Mg <input id="Mg" type="number"></label>
+      <label>Na <input id="Na" type="number"></label>
+      <label>SO₄ <input id="SO4" type="number"></label>
+      <label>Cl <input id="Cl" type="number"></label>
+      <label>HCO₃ <input id="HCO3" type="number"></label>
     </div>
   </div>
 
-  <!-- MASH -->
+  <!-- Mash Schedule -->
   <div class="card">
     <h2>Mash Schedule</h2>
     <table class="mash-table">
@@ -78,57 +80,62 @@
 
 </main>
 
+<!-- FULL WIDTH LAUTER -->
 <section class="full-width-wrapper">
   <div class="card">
     <h2>Lauter Tun</h2>
 
-    <div class="lauter-grid">
-      <div class="lauter-row header">
-        <span></span><span>Start</span><span>End</span>
-        <span>Volume</span><span>Deep Cuts</span><span>Gravity</span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>First Runnings</strong>
-        <input type="time">
-        <input type="time">
-        <input>
-        <input>
-        <input>
-      </div>
-
-      <div class="lauter-row">
-        <strong>First Sparge</strong>
-        <input type="time">
-        <input type="time">
-        <input>
-        <input>
-        <span></span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>Second Sparge</strong>
-        <input type="time">
-        <input type="time">
-        <input>
-        <input>
-        <span></span>
-      </div>
-
-      <div class="lauter-row">
-        <strong>Final Runnings</strong>
-        <input type="time">
-        <input type="time">
-        <input>
-        <span></span>
-        <input>
-      </div>
+    <div class="lauter-grid header">
+      <span></span>
+      <span>Start</span>
+      <span>End</span>
+      <span>Volume</span>
+      <span>Deep Cuts</span>
+      <span>Gravity</span>
     </div>
+
+    <div class="lauter-grid">
+      <strong>First Runnings</strong>
+      <input type="time">
+      <input type="time">
+      <input>
+      <input>
+      <input>
+    </div>
+
+    <div class="lauter-grid">
+      <strong>First Sparge</strong>
+      <input type="time">
+      <input type="time">
+      <input>
+      <input>
+      <span></span>
+    </div>
+
+    <div class="lauter-grid">
+      <strong>Second Sparge</strong>
+      <input type="time">
+      <input type="time">
+      <input>
+      <input>
+      <span></span>
+    </div>
+
+    <div class="lauter-grid">
+      <strong>Final Runnings</strong>
+      <input type="time">
+      <input type="time">
+      <input>
+      <span></span>
+      <input>
+    </div>
+
   </div>
 </section>
 
 <main class="grid">
 
+  <!-- Boil -->
   <div class="card">
     <h2>Boil</h2>
     <div class="inline-fields">
@@ -137,6 +144,7 @@
     </div>
   </div>
 
+  <!-- Knockout -->
   <div class="card">
     <h2>Knockout</h2>
     <div class="inline-fields">
