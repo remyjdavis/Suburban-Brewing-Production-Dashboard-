@@ -10,30 +10,16 @@
 
 <header class="app-header">
   <div class="header-group">
-    <label>
-      <span>Date</span>
-      <input id="date" type="date" />
-    </label>
-
-    <label>
-      <span>Tank</span>
-      <input id="tank" readonly />
-    </label>
-
-    <label>
-      <span>Recipe</span>
-      <select id="recipe"></select>
-    </label>
-
-    <label>
-      <span>Brewer</span>
-      <input id="brewer" placeholder="Name" />
-    </label>
+    <label><span>Date</span><input id="date" type="date" /></label>
+    <label><span>Tank</span><input id="tank" readonly /></label>
+    <label><span>Recipe</span><select id="recipe"></select></label>
+    <label><span>Brewer</span><input id="brewer" placeholder="Name" /></label>
   </div>
 </header>
 
 <main class="grid">
 
+  <!-- Recipe Targets -->
   <section class="card">
     <h3>Recipe Targets</h3>
     <div class="field-grid">
@@ -46,6 +32,7 @@
     </div>
   </section>
 
+  <!-- Grain Bill -->
   <section class="card">
     <h3>Grain Bill</h3>
     <table id="grainTable">
@@ -56,6 +43,7 @@
     </table>
   </section>
 
+  <!-- Water -->
   <section class="card">
     <h3>Water Profile (ppm)</h3>
     <div class="field-grid">
@@ -68,6 +56,7 @@
     </div>
   </section>
 
+  <!-- Mash -->
   <section class="card">
     <h3>Mash Schedule</h3>
     <table id="mashTable">
@@ -78,8 +67,52 @@
     </table>
   </section>
 
+  <!-- Lauter -->
+  <section class="card">
+    <h3>Lauter</h3>
+
+    <h4>First Runnings</h4>
+    <div class="field-grid lauter">
+      <label><span>Start</span><input type="time" /></label>
+      <label><span>End</span><input type="time" /></label>
+      <label><span>Gravity</span><input /></label>
+      <label><span>Volume</span><input /></label>
+      <label><span>Deep Cuts</span><input /></label>
+    </div>
+
+    <h4>First Sparge</h4>
+    <div class="field-grid lauter">
+      <label><span>Start</span><input type="time" /></label>
+      <label><span>End</span><input type="time" /></label>
+      <label><span>Volume</span><input /></label>
+      <label><span>Deep Cuts</span><input /></label>
+    </div>
+
+    <h4>Second Sparge</h4>
+    <div class="field-grid lauter">
+      <label><span>Start</span><input type="time" /></label>
+      <label><span>End</span><input type="time" /></label>
+      <label><span>Volume</span><input /></label>
+      <label><span>Deep Cuts</span><input /></label>
+    </div>
+
+    <h4>Final Runnings</h4>
+    <div class="field-grid lauter">
+      <label><span>Start</span><input type="time" /></label>
+      <label><span>End</span><input type="time" /></label>
+      <label><span>Gravity</span><input /></label>
+      <label><span>Volume</span><input /></label>
+    </div>
+  </section>
+
+  <!-- Boil -->
   <section class="card">
     <h3>Boil</h3>
+    <div class="field-grid">
+      <label><span>Start</span><input type="time" /></label>
+      <label><span>End</span><input type="time" /></label>
+    </div>
+
     <table id="hopTable">
       <thead>
         <tr><th>Hop</th><th>Amount</th><th>Time</th></tr>
@@ -88,6 +121,7 @@
     </table>
   </section>
 
+  <!-- Knockout -->
   <section class="card">
     <h3>Knockout</h3>
     <div class="field-grid">
