@@ -1,22 +1,20 @@
-/* ================== BASE ================== */
+* {
+  box-sizing: border-box;
+}
+
+/* BASE */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: #f8fafc;
-  color: #111827;
+  background-color: #f1f5f9;
+  color: #0f172a;
 }
 
-.container {
-  max-width: 1200px;
-  padding: 24px;
-  margin: auto;
-}
-
-/* ================== HEADER ================== */
+/* HEADER */
 .page-header {
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 20px 24px;
+  background: #ffffff;
+  padding: 20px 28px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .page-header h1 {
@@ -26,115 +24,118 @@ body {
 
 .page-header p {
   margin: 4px 0 0;
-  color: #6b7280;
+  color: #64748b;
 }
 
-/* ================== SECTIONS ================== */
+/* LAYOUT */
+.container {
+  max-width: 1280px;
+  margin: auto;
+  padding: 28px;
+}
+
 section {
-  margin-top: 32px;
+  margin-top: 36px;
 }
 
 h2 {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   font-size: 18px;
 }
 
-/* ================== GRID ================== */
+/* GRID */
 .tank-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
 }
 
-/* ================== CARD (BUBBLE STYLE) ================== */
+/* CARD */
 .tank {
   background: white;
-  border-radius: 18px;
-  padding: 18px;
+  border-radius: 20px;
+  padding: 20px;
   border: none;
+  cursor: pointer; /* 👈 CLICK AFFORDANCE */
   box-shadow:
-    0 4px 12px rgba(0,0,0,0.06),
-    0 1px 2px rgba(0,0,0,0.04);
+    0 6px 18px rgba(0,0,0,0.08),
+    0 2px 6px rgba(0,0,0,0.05);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tank:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.10),
-    0 4px 10px rgba(0,0,0,0.06);
+    0 14px 36px rgba(0,0,0,0.12),
+    0 6px 14px rgba(0,0,0,0.08);
 }
 
-/* ================== SOFT STATUS BACKGROUNDS ================== */
+/* STATUS TINTS */
 .status-fermenting {
-  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 65%);
+  background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 70%);
 }
 
 .status-conditioning {
-  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 65%);
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 70%);
 }
 
 .status-cip {
-  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 65%);
+  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 70%);
 }
 
 .status-empty {
-  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 65%);
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 70%);
 }
 
-/* ================== HEADER ROW ================== */
+/* HEADER ROW */
 .tank-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .tank-id {
+  font-size: 16px;
   font-weight: 600;
-  font-size: 15px;
 }
 
-/* ================== STATUS BADGE ================== */
+/* BADGE */
 .tank-badge {
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
   background: #e5e7eb;
-  color: #374151;
 }
 
 .status-fermenting .tank-badge {
-  background: #dcfce7;
-  color: #166534;
+  background: #bbf7d0;
+  color: #14532d;
 }
 
 .status-conditioning .tank-badge {
-  background: #fef3c7;
+  background: #fde68a;
   color: #92400e;
 }
 
 .status-cip .tank-badge {
-  background: #e0f2fe;
+  background: #bae6fd;
   color: #075985;
 }
 
 .status-empty .tank-badge {
-  background: #f3f4f6;
-  color: #4b5563;
+  background: #e5e7eb;
+  color: #374151;
 }
 
-/* ================== DETAILS ================== */
+/* DETAILS */
 .tank-details {
   font-size: 13px;
   line-height: 1.5;
-  color: #374151;
 }
 
 .tank-details strong {
   font-weight: 600;
-  color: #111827;
 }
