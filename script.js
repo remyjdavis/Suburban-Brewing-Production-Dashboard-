@@ -3,21 +3,15 @@ const API =
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  const tank = params.get("tank");
+  const tankParam = params.get("tank");
 
-  if (document.getElementById("tank")) {
-    document.getElementById("tank").value = tank || "";
-    document.getElementById("date").valueAsDate = new Date();
+  if (tank) {
+    tank.value = tankParam || "";
+    date.valueAsDate = new Date();
     loadRecipes();
   }
 
-  const lauterStart = document.getElementById("lauterStart");
-  const lauterEnd = document.getElementById("lauterEnd");
-
-  if (lauterStart && lauterEnd) {
-    lauterStart.onchange = calcLauter;
-    lauterEnd.onchange = calcLauter;
-  }
+  lauterStart.onchange = lauterEnd.onchange = calcLauter;
 });
 
 /* ---------- RECIPES ---------- */
@@ -26,15 +20,14 @@ function loadRecipes() {
   fetch(API + "?action=recipes")
     .then(r => r.json())
     .then(recipes => {
-      const sel = document.getElementById("recipe");
-      sel.innerHTML = `<option value="">Select Recipe</option>`;
+      recipe.innerHTML = `<option value="">Select Recipe</option>`;
       recipes.forEach(r => {
         const o = document.createElement("option");
         o.value = r.RecipeID;
         o.textContent = r.Beer;
-        sel.appendChild(o);
+        recipe.appendChild(o);
       });
-      sel.onchange = () => loadRecipe(sel.value);
+      recipe.onchange = () => loadRecipe(recipe.value);
     });
 }
 
@@ -45,19 +38,19 @@ function loadRecipe(id) {
     .then(r => r.json())
     .then(data => {
       renderGrainTable(data.grain);
+      renderHopTable(data.hops);
       fillWater(data.water);
     });
 }
 
-/* ---------- GRAIN BILL + FLAGGING ---------- */
+/* ---------- GRAIN BILL ---------- */
 
 function renderGrainTable(grains) {
-  const table = document.getElementById("grain-table");
-  table.innerHTML = `
+  grainTable.innerHTML = `
     <tr>
       <th>Grain</th>
       <th>Target</th>
-      <th>Actual</th>
+      <th>Milled</th>
     </tr>
   `;
 
@@ -72,13 +65,13 @@ function renderGrainTable(grains) {
           oninput="checkGrain(this)">
       </td>
     `;
-    table.appendChild(row);
+    grainTable.appendChild(row);
   });
 }
 
 function checkGrain(input) {
-  const target = parseFloat(input.dataset.target);
-  const actual = parseFloat(input.value);
+  const target = Number(input.dataset.target);
+  const actual = Number(input.value);
   const row = input.closest("tr");
 
   if (!actual) {
@@ -89,11 +82,31 @@ function checkGrain(input) {
   const min = target * 0.9;
   const max = target * 1.1;
 
-  if (actual < min || actual > max) {
-    row.classList.add("flag");
-  } else {
-    row.classList.remove("flag");
-  }
+  row.classList.toggle("flag", actual < min || actual > max);
+}
+
+/* ---------- HOPS ---------- */
+
+function renderHopTable(hops) {
+  hopTable.innerHTML = `
+    <tr>
+      <th>Hop</th>
+      <th>Amount</th>
+      <th>Time</th>
+      <th>Use</th>
+    </tr>
+  `;
+
+  hops.forEach(h => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${h.Hop}</td>
+      <td>${h.Amount}</td>
+      <td>${h.Time}</td>
+      <td>${h.Use}</td>
+    `;
+    hopTable.appendChild(row);
+  });
 }
 
 /* ---------- WATER ---------- */
@@ -111,14 +124,10 @@ function fillWater(w) {
 /* ---------- LAUTER ---------- */
 
 function calcLauter() {
-  const s = lauterStart.value;
-  const e = lauterEnd.value;
-  if (!s || !e) return;
-
-  const start = new Date(`1970-01-01T${s}`);
-  const end = new Date(`1970-01-01T${e}`);
-  const mins = (end - start) / 60000;
-
+  if (!lauterStart.value || !lauterEnd.value) return;
+  const s = new Date(`1970-01-01T${lauterStart.value}`);
+  const e = new Date(`1970-01-01T${lauterEnd.value}`);
+  const mins = (e - s) / 60000;
   lauterDuration.value = mins > 0 ? mins : "";
 }
 
@@ -136,6 +145,7 @@ function saveBrew() {
     lauterStart: lauterStart.value,
     lauterEnd: lauterEnd.value,
     lauterDuration: lauterDuration.value,
+    boilTime: boilTime.value,
     koVol: koVol.value,
     koSG: koSG.value,
     koPH: koPH.value
