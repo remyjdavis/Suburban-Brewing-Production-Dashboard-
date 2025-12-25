@@ -4,29 +4,34 @@ body {
   margin: 0;
 }
 
+/* HEADER */
 .page-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr;
-  gap: 8px;
-  padding: 10px;
+  grid-template-columns: 140px 90px 1fr 140px;
+  gap: 10px;
+  padding: 10px 14px;
   background: #111;
 }
 
 .page-header input,
 .page-header select {
-  padding: 6px;
-  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: none;
 }
 
+/* GRID */
 .grid {
   display: grid;
-  gap: 12px;
-  padding: 12px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .grid.four { grid-template-columns: repeat(4, 1fr); }
 .grid.three { grid-template-columns: repeat(3, 1fr); }
 
+/* CARD */
 .card {
   background: white;
   border-radius: 10px;
@@ -40,19 +45,29 @@ body {
 h3 {
   margin: 0 0 6px 0;
   font-size: 12px;
+  font-weight: 600;
 }
 
+/* INPUTS */
+input, select {
+  padding: 4px 6px;
+  font-size: 11px;
+}
+
+/* INPUT SIZES */
+input.xs { width: 48px; }
+input.sm { width: 64px; }
+input.md { width: 90px; }
+input.lg { width: 110px; }
+
+/* INLINE */
 .inline {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
 }
 
-input, select {
-  padding: 4px;
-  font-size: 11px;
-}
-
+/* TABLES */
 table.tight {
   width: 100%;
   border-collapse: collapse;
@@ -62,12 +77,10 @@ table.tight th,
 table.tight td {
   padding: 2px;
   font-size: 11px;
+  text-align: left;
 }
 
-.water-card {
-  font-size: 10px;
-}
-
+/* WATER */
 .water-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -76,15 +89,17 @@ table.tight td {
 
 .water-grid label {
   display: grid;
-  grid-template-columns: 28px 1fr;
+  grid-template-columns: 28px auto;
   gap: 4px;
+  align-items: center;
 }
 
 .water-grid input {
-  width: 48px;
+  width: 52px;
 }
 
+/* FOOTER */
 footer {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 }
