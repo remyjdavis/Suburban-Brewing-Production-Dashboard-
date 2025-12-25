@@ -1,101 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Suburban Brewing Company Production Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Suburban Brewing Company – Production Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --primary: #1f2933;
-      --secondary: #f4f6f8;
-      --accent: #2563eb;
-      --tank-bg: #ffffff;
-      --border: #d1d5db;
+      --brand-dark: #1f3a5f;
+      --brand-light: #f4f6f8;
+      --card-bg: #ffffff;
+      --fermenting: #4caf50;
+      --cleaning: #ff9800;
+      --empty: #9e9e9e;
+      --brite: #2196f3;
     }
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--secondary);
-      color: var(--primary);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--brand-light);
+      color: #333;
     }
 
     header {
-      background: var(--primary);
+      background: var(--brand-dark);
       color: white;
-      padding: 20px;
+      padding: 24px;
       text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
     }
 
-    .container {
-      padding: 20px;
-      max-width: 1400px;
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.9;
+    }
+
+    main {
+      padding: 24px;
+      max-width: 1200px;
       margin: auto;
     }
 
-    .section-title {
-      margin: 30px 0 15px;
-      font-size: 20px;
-      font-weight: 600;
-      border-left: 6px solid var(--accent);
-      padding-left: 12px;
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 16px;
+      color: var(--brand-dark);
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 6px;
     }
 
     .tank-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
     }
 
     .tank-card {
-      background: var(--tank-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: var(--card-bg);
+      border-radius: 14px;
       padding: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .tank-header {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .tank-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
     }
 
-    .status {
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 20px;
-      background: #e5e7eb;
+    .status-bar {
+      height: 8px;
+      border-radius: 8px 8px 0 0;
+      margin: -16px -16px 12px -16px;
     }
 
-    .tank-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
+    .fermenting { background: var(--fermenting); }
+    .cleaning { background: var(--cleaning); }
+    .empty { background: var(--empty); }
+    .brite { background: var(--brite); }
+
+    .tank-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
     }
 
-    .tank-table td {
-      padding: 6px 4px;
-      border-bottom: 1px solid #f0f0f0;
+    .tank-info {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
     }
 
-    .tank-table td:first-child {
-      font-weight: 500;
-      width: 45%;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 12px;
-      color: #6b7280;
+    .tank-label {
+      font-size: 0.75rem;
+      color: #777;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -103,150 +107,85 @@
 <body>
 
 <header>
-  Suburban Brewing Company – Production Dashboard
+  <h1>Suburban Brewing Company</h1>
+  <p>Production Dashboard</p>
 </header>
 
-<div class="container">
+<main>
 
-  <!-- FERMENTATION -->
-  <div class="section-title">Fermentation Tanks</div>
-
+  <h2>Fermentation Tanks</h2>
   <div class="tank-grid">
-    <!-- Fermenter 1 -->
+
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 1
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar fermenting"></div>
+      <div class="tank-title">FV-1</div>
+      <div class="tank-info">Batch: West Coast IPA</div>
+      <div class="tank-info">Day: 6</div>
+      <div class="tank-info">Status: Fermenting</div>
     </div>
 
-    <!-- Fermenter 2 -->
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 2
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar fermenting"></div>
+      <div class="tank-title">FV-2</div>
+      <div class="tank-info">Batch: Pilsner</div>
+      <div class="tank-info">Day: 3</div>
+      <div class="tank-info">Status: Fermenting</div>
     </div>
 
-    <!-- Fermenter 3 -->
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 3
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar cleaning"></div>
+      <div class="tank-title">FV-3</div>
+      <div class="tank-info">Batch: —</div>
+      <div class="tank-info">Day: —</div>
+      <div class="tank-info">Status: CIP</div>
     </div>
 
-    <!-- Fermenter 4 -->
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 4
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar fermenting"></div>
+      <div class="tank-title">FV-4</div>
+      <div class="tank-info">Batch: Amber Ale</div>
+      <div class="tank-info">Day: 9</div>
+      <div class="tank-info">Status: Fermenting</div>
     </div>
 
-    <!-- Fermenter 5 -->
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 5
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar empty"></div>
+      <div class="tank-title">FV-5</div>
+      <div class="tank-info">Batch: —</div>
+      <div class="tank-info">Day: —</div>
+      <div class="tank-info">Status: Empty</div>
     </div>
 
-    <!-- Fermenter 6 -->
     <div class="tank-card">
-      <div class="tank-header">
-        Fermenter 6
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Yeast</td><td></td></tr>
-        <tr><td>OG</td><td></td></tr>
-        <tr><td>Current Gravity</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Start Date</td><td></td></tr>
-      </table>
+      <div class="status-bar fermenting"></div>
+      <div class="tank-title">FV-6</div>
+      <div class="tank-info">Batch: Hazy IPA</div>
+      <div class="tank-info">Day: 2</div>
+      <div class="tank-info">Status: Fermenting</div>
     </div>
+
   </div>
 
-  <!-- BRITE -->
-  <div class="section-title">Brite Tanks</div>
-
+  <h2>Brite Tanks</h2>
   <div class="tank-grid">
+
     <div class="tank-card">
-      <div class="tank-header">
-        Brite Tank 1
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Volume</td><td></td></tr>
-        <tr><td>Carbonation</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Package Date</td><td></td></tr>
-      </table>
+      <div class="status-bar brite"></div>
+      <div class="tank-title">BT-1</div>
+      <div class="tank-info">Batch: Lager</div>
+      <div class="tank-info">Status: Conditioning</div>
     </div>
 
     <div class="tank-card">
-      <div class="tank-header">
-        Brite Tank 2
-        <span class="status">Idle</span>
-      </div>
-      <table class="tank-table">
-        <tr><td>Beer</td><td></td></tr>
-        <tr><td>Volume</td><td></td></tr>
-        <tr><td>Carbonation</td><td></td></tr>
-        <tr><td>Temp (°F)</td><td></td></tr>
-        <tr><td>Package Date</td><td></td></tr>
-      </table>
+      <div class="status-bar empty"></div>
+      <div class="tank-title">BT-2</div>
+      <div class="tank-info">Batch: —</div>
+      <div class="tank-info">Status: Empty</div>
     </div>
+
   </div>
 
-</div>
-
-<footer>
-  Suburban Brewing Company © Production Dashboard
-</footer>
+</main>
 
 </body>
 </html>
