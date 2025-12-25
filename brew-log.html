@@ -7,53 +7,30 @@
 <body>
 
 <header>
-  <h1>Suburban Brewing Company</h1>
-  <h2>Brew Log</h2>
+  <h1>Brew Log</h1>
+  <nav>
+    <a href="index.html">Dashboard</a>
+  </nav>
 </header>
 
 <main>
   <form id="brewForm">
-    <label>Brew Date
-      <input type="date" name="BrewDate" required>
-    </label>
-
-    <label>Beer
-      <input type="text" name="Beer" required>
-    </label>
-
-    <label>Brewer
-      <input type="text" name="Brewer">
-    </label>
-
-    <label>Tank
-      <select name="Tank">
-        <option>FV-1</option>
-        <option>FV-2</option>
-        <option>FV-3</option>
-        <option>BT-1</option>
-      </select>
-    </label>
-
-    <label>Stage
-      <select name="Stage">
-        <option>Brew Day</option>
-        <option>Fermenting</option>
-        <option>Conditioning</option>
-        <option>Packaged</option>
-      </select>
-    </label>
-
-    <label>Notes
-      <textarea name="Notes"></textarea>
-    </label>
-
+    <input type="date" name="BrewDate" required>
+    <input type="text" name="Beer" placeholder="Beer Name" required>
+    <input type="text" name="Brewer" placeholder="Brewer">
+    <input type="text" name="Tank" placeholder="Tank (FV-1)">
+    <select name="Stage">
+      <option>Brew Day</option>
+      <option>Fermenting</option>
+      <option>Conditioning</option>
+      <option>Packaged</option>
+    </select>
+    <textarea name="Notes" placeholder="Notes"></textarea>
     <button type="submit">Save Brew</button>
   </form>
 
-  <hr>
-
-  <h2>Previous Brews</h2>
-  <div id="brewHistory"></div>
+  <h2>History</h2>
+  <div id="history"></div>
 </main>
 
 <script src="brew-log.js"></script>
