@@ -21,12 +21,12 @@
   <div class="card small">
     <h3>Recipe Targets</h3>
     <div class="inline">
-      <input placeholder="Eff %">
-      <input placeholder="OG">
-      <input placeholder="FG">
-      <input placeholder="Vol">
-      <input placeholder="IBU">
-      <input placeholder="SRM">
+      <input class="sm" type="number" placeholder="Eff %">
+      <input class="lg" placeholder="OG">
+      <input class="lg" placeholder="FG">
+      <input class="md" placeholder="Vol">
+      <input class="xs" placeholder="IBU">
+      <input class="xs" placeholder="SRM">
     </div>
   </div>
 
@@ -40,15 +40,15 @@
     </table>
   </div>
 
-  <div class="card small water-card">
+  <div class="card small">
     <h3>Water Profile (ppm)</h3>
     <div class="water-grid">
-      <label><span>Ca</span><input></label>
-      <label><span>Mg</span><input></label>
-      <label><span>Na</span><input></label>
-      <label><span>SO₄</span><input></label>
-      <label><span>Cl</span><input></label>
-      <label><span>HCO₃</span><input></label>
+      <label><span>Ca</span><input class="xs"></label>
+      <label><span>Mg</span><input class="xs"></label>
+      <label><span>Na</span><input class="xs"></label>
+      <label><span>SO₄</span><input class="xs"></label>
+      <label><span>Cl</span><input class="xs"></label>
+      <label><span>HCO₃</span><input class="xs"></label>
     </div>
   </div>
 
@@ -88,35 +88,35 @@
     <tbody>
       <tr>
         <td><strong>First Runnings</strong></td>
-        <td><input type="time"></td>
-        <td><input type="time"></td>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="lg"></td>
+        <td><input class="sm"></td>
+        <td><input class="lg"></td>
       </tr>
       <tr>
         <td><strong>First Sparge</strong></td>
-        <td><input type="time"></td>
-        <td><input type="time"></td>
-        <td><input></td>
-        <td><input></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="lg"></td>
+        <td><input class="sm"></td>
         <td></td>
       </tr>
       <tr>
         <td><strong>Second Sparge</strong></td>
-        <td><input type="time"></td>
-        <td><input type="time"></td>
-        <td><input></td>
-        <td><input></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="lg"></td>
+        <td><input class="sm"></td>
         <td></td>
       </tr>
       <tr>
         <td><strong>Final Runnings</strong></td>
-        <td><input type="time"></td>
-        <td><input type="time"></td>
-        <td><input></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="md" type="time"></td>
+        <td><input class="lg"></td>
         <td></td>
-        <td><input></td>
+        <td><input class="lg"></td>
       </tr>
     </tbody>
   </table>
@@ -127,23 +127,29 @@
 
   <div class="card">
     <h3>Boil</h3>
-    <input type="time">
-    <input type="time">
+    <input class="lg" type="time">
+    <input class="lg" type="time">
+    <input class="md" placeholder="Pre-Boil Vol">
+    <input class="md" placeholder="Post-Boil Vol">
+    <input class="lg" placeholder="Boil Gravity">
+    <input class="sm" placeholder="Trub Loss">
   </div>
 
   <div class="card">
     <h3>Knockout</h3>
-    <input placeholder="Volume">
-    <input placeholder="Gravity">
-    <input placeholder="pH">
+    <input class="md" placeholder="KO Volume">
+    <input class="lg" placeholder="KO Gravity">
+    <input class="sm" placeholder="KO Temp">
+    <input class="sm" placeholder="pH">
   </div>
 
   <div class="card">
     <h3>Yeast</h3>
-    <input placeholder="Strain">
-    <input placeholder="Pitch Rate">
-    <input placeholder="Temp">
-    <input placeholder="Generation">
+    <input class="lg" placeholder="Strain">
+    <input class="md" placeholder="Pitch Rate">
+    <input class="sm" placeholder="Pitch Temp">
+    <input class="xs" placeholder="Gen">
+    <input class="md" placeholder="Source">
   </div>
 
 </section>
