@@ -9,10 +9,9 @@
 
 <header class="page-header">
   <h1>Brew Day Log</h1>
-
   <div class="brew-meta">
     <input id="date" type="date">
-    <input id="tank" readonly placeholder="Tank">
+    <input id="tank" placeholder="Tank">
     <select id="recipe"></select>
     <input id="brewer" placeholder="Brewer">
   </div>
@@ -24,25 +23,21 @@
   <div class="card">
     <h2>Recipe Targets</h2>
     <div class="inline-fields">
-      <input id="targetEff" placeholder="Brewhouse Efficiency (%)" readonly>
-      <input id="targetOG" placeholder="Target OG" readonly>
-      <input id="targetFG" placeholder="Target FG" readonly>
-      <input id="targetVol" placeholder="Target Volume" readonly>
-      <input id="targetIBU" placeholder="IBUs" readonly>
-      <input id="targetColor" placeholder="Color (SRM)" readonly>
+      <input id="targetEff" placeholder="Brewhouse Efficiency %">
+      <input id="targetOG" placeholder="Target OG">
+      <input id="targetFG" placeholder="Target FG">
+      <input id="targetVol" placeholder="Target Volume">
+      <input id="targetIBU" placeholder="IBUs">
+      <input id="targetColor" placeholder="Color (SRM)">
     </div>
   </div>
 
-  <!-- GRAIN BILL -->
+  <!-- GRAIN -->
   <div class="card">
     <h2>Grain Bill</h2>
     <table>
       <thead>
-        <tr>
-          <th>Grain</th>
-          <th>Target</th>
-          <th>Milled</th>
-        </tr>
+        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
       </thead>
       <tbody id="grainBody"></tbody>
     </table>
@@ -55,9 +50,9 @@
       <input id="ca" placeholder="Ca">
       <input id="mg" placeholder="Mg">
       <input id="na" placeholder="Na">
-      <input id="so4" placeholder="SO₄">
+      <input id="so4" placeholder="SO4">
       <input id="cl" placeholder="Cl">
-      <input id="hco3" placeholder="HCO₃">
+      <input id="hco3" placeholder="HCO3">
     </div>
   </div>
 
@@ -66,12 +61,7 @@
     <h2>Mash Schedule</h2>
     <table>
       <thead>
-        <tr>
-          <th>Step</th>
-          <th>Temp</th>
-          <th>Time (min)</th>
-          <th>pH</th>
-        </tr>
+        <tr><th>Step</th><th>Temp</th><th>Time (min)</th><th>pH</th></tr>
       </thead>
       <tbody id="mashBody"></tbody>
     </table>
@@ -80,27 +70,26 @@
   <!-- LAUTER -->
   <div class="card">
     <h2>Lauter</h2>
-    <input type="time" id="lauterStart">
-    <input type="time" id="lauterEnd">
-    <input id="lauterDuration" placeholder="Duration (min)" readonly>
-    <input placeholder="First Runnings Gravity">
-    <input placeholder="Final Runnings Gravity">
+    <div class="inline-fields">
+      <input type="time">
+      <input type="time">
+      <input placeholder="Duration (min)">
+      <input placeholder="First Runnings SG">
+      <input placeholder="Final Runnings SG">
+    </div>
   </div>
 
   <!-- BOIL -->
   <div class="card">
     <h2>Boil</h2>
-    <input type="time" id="boilStart">
-    <input type="time" id="boilEnd">
-    <input id="boilDuration" placeholder="Duration (min)" readonly>
-
+    <div class="inline-fields">
+      <input type="time">
+      <input type="time">
+      <input placeholder="Duration (min)">
+    </div>
     <table>
       <thead>
-        <tr>
-          <th>Addition</th>
-          <th>Amount</th>
-          <th>Time (min)</th>
-        </tr>
+        <tr><th>Addition</th><th>Amount</th><th>Time (min)</th></tr>
       </thead>
       <tbody id="hopBody"></tbody>
     </table>
@@ -109,15 +98,17 @@
   <!-- KNOCKOUT -->
   <div class="card">
     <h2>Knockout</h2>
-    <input placeholder="KO Volume">
-    <input placeholder="KO Gravity">
-    <input placeholder="KO pH">
+    <div class="inline-fields">
+      <input placeholder="KO Volume">
+      <input placeholder="KO Gravity">
+      <input placeholder="KO pH">
+    </div>
   </div>
 
 </section>
 
 <footer class="footer">
-  <button class="save" onclick="saveBrew()">Save Brew Log</button>
+  <button class="save">Save Brew Log</button>
 </footer>
 
 <script src="brew-log.js"></script>
