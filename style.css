@@ -1,7 +1,6 @@
 body {
   font-family: Arial, sans-serif;
   background: #f4f6f8;
-  margin: 0;
   padding: 20px;
 }
 
@@ -22,22 +21,11 @@ header {
   padding: 15px;
   border: 2px solid #ccc;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tank:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
 .status-fermenting { border-color: #28a745; }
 .status-conditioning { border-color: #ffc107; }
-.status-cip { border-color: #17a2b8; }
 .status-empty { border-color: #adb5bd; }
-
-.tank h4 { margin: 0 0 8px; }
-
-/* Timeline */
 
 .timeline-row {
   background: white;
@@ -47,11 +35,6 @@ header {
   border: 2px solid #ccc;
 }
 
-.timeline-label {
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
 .timeline-track {
   display: flex;
   gap: 6px;
@@ -59,11 +42,10 @@ header {
 }
 
 .timeline-step {
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: 6px;
   background: #e9ecef;
   font-size: 0.8em;
-  border: 1px solid #ced4da;
 }
 
 .timeline-step.active {
@@ -71,29 +53,26 @@ header {
   color: white;
 }
 
-/* Modal */
-
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,.55);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  width: 95%;
-  max-width: 650px;
-  border-radius: 12px;
-  padding: 20px;
-  max-height: 85vh;
-  overflow-y: auto;
 }
 
 .hidden { display: none; }
+
+.modal-content {
+  background: white;
+  max-width: 800px;
+  width: 95%;
+  padding: 20px;
+  border-radius: 12px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
 
 .close {
   float: right;
@@ -101,29 +80,28 @@ header {
   font-size: 1.5em;
 }
 
-/* Brew Log */
-
-#log-form label {
+form label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
 }
 
-#log-form input,
-#log-form textarea {
+form input, textarea {
   width: 100%;
-  padding: 6px;
-  margin-top: 4px;
 }
 
-#log-form button {
-  margin-top: 12px;
-  padding: 8px;
+#grain-table {
   width: 100%;
-  font-weight: bold;
+  margin-top: 6px;
+  border-collapse: collapse;
+}
+
+#grain-table th, #grain-table td {
+  border: 1px solid #ccc;
+  padding: 4px;
 }
 
 .log-entry {
-  border-bottom: 1px solid #dee2e6;
-  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
 }
