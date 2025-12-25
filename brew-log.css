@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background: #f5f6f8;
+  background: #f1f3f6; /* slightly darker so cards lift */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -13,7 +13,7 @@ body {
 .brew-container {
   max-width: 1500px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 10px 10px 6px;
 }
 
 /* GRID SYSTEM */
@@ -22,7 +22,7 @@ body {
 .grid-3,
 .grid-2 {
   display: grid;
-  gap: 12px;
+  gap: 14px; /* a touch more air between cards */
   align-items: start;
 }
 
@@ -42,15 +42,22 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* CARD */
+/* CARD — FLOATING */
 .card {
   background: #ffffff;
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* REQUIRED FOR SAFARI */
+  min-width: 0;
+
+  /* floating effect */
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.08);
+
+  /* subtle separation from background */
+  border: 1px solid rgba(0,0,0,0.04);
 }
 
 .card.full {
@@ -60,23 +67,23 @@ body {
 /* HEADERS */
 h3 {
   font-size: 14px;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   font-weight: 600;
 }
 
 h4 {
   font-size: 13px;
-  margin: 10px 0 6px;
+  margin: 8px 0 4px;
   font-weight: 600;
 }
 
-/* INPUTS — HARD WIDTH LOCK */
+/* INPUTS — LOCKED WIDTH (OVERLAP SAFE) */
 input,
 select {
   width: 100%;
-  min-width: 0;        /* SAFARI FIX */
-  max-width: 100%;    /* PREVENT OVERFLOW */
-  padding: 6px 8px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 8px;
   font-size: 12px;
   border-radius: 6px;
   border: 1px solid #d0d0d0;
@@ -87,25 +94,25 @@ select {
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* CRITICAL */
+  table-layout: fixed; /* critical */
   font-size: 12px;
 }
 
 thead th {
   font-weight: 600;
-  padding-bottom: 4px;
+  padding-bottom: 3px;
 }
 
 th,
 td {
-  padding: 4px;
+  padding: 3px 4px;
   text-align: left;
   vertical-align: middle;
-  overflow: hidden;   /* PREVENT CELL BLEED */
+  overflow: hidden;
 }
 
 td {
-  min-width: 0;       /* SAFARI FIX */
+  min-width: 0;
 }
 
 td input,
@@ -115,7 +122,33 @@ td select {
   max-width: 100%;
 }
 
-/* LAUTER TUN COLUMN LOCK */
+/* GRAIN BILL EMPTY STATE */
+#grainTable:empty::after {
+  content: "Select a recipe to load grain bill";
+  display: block;
+  padding: 6px 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+/* MASH SCHEDULE EMPHASIS */
+#mashTable th:nth-child(2),
+#mashTable td:nth-child(2),
+#mashTable th:nth-child(3),
+#mashTable td:nth-child(3),
+#mashTable th:nth-child(4),
+#mashTable td:nth-child(4) {
+  width: 14%;
+}
+
+#mashTable th:nth-child(5),
+#mashTable td:nth-child(5),
+#mashTable th:nth-child(6),
+#mashTable td:nth-child(6) {
+  width: 18%;
+}
+
+/* LAUTER TUN */
 .aligned {
   table-layout: fixed;
 }
@@ -123,16 +156,8 @@ td select {
 .aligned th:nth-child(1),
 .aligned td:nth-child(1) { width: 18%; }
 
-.aligned th:nth-child(2),
-.aligned td:nth-child(2),
-.aligned th:nth-child(3),
-.aligned td:nth-child(3),
-.aligned th:nth-child(4),
-.aligned td:nth-child(4),
-.aligned th:nth-child(5),
-.aligned td:nth-child(5),
-.aligned th:nth-child(6),
-.aligned td:nth-child(6) {
+.aligned th:nth-child(n+2),
+.aligned td:nth-child(n+2) {
   width: 16.4%;
 }
 
@@ -141,13 +166,25 @@ td select {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+}
+
+/* HOPS / ADDITIONS — DENSER */
+#boilTable td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#boilTable input,
+#boilTable select {
+  padding: 4px 6px;
+  font-size: 11.5px;
 }
 
 /* BUTTONS */
 button {
   font-size: 12px;
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;
@@ -159,7 +196,8 @@ button:hover {
   background: #f0f0f0;
 }
 
+/* SAVE BUTTON ANCHOR */
 .save {
-  margin: 12px auto;
+  margin: 10px auto 0;
   display: block;
 }
