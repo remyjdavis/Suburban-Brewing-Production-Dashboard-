@@ -3,21 +3,17 @@ const API =
 
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  const tankParam = params.get("tank");
 
-  document.getElementById("tank").value = tankParam || "";
+  document.getElementById("tank").value = params.get("tank") || "";
   document.getElementById("date").valueAsDate = new Date();
 
   loadRecipes();
 
-  document.getElementById("lauterStart").onchange =
-  document.getElementById("lauterEnd").onchange = calcLauter;
-
-  document.getElementById("boilStart").onchange =
-  document.getElementById("boilEnd").onchange = calcBoil;
+  lauterStart.onchange = lauterEnd.onchange = calcLauter;
+  boilStart.onchange = boilEnd.onchange = calcBoil;
 });
 
-/* ---------- RECIPES ---------- */
+/* RECIPES */
 
 function loadRecipes() {
   fetch(API + "?action=recipes")
@@ -47,7 +43,7 @@ function loadRecipe(id) {
     });
 }
 
-/* ---------- GRAIN BILL ---------- */
+/* GRAIN */
 
 function renderGrain(grains) {
   const body = document.querySelector("#grainTable tbody");
@@ -69,22 +65,15 @@ function renderGrain(grains) {
 }
 
 function checkGrain(input) {
-  const target = Number(input.dataset.target);
-  const actual = Number(input.value);
+  const t = Number(input.dataset.target);
+  const a = Number(input.value);
   const row = input.closest("tr");
 
-  if (!actual) {
-    row.classList.remove("flag");
-    return;
-  }
-
-  const min = target * 0.9;
-  const max = target * 1.1;
-
-  row.classList.toggle("flag", actual < min || actual > max);
+  if (!a) return row.classList.remove("flag");
+  row.classList.toggle("flag", a < t * 0.9 || a > t * 1.1);
 }
 
-/* ---------- HOPS / BOIL ---------- */
+/* HOPS */
 
 function renderHops(hops) {
   const body = document.querySelector("#hopTable tbody");
@@ -101,20 +90,22 @@ function renderHops(hops) {
   });
 }
 
-function calcBoil() {
-  const s = document.getElementById("boilStart").value;
-  const e = document.getElementById("boilEnd").value;
-  if (!s || !e) return;
+/* TIME CALCS */
 
-  const start = new Date(`1970-01-01T${s}`);
-  const end = new Date(`1970-01-01T${e}`);
-  const mins = (end - start) / 60000;
-
-  document.getElementById("boilDuration").value =
-    mins > 0 ? mins : "";
+function calcLauter() {
+  lauterDuration.value = diffMinutes(lauterStart.value, lauterEnd.value);
 }
 
-/* ---------- WATER ---------- */
+function calcBoil() {
+  boilDuration.value = diffMinutes(boilStart.value, boilEnd.value);
+}
+
+function diffMinutes(s, e) {
+  if (!s || !e) return "";
+  return (new Date(`1970-01-01T${e}`) - new Date(`1970-01-01T${s}`)) / 60000;
+}
+
+/* WATER */
 
 function fillWater(w) {
   ca.value = w.Ca || "";
@@ -125,22 +116,6 @@ function fillWater(w) {
   hco3.value = w.HCO3 || "";
 }
 
-/* ---------- LAUTER ---------- */
-
-function calcLauter() {
-  const s = lauterStart.value;
-  const e = lauterEnd.value;
-  if (!s || !e) return;
-
-  const start = new Date(`1970-01-01T${s}`);
-  const end = new Date(`1970-01-01T${e}`);
-  const mins = (end - start) / 60000;
-
-  lauterDuration.value = mins > 0 ? mins : "";
-}
-
-/* ---------- SAVE ---------- */
-
 function saveBrew() {
-  alert("Save logic already wired — next step is efficiency calc.");
+  alert("Ready for save + efficiency calc.");
 }
