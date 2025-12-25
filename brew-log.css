@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  font-family: system-ui, -apple-system;
 }
 
 body {
@@ -9,32 +9,18 @@ body {
   color: #222;
 }
 
-/* HEADER */
 .page-header {
   background: #111;
   color: white;
   padding: 20px;
 }
 
-.page-header h1 {
-  margin: 0 0 12px 0;
-}
-
-/* META BAR */
 .brew-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
 }
 
-.brew-meta input,
-.brew-meta select {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -42,30 +28,23 @@ body {
   padding: 16px;
 }
 
-/* CARDS */
 .card {
   background: white;
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  min-width: 0; /* Safari fix */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .card h2 {
   margin-top: 0;
 }
 
-/* INPUTS */
-input,
-select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.inline-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
-/* TABLES */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -77,31 +56,25 @@ th {
   color: #666;
 }
 
-td {
-  padding: 6px 4px;
-}
-
 td input {
   width: 100%;
 }
 
-/* FLAG */
 .flag {
   background: #ffe6e6;
 }
 
-/* FOOTER */
 .footer {
   text-align: center;
   padding: 20px;
 }
 
 .save {
-  padding: 14px 26px;
+  padding: 14px 24px;
   font-size: 16px;
   background: #1a73e8;
   color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
 }
