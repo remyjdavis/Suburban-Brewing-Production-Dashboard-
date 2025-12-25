@@ -8,10 +8,10 @@ body {
   background: #f4f6f8;
 }
 
+/* Header */
 .page-header {
-  background: #111;
-  color: white;
-  padding: 20px;
+  background: #0f172a;
+  padding: 18px;
 }
 
 .brew-meta {
@@ -20,6 +20,14 @@ body {
   gap: 12px;
 }
 
+.brew-meta input,
+.brew-meta select {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* Main Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -34,12 +42,26 @@ body {
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+/* Inputs */
 .inline-fields {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  width: 100%;
+}
+
+/* Tables */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -47,38 +69,24 @@ table {
 
 th {
   font-size: 12px;
-  text-align: left;
   color: #555;
+  text-align: left;
 }
 
-td input {
-  width: 100%;
+td {
+  padding: 6px 4px;
 }
 
-.footer {
-  text-align: center;
-  padding: 20px;
-}
-
-.save {
-  padding: 14px 26px;
-  font-size: 16px;
-  background: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 10px;
-}
-
-/* FULL WIDTH BREAKOUT */
+/* ---------- FULL WIDTH LAUTER ---------- */
 .full-width-wrapper {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  padding: 0 16px 16px;
+  padding: 16px;
 }
 
-/* LAUTER */
 .lauter-grid {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
@@ -86,4 +94,25 @@ td input {
   display: grid;
   grid-template-columns: 160px repeat(5, 1fr);
   gap: 10px;
+  align-items: center;
+}
+
+.lauter-row strong {
+  font-size: 14px;
+}
+
+/* Footer */
+.footer {
+  padding: 24px;
+  text-align: right;
+}
+
+.save {
+  padding: 14px 28px;
+  font-size: 16px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
 }
