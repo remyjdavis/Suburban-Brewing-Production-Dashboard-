@@ -1,4 +1,5 @@
-const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
+const API =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   date.valueAsDate = new Date();
@@ -21,6 +22,8 @@ function loadRecipes() {
 }
 
 function loadRecipe(id) {
+  if (!id) return;
+
   fetch(`${API}?action=recipe&recipe=${id}`)
     .then(r => r.json())
     .then(d => {
@@ -32,7 +35,6 @@ function loadRecipe(id) {
     });
 }
 
-/* ---------- TARGETS ---------- */
 function fillTargets(t) {
   targetEff.value   = t.Efficiency || "";
   targetOG.value    = t.TargetOG || "";
@@ -42,7 +44,6 @@ function fillTargets(t) {
   targetColor.value = t.SRM || "";
 }
 
-/* ---------- GRAIN ---------- */
 function renderGrain(rows) {
   grainBody.innerHTML = "";
   rows.forEach(r => {
@@ -55,7 +56,6 @@ function renderGrain(rows) {
   });
 }
 
-/* ---------- MASH ---------- */
 function renderMash(rows) {
   mashBody.innerHTML = "";
   rows.forEach(r => {
@@ -69,17 +69,6 @@ function renderMash(rows) {
   });
 }
 
-/* ---------- WATER ---------- */
-function fillWater(w) {
-  ca.value   = w.Ca || "";
-  mg.value   = w.Mg || "";
-  na.value   = w.Na || "";
-  so4.value  = w.SO4 || "";
-  cl.value   = w.Cl || "";
-  hco3.value = w.HCO3 || "";
-}
-
-/* ---------- HOPS ---------- */
 function renderHops(rows) {
   hopBody.innerHTML = "";
   rows.forEach(r => {
@@ -90,4 +79,13 @@ function renderHops(rows) {
         <td>${r.Time}</td>
       </tr>`;
   });
+}
+
+function fillWater(w) {
+  ca.value   = w.Ca || "";
+  mg.value   = w.Mg || "";
+  na.value   = w.Na || "";
+  so4.value  = w.SO4 || "";
+  cl.value   = w.Cl || "";
+  hco3.value = w.HCO3 || "";
 }
