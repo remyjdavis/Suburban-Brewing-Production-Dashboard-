@@ -8,22 +8,24 @@ body {
   background: #f4f6f8;
 }
 
+/* HEADER */
 .page-header {
   background: #111;
   color: white;
-  padding: 14px;
+  padding: 12px;
 }
 
 .brew-meta {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
+/* GRID LAYOUT */
 .grid {
   display: grid;
-  gap: 14px;
-  padding: 14px;
+  gap: 12px;
+  padding: 12px;
 }
 
 .grid-4 {
@@ -34,63 +36,106 @@ body {
   grid-template-columns: repeat(3, 1fr);
 }
 
+/* CARD BASE */
 .card {
   background: white;
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-h3 {
-  margin: 0 0 8px;
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
+/* ===== FIRST ROW TIGHTENING ===== */
+.grid-4 .card {
+  padding: 8px;
+  font-size: 11px;
+}
+
+.grid-4 input,
+.grid-4 select {
+  font-size: 11px;
+  padding: 4px 6px;
+}
+
+/* TARGETS */
 .inline-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 4px;
 }
 
+/* TABLES (GRAIN + MASH) */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 th {
   text-align: left;
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 600;
   color: #555;
+  padding-bottom: 2px;
+}
+
+td {
+  padding: 2px 2px;
 }
 
 td input {
   width: 100%;
+  font-size: 11px;
+  padding: 3px 4px;
 }
 
+/* MASH TABLE SPECIFIC */
+table.tight td,
+table.tight th {
+  padding: 2px 3px;
+}
+
+table.tight input[type="time"] {
+  padding: 2px 3px;
+  font-size: 10px;
+}
+
+/* WATER PROFILE */
 .water-card {
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .water-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
+  gap: 4px;
 }
 
 .water-grid label {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 10px;
 }
 
 .water-grid input {
-  width: 60px;
+  width: 52px;
+  font-size: 11px;
+  padding: 3px 4px;
 }
 
+/* FULL WIDTH SECTION (LAUTER) */
 .full-width {
-  padding: 0 14px;
+  padding: 0 12px;
 }
 
+/* LAUTER */
 .lauter-grid {
   display: grid;
   gap: 6px;
@@ -99,14 +144,15 @@ td input {
 
 .lauter-row {
   display: grid;
-  grid-template-columns: 1.5fr repeat(5, 1fr);
+  grid-template-columns: 1.4fr repeat(5, 1fr);
   gap: 6px;
   align-items: center;
 }
 
+/* FOOTER */
 .footer {
   text-align: center;
-  padding: 20px;
+  padding: 18px;
 }
 
 .save {
