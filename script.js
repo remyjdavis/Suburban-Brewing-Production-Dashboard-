@@ -1,35 +1,27 @@
-const API_BASE =
+const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-const STAGES = [
-  "Brewed",
-  "Fermenting",
-  "Conditioning",
-  "Brite",
-  "Packaged"
-];
+const STAGES = ["Brewed", "Fermenting", "Conditioning", "Brite", "Packaged"];
+
+let currentBatch = "";
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch(`${API_BASE}?action=tanks`)
-    .then(res => res.json())
-    .then(data => renderTanks(data))
-    .catch(err => console.error(err));
+  fetch(`${API}?action=tanks`)
+    .then(r => r.json())
+    .then(renderTanks);
 });
 
 function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
   const brite = document.getElementById("brite");
-  const timelineData = [];
+  const timeline = [];
 
   ferm.innerHTML = "";
   brite.innerHTML = "";
 
   tanks.forEach(t => {
-    const status = (t.Status || "empty").toLowerCase();
-
     const card = document.createElement("div");
-    card.className = `tank status-${status}`;
-
+    card.className = `tank status-${(t.Status || "empty").toLowerCase()}`;
     card.innerHTML = `
       <h4>${t.TankID}</h4>
       <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
@@ -37,25 +29,24 @@ function renderTanks(tanks) {
       <div><strong>Status:</strong> ${t.Status || "—"}</div>
     `;
 
-    if (t.Batch && t.Status !== "Empty") {
-      timelineData.push({
+    if (t.Batch) {
+      card.onclick = () => openBrewLog(t.Batch, t.TankID);
+      timeline.push({
         batch: t.Batch,
         tank: t.TankID,
-        status: normalizeStatus(t.Status)
+        status: normalize(t.Status)
       });
-
-      card.addEventListener("click", () => openBrewLog(t.Batch));
     }
 
-    if (t.Type === "Fermenter") ferm.appendChild(card);
-    if (t.Type === "Brite") brite.appendChild(card);
+    t.Type === "Fermenter" ? ferm.appendChild(card) : brite.appendChild(card);
   });
 
-  renderTimeline(timelineData);
+  renderTimeline(timeline);
 }
 
-function normalizeStatus(status) {
-  const s = status.toLowerCase();
+function normalize(s) {
+  if (!s) return "Brewed";
+  s = s.toLowerCase();
   if (s.includes("ferment")) return "Fermenting";
   if (s.includes("condition")) return "Conditioning";
   if (s.includes("brite")) return "Brite";
@@ -63,62 +54,64 @@ function normalizeStatus(status) {
   return "Brewed";
 }
 
-function renderTimeline(batches) {
-  const container = document.getElementById("timeline");
-  container.innerHTML = "";
+function renderTimeline(data) {
+  const el = document.getElementById("timeline");
+  el.innerHTML = "";
 
-  batches.forEach(b => {
+  data.forEach(b => {
     const row = document.createElement("div");
     row.className = "timeline-row";
-
     row.innerHTML = `<div class="timeline-label">${b.batch} (${b.tank})</div>`;
-
     const track = document.createElement("div");
     track.className = "timeline-track";
 
-    STAGES.forEach(stage => {
+    STAGES.forEach(s => {
       const step = document.createElement("div");
-      step.className = "timeline-step";
-      if (stage === b.status) step.classList.add("active");
-      step.textContent = stage;
+      step.className = "timeline-step" + (s === b.status ? " active" : "");
+      step.textContent = s;
       track.appendChild(step);
     });
 
     row.appendChild(track);
-    container.appendChild(row);
+    el.appendChild(row);
   });
 }
 
-function openBrewLog(batch) {
-  document.getElementById("brew-log-modal").classList.remove("hidden");
+function openBrewLog(batch, tank) {
+  currentBatch = batch;
   document.getElementById("log-title").textContent = `Brew Log – ${batch}`;
+  document.getElementById("brew-log-modal").classList.remove("hidden");
 
-  fetch(`${API_BASE}?action=brewlog&batch=${encodeURIComponent(batch)}`)
-    .then(res => res.json())
-    .then(data => renderBrewLog(data));
+  fetch(`${API}?action=brewlog&batch=${encodeURIComponent(batch)}`)
+    .then(r => r.json())
+    .then(renderLog);
 }
 
-document.getElementById("close-log").onclick = () => {
+document.getElementById("close-log").onclick = () =>
   document.getElementById("brew-log-modal").classList.add("hidden");
+
+document.getElementById("log-form").onsubmit = e => {
+  e.preventDefault();
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      BrewDate: document.getElementById("log-date").value,
+      Beer: currentBatch,
+      Stage: document.getElementById("log-stage").value,
+      Notes: document.getElementById("log-notes").value
+    })
+  }).then(() => openBrewLog(currentBatch));
 };
 
-function renderBrewLog(entries) {
-  const container = document.getElementById("brew-log-entries");
-  container.innerHTML = "";
-
-  if (!entries.length) {
-    container.innerHTML = "<em>No log entries yet.</em>";
-    return;
-  }
+function renderLog(entries) {
+  const el = document.getElementById("brew-log-entries");
+  el.innerHTML = "";
 
   entries.forEach(e => {
     const div = document.createElement("div");
     div.className = "log-entry";
-    div.innerHTML = `
-      <strong>${e.BrewDate}</strong><br>
-      ${e.Stage}<br>
-      <em>${e.Notes || ""}</em>
-    `;
-    container.appendChild(div);
+    div.innerHTML = `<strong>${e.BrewDate}</strong><br>${e.Stage}<br><em>${e.Notes || ""}</em>`;
+    el.appendChild(div);
   });
 }
