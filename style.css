@@ -46,32 +46,48 @@ h2 {
   gap: 16px;
 }
 
-/* ================== CARD ================== */
+/* ================== CARD (BUBBLE STYLE) ================== */
 .tank {
   background: white;
-  border-radius: 12px;
-  padding: 16px;
-  border: 2px solid #e5e7eb;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  border-radius: 18px;
+  padding: 18px;
+  border: none;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.06),
+    0 1px 2px rgba(0,0,0,0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .tank:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   transform: translateY(-2px);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.10),
+    0 4px 10px rgba(0,0,0,0.06);
 }
 
-/* ================== STATUS COLORS ================== */
-.status-empty { border-color: #9ca3af; }
-.status-fermenting { border-color: #22c55e; }
-.status-conditioning { border-color: #f59e0b; }
-.status-cip { border-color: #0ea5e9; }
+/* ================== SOFT STATUS BACKGROUNDS ================== */
+.status-fermenting {
+  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 65%);
+}
+
+.status-conditioning {
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 65%);
+}
+
+.status-cip {
+  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 65%);
+}
+
+.status-empty {
+  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 65%);
+}
 
 /* ================== HEADER ROW ================== */
 .tank-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .tank-id {
@@ -79,11 +95,11 @@ h2 {
   font-size: 15px;
 }
 
-/* ================== BADGE ================== */
+/* ================== STATUS BADGE ================== */
 .tank-badge {
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
