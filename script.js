@@ -1,28 +1,48 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-document.addEventListener("DOMContentLoaded", loadDashboard);
+document.addEventListener("DOMContentLoaded", () => {
+  loadTanks();
+});
 
-function loadDashboard() {
-  fetch(`${API}?action=tanks`)
-    .then(res => res.json())
-    .then(data => {
-      console.log("TANK DATA", data); // debug-safe
-      renderDashboard(data);
+function loadTanks() {
+  fetch(`${API}?action=tanks`, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      "Accept": "application/json"
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
     })
-    .catch(err => console.error("API ERROR", err));
+    .then(tanks => {
+      console.log("TANKS LOADED:", tanks);
+      renderTanks(tanks);
+    })
+    .catch(error => {
+      console.error("SAFARI FETCH ERROR:", error);
+    });
 }
 
-function renderDashboard(tanks) {
+function renderTanks(tanks) {
   const ferm = document.getElementById("fermentation");
   const brite = document.getElementById("brite");
+
+  if (!ferm || !brite) {
+    console.error("Missing container elements");
+    return;
+  }
 
   ferm.innerHTML = "";
   brite.innerHTML = "";
 
   tanks.forEach(t => {
-    const type = (t.Type || "").toString().toLowerCase();
-    const status = (t.Status || "Empty").toString().toLowerCase();
+    const type = (t.Type || "").toString().trim().toLowerCase();
+    const status = (t.Status || "empty").toString().trim().toLowerCase();
 
     const card = document.createElement("div");
     card.className = `tank status-${status}`;
