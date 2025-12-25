@@ -38,7 +38,7 @@
       <div><label>Efficiency %</label><input id="efficiency"></div>
       <div><label>Target OG</label><input id="targetOG" readonly></div>
       <div><label>Target FG</label><input id="targetFG" readonly></div>
-      <div><label>Volume</label><input id="volume" readonly></div>
+      <div><label>Volume</label><input id="targetVolume" readonly></div>
       <div><label>IBU</label><input id="ibu" readonly></div>
       <div><label>SRM</label><input id="srm" readonly></div>
     </div>
@@ -49,11 +49,13 @@
     <h3>Grain Bill</h3>
     <table id="grainTable">
       <thead>
-        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
+        <tr>
+          <th>Grain</th>
+          <th>Target</th>
+          <th>Milled</th>
+        </tr>
       </thead>
-      <tbody>
-        <tr><td colspan="3" class="muted">— No data loaded —</td></tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </section>
 
@@ -61,12 +63,12 @@
   <section class="card">
     <h3>Water Profile (ppm)</h3>
     <div class="two-col">
-      <div><label>Ca</label><input id="ca"></div>
-      <div><label>Mg</label><input id="mg"></div>
-      <div><label>Na</label><input id="na"></div>
-      <div><label>SO₄</label><input id="so4"></div>
-      <div><label>Cl</label><input id="cl"></div>
-      <div><label>HCO₃</label><input id="hco3"></div>
+      <div><label>Ca</label><input id="Ca"></div>
+      <div><label>Mg</label><input id="Mg"></div>
+      <div><label>Na</label><input id="Na"></div>
+      <div><label>SO₄</label><input id="SO4"></div>
+      <div><label>Cl</label><input id="Cl"></div>
+      <div><label>HCO₃</label><input id="HCO3"></div>
     </div>
   </section>
 
@@ -75,11 +77,14 @@
     <h3>Mash Schedule</h3>
     <table id="mashTable">
       <thead>
-        <tr><th>Step</th><th>Temp</th><th>Time</th><th>pH</th></tr>
+        <tr>
+          <th>Step</th>
+          <th>Temp</th>
+          <th>Time</th>
+          <th>pH</th>
+        </tr>
       </thead>
-      <tbody>
-        <tr><td colspan="4" class="muted">— No data loaded —</td></tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </section>
 
@@ -87,8 +92,8 @@
   <section class="card">
     <h3>Lauter</h3>
 
-    <div class="lauter-row">
-      <strong>First Runnings</strong>
+    <div class="lauter-block">
+      <h4>First Runnings</h4>
       <input type="time">
       <input type="time">
       <input placeholder="Gravity">
@@ -96,24 +101,24 @@
       <input placeholder="Deep Cuts">
     </div>
 
-    <div class="lauter-row">
-      <strong>First Sparge</strong>
+    <div class="lauter-block">
+      <h4>First Sparge</h4>
       <input type="time">
       <input type="time">
       <input placeholder="Volume">
       <input placeholder="Deep Cuts">
     </div>
 
-    <div class="lauter-row">
-      <strong>Second Sparge</strong>
+    <div class="lauter-block">
+      <h4>Second Sparge</h4>
       <input type="time">
       <input type="time">
       <input placeholder="Volume">
       <input placeholder="Deep Cuts">
     </div>
 
-    <div class="lauter-row">
-      <strong>Final Runnings</strong>
+    <div class="lauter-block">
+      <h4>Final Runnings</h4>
       <input type="time">
       <input type="time">
       <input placeholder="Gravity">
@@ -125,8 +130,14 @@
   <section class="card">
     <h3>Boil</h3>
     <div class="two-col">
-      <div><label>Start</label><input type="time"></div>
-      <div><label>End</label><input type="time"></div>
+      <div>
+        <label>Start</label>
+        <input type="time" id="boilStart" name="boilStart">
+      </div>
+      <div>
+        <label>End</label>
+        <input type="time" id="boilEnd" name="boilEnd">
+      </div>
     </div>
   </section>
 
@@ -134,16 +145,16 @@
   <section class="card">
     <h3>Knockout</h3>
     <div class="two-col">
-      <div><label>Volume</label><input></div>
-      <div><label>Gravity</label><input></div>
-      <div><label>pH</label><input></div>
+      <div><label>Volume</label><input id="koVolume"></div>
+      <div><label>Gravity</label><input id="koGravity"></div>
+      <div><label>pH</label><input id="koPH"></div>
     </div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <button id="save">Save Brew Log</button>
+  <button>Save Brew Log</button>
 </footer>
 
 <script src="brew-log.js"></script>
