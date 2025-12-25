@@ -1,39 +1,56 @@
-const API =
-  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
+const API = "YOUR_DEPLOYED_SCRIPT_URL";
 
-fetch(API)
-  .then(r => r.json())
-  .then(tanks => {
-    const ferm = document.getElementById("fermentation");
-    const brite = document.getElementById("brite");
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("fermentation")) loadTanks();
+  if (document.getElementById("recipe")) loadBrewLog();
+});
 
-    ferm.innerHTML = "";
-    brite.innerHTML = "";
-
-    tanks.forEach(t => {
-      const status = (t.Status || "empty").toLowerCase();
-
-      const card = document.createElement("div");
-      card.className = `tank status-${status}`;
-      card.innerHTML = `
-        <h4>${t.TankID}</h4>
-        <div><strong>Batch:</strong> ${t.Batch || "—"}</div>
-        <div><strong>Status:</strong> ${t.Status || "—"}</div>
-      `;
-
-      if (status === "empty") {
-        card.onclick = () =>
-          location.href = `brew-log.html?tank=${encodeURIComponent(t.TankID)}`;
-      } else {
+function loadTanks() {
+  fetch(API + "?action=tanks")
+    .then(r => r.json())
+    .then(tanks => {
+      tanks.forEach(t => {
+        const card = document.createElement("div");
+        card.className = `tank status-${t.Status.toLowerCase()}`;
+        card.innerHTML = `<h4>${t.TankID}</h4><div>${t.Status}</div>`;
         card.onclick = () => {
-          alert(
-            `Tank: ${t.TankID}\nStatus: ${t.Status}\nBatch: ${t.Batch || "—"}`
-          );
+          if (t.Status === "Empty") {
+            window.location = `brew-log.html?tank=${t.TankID}`;
+          }
         };
-      }
-
-      if (t.Type === "Fermenter") ferm.appendChild(card);
-      if (t.Type === "Brite") brite.appendChild(card);
+        document.getElementById(
+          t.Type === "Fermenter" ? "fermentation" : "brite"
+        ).appendChild(card);
+      });
     });
-  })
-  .catch(err => console.error("Error loading tanks:", err));
+}
+
+function loadBrewLog() {
+  const tank = new URLSearchParams(window.location.search).get("tank");
+  document.getElementById("tank").value = tank;
+
+  fetch(API + "?action=recipes")
+    .then(r => r.json())
+    .then(recipes => {
+      const sel = document.getElementById("recipe");
+      recipes.forEach(r => {
+        const o = document.createElement("option");
+        o.value = r.RecipeID;
+        o.textContent = r.Beer;
+        sel.appendChild(o);
+      });
+    });
+}
+
+function saveBrew() {
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      tank: tank.value,
+      recipe: recipe.value,
+      mashPH: mashPH.value,
+      koSG: koSG.value,
+      koVol: koVol.value
+    })
+  }).then(() => alert("Saved"));
+}
