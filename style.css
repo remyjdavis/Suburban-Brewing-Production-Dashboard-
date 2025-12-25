@@ -10,22 +10,18 @@ header {
   margin-bottom: 30px;
 }
 
+section {
+  margin-bottom: 40px;
+}
+
+h3 {
+  margin-bottom: 15px;
+}
+
 .tank-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-}
-
-@media (max-width: 900px) {
-  .tank-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 500px) {
-  .tank-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .tank {
@@ -34,12 +30,31 @@ header {
   padding: 15px;
   border: 2px solid #ccc;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.status-fermenting { border-color: #28a745; }
-.status-conditioning { border-color: #ffc107; }
-.status-cip { border-color: #17a2b8; }
-.status-empty { border-color: #adb5bd; }
+.tank:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* STATUS COLORS */
+.status-fermenting {
+  border-color: #28a745;
+}
+
+.status-conditioning {
+  border-color: #ffc107;
+}
+
+.status-cip {
+  border-color: #17a2b8;
+}
+
+.status-empty {
+  border-color: #adb5bd;
+  background: #f8f9fa;
+}
 
 .tank h4 {
   margin: 0 0 8px;
