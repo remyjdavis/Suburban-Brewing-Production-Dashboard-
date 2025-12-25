@@ -30,9 +30,10 @@ body {
 
 .card {
   background: white;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  min-width: 0;
 }
 
 .card h2 {
@@ -43,6 +44,13 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 table {
@@ -56,8 +64,8 @@ th {
   color: #666;
 }
 
-td input {
-  width: 100%;
+td {
+  padding: 6px 4px;
 }
 
 .flag {
@@ -70,11 +78,11 @@ td input {
 }
 
 .save {
-  padding: 14px 24px;
+  padding: 14px 26px;
   font-size: 16px;
   background: #1a73e8;
   color: white;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
 }
