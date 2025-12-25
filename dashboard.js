@@ -23,23 +23,28 @@ xhr.onload = function () {
     return;
   }
 
-  var ferm = document.getElementById("fermentation");
+  var fermentation = document.getElementById("fermentation");
   var brite = document.getElementById("brite");
+
+  if (!fermentation || !brite) {
+    console.error("Dashboard containers missing");
+    return;
+  }
 
   tanks.forEach(function (t) {
     var status = (t.Status || "empty").toLowerCase();
 
     var card = document.createElement("div");
-    card.className = "tank " + status;
+    card.className = "tank status-" + status;
 
-    var title = document.createElement("h4");
-    title.textContent = t.TankID;
+    var h = document.createElement("h4");
+    h.textContent = t.TankID;
 
-    var state = document.createElement("div");
-    state.textContent = t.Status || "Empty";
+    var d = document.createElement("div");
+    d.textContent = t.Status || "Empty";
 
-    card.appendChild(title);
-    card.appendChild(state);
+    card.appendChild(h);
+    card.appendChild(d);
 
     if (status === "empty") {
       card.onclick = function () {
@@ -48,7 +53,7 @@ xhr.onload = function () {
     }
 
     if (t.Type === "Fermenter") {
-      ferm.appendChild(card);
+      fermentation.appendChild(card);
     } else {
       brite.appendChild(card);
     }
