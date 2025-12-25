@@ -1,29 +1,33 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: system-ui;
+  background: #111;
+  color: #fff;
+  margin: 0;
 }
 
 header {
-  text-align: center;
-  padding: 20px;
+  padding: 1rem;
+  background: #000;
+}
+
+nav a {
+  color: #f4b400;
+  margin-right: 1rem;
 }
 
 .tank-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  padding: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
 .tank {
-  background: white;
+  padding: 1rem;
   border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: #333;
 }
 
-.status-fermenting { border-left: 6px solid orange; }
-.status-conditioning { border-left: 6px solid purple; }
-.status-empty { border-left: 6px solid #bbb; }
-.status-cip { border-left: 6px solid red; }
-.status-ready { border-left: 6px solid green; }
+.status-fermenting { background: #1e7f43; }
+.status-conditioning { background: #3b6ea5; }
+.status-cip { background: #8a2be2; }
+.status-empty { background: #555; }
