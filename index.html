@@ -8,21 +8,27 @@
 
 <body>
 
-<header>
-  <h1>Suburban Brewing Company</h1>
-  <h2>Production Dashboard</h2>
-</header>
+  <header class="app-header">
+    <div class="header-content">
+      <h1>Suburban Brewing Company</h1>
+      <h2>Production Dashboard</h2>
+    </div>
+  </header>
 
-<section>
-  <h3>Fermentation Tanks</h3>
-  <div id="fermentation" class="tank-grid"></div>
-</section>
+  <main class="dashboard">
 
-<section>
-  <h3>Brite Tanks</h3>
-  <div id="brite" class="tank-grid"></div>
-</section>
+    <section class="dashboard-section">
+      <h3 class="section-title">Fermentation Tanks</h3>
+      <div id="fermentation" class="tank-grid"></div>
+    </section>
 
-<script src="dashboard.js"></script>
+    <section class="dashboard-section">
+      <h3 class="section-title">Brite Tanks</h3>
+      <div id="brite" class="tank-grid"></div>
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
 </body>
 </html>
