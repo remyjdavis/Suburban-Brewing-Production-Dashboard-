@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Suburban Brewing Company – Production Dashboard</title>
+  <title>Suburban Brewing – Production Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -10,6 +10,7 @@
 <header>
   <h1>Suburban Brewing Company</h1>
   <h2>Production Dashboard</h2>
+  <a href="brewlog.html" class="btn">+ New Brew Day</a>
 </header>
 
 <section>
@@ -25,57 +26,6 @@
 <section>
   <h3>Production Timeline</h3>
   <div id="timeline"></div>
-</section>
-
-<!-- Brew Log Modal -->
-<section id="brew-log-modal" class="modal hidden">
-  <div class="modal-content">
-    <span id="close-log" class="close">&times;</span>
-    <h3 id="log-title"></h3>
-
-    <h4>Brew Day Log</h4>
-    <form id="brewday-form">
-
-      <label>Date</label>
-      <input type="date" id="brewday-date" required>
-
-      <label>Brewer</label>
-      <input type="text" id="brewday-brewer">
-
-      <label>Grain Bill</label>
-      <table id="grain-table">
-        <tr><th>Grain</th><th>Weight</th></tr>
-        <tr>
-          <td><input></td>
-          <td><input></td>
-        </tr>
-      </table>
-      <button type="button" id="add-grain">+ Add Grain</button>
-
-      <label>Water Profile</label>
-      <textarea id="brewday-water"></textarea>
-
-      <label>Mash Schedule</label>
-      <textarea id="brewday-mash"></textarea>
-
-      <label>Lauter</label>
-      <textarea id="brewday-lauter"></textarea>
-
-      <label>Boil</label>
-      <textarea id="brewday-boil"></textarea>
-
-      <label>Knockout (KO)</label>
-      <textarea id="brewday-ko"></textarea>
-
-      <button type="submit">Save Brew Day</button>
-    </form>
-
-    <hr>
-
-    <h4>Brew Log History</h4>
-    <div id="brew-log-entries"></div>
-
-  </div>
 </section>
 
 <script src="script.js"></script>
