@@ -60,11 +60,20 @@ input.sm { width: 64px; }
 input.md { width: 90px; }
 input.lg { width: 110px; }
 
+input.time { width: 90px; }
+input.vol { width: 100px; }
+input.grav { width: 100px; }
+
 /* INLINE */
 .inline {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
+}
+
+.inline.mash-ph {
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 6px;
 }
 
 /* TABLES */
@@ -78,6 +87,12 @@ table.tight td {
   padding: 2px;
   font-size: 11px;
   text-align: left;
+  vertical-align: middle;
+}
+
+/* LAUTER ALIGNMENT */
+table.lauter td input {
+  display: block;
 }
 
 /* WATER */
