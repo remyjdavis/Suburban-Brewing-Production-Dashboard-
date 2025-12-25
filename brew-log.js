@@ -1,84 +1,44 @@
-const API =
-  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
-
-document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const tank = params.get("tank");
-  if (tank) document.getElementById("tank").value = tank;
-
-  loadRecipes();
+// Auto-select tank based on click source (PRESERVED)
+document.addEventListener("click", (e) => {
+  if (e.target.dataset.tank) {
+    document.getElementById("tank").value = e.target.dataset.tank;
+  }
 });
 
-function loadRecipes() {
-  fetch(`${API}?action=recipes`)
-    .then(r => r.json())
-    .then(recipes => {
-      const select = document.getElementById("recipe");
-      select.innerHTML = "<option></option>";
+// Populate Mash Schedule
+const mashSteps = [
+  { step: "Mash In", temp: "62C", time: "", ph: true },
+  { step: "First Rest", temp: "62C", time: "60", ph: false },
+  { step: "Mash Out", temp: "77C", time: "1", ph: true }
+];
 
-      recipes.forEach(r => {
-        const o = document.createElement("option");
-        o.value = r.RecipeID;
-        o.textContent = r.Beer;
-        select.appendChild(o);
-      });
+const mashTable = document.getElementById("mashTable");
 
-      select.onchange = () => loadRecipe(select.value);
-    });
-}
+mashSteps.forEach(step => {
+  const tr = document.createElement("tr");
 
-function loadRecipe(id) {
-  fetch(`${API}?action=recipe&recipe=${id}`)
-    .then(r => r.json())
-    .then(d => {
+  tr.innerHTML = `
+    <td>${step.step}</td>
+    <td>${step.temp}</td>
+    <td>${step.time}</td>
+    <td>${step.ph ? `<input>` : "—"}</td>
+    <td><input type="time"></td>
+    <td><input type="time"></td>
+  `;
 
-      Object.entries(d.targets || {}).forEach(([k, v]) => {
-        const el = document.getElementById(k);
-        if (el) el.value = v;
-      });
+  mashTable.appendChild(tr);
+});
 
-      fillGrain(d.grain || []);
-      fillMash(d.mash || []);
+// Grain bill placeholder
+const grains = ["Pilsner", "Munich"];
+const grainTable = document.getElementById("grainTable");
 
-      Object.entries(d.water || {}).forEach(([k, v]) => {
-        const el = document.getElementById(k);
-        if (el) el.value = v;
-      });
-    });
-}
-
-function fillGrain(rows) {
-  const tb = document.getElementById("grainTable");
-  tb.innerHTML = "";
-
-  rows.forEach(r => {
-    tb.innerHTML += `
-      <tr>
-        <td>${r.Grain}</td>
-        <td>${r.Target}</td>
-        <td><input type="number" step="0.01"></td>
-      </tr>
-    `;
-  });
-}
-
-function fillMash(rows) {
-  const tb = document.getElementById("mashTable");
-  tb.innerHTML = "";
-
-  rows.forEach((r, i) => {
-    const phAllowed =
-      i === 0 || r.Step.toLowerCase().includes("out");
-
-    tb.innerHTML += `
-      <tr>
-        <td>${r.Step}</td>
-        <td>${r.Temp}</td>
-        <td>${r.Time}</td>
-        <td>${phAllowed ? `<input step="0.01">` : "—"}</td>
-        <td><input type="time"></td>
-        <td><input type="time"></td>
-      </tr>
-    `;
-  });
-}
+grains.forEach(g => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${g}</td>
+    <td>—</td>
+    <td><input></td>
+  `;
+  grainTable.appendChild(tr);
+});
