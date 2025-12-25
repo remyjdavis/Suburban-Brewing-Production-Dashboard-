@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Brew Day Log</title>
   <link rel="stylesheet" href="brew-log.css">
 </head>
-
 <body>
 
-<div class="page-header">
+<header class="page-header">
   <h1>Brew Day Log</h1>
 
   <div class="brew-meta">
@@ -17,25 +16,54 @@
     <select id="recipe"></select>
     <input id="brewer" placeholder="Brewer">
   </div>
-</div>
+</header>
 
-<div class="grid">
+<section class="grid">
+
+  <!-- TARGETS -->
+  <div class="card">
+    <h2>Recipe Targets</h2>
+    <div class="inline-fields">
+      <input id="targetEff" placeholder="Brewhouse Efficiency (%)" readonly>
+      <input id="targetOG" placeholder="Target OG" readonly>
+      <input id="targetFG" placeholder="Target FG" readonly>
+      <input id="targetVol" placeholder="Target Volume" readonly>
+      <input id="targetIBU" placeholder="IBUs" readonly>
+      <input id="targetColor" placeholder="Color (SRM)" readonly>
+    </div>
+  </div>
 
   <!-- GRAIN BILL -->
   <div class="card">
     <h2>Grain Bill</h2>
-    <table id="grain-table">
-      <tr>
-        <th>Grain</th>
-        <th>Target</th>
-        <th>Milled</th>
-      </tr>
+    <table id="grainTable">
+      <thead>
+        <tr>
+          <th>Grain</th>
+          <th>Target</th>
+          <th>Milled</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
+  </div>
+
+  <!-- WATER -->
+  <div class="card">
+    <h2>Water Profile</h2>
+    <div class="inline-fields">
+      <input id="ca" placeholder="Ca">
+      <input id="mg" placeholder="Mg">
+      <input id="na" placeholder="Na">
+      <input id="so4" placeholder="SO₄">
+      <input id="cl" placeholder="Cl">
+      <input id="hco3" placeholder="HCO₃">
+    </div>
   </div>
 
   <!-- MASH -->
   <div class="card">
-    <h2>Mash Schedule</h2>
+    <h2>Mash</h2>
     <input placeholder="Strike Temp">
     <input placeholder="Mash Temp">
     <input placeholder="Mash Time (min)">
@@ -45,8 +73,9 @@
   <!-- LAUTER -->
   <div class="card">
     <h2>Lauter</h2>
-    <input type="time" placeholder="Start">
-    <input type="time" placeholder="End">
+    <input type="time" id="lauterStart">
+    <input type="time" id="lauterEnd">
+    <input id="lauterDuration" placeholder="Duration (min)" readonly>
     <input placeholder="First Runnings Gravity">
     <input placeholder="Final Runnings Gravity">
   </div>
@@ -54,25 +83,19 @@
   <!-- BOIL -->
   <div class="card">
     <h2>Boil</h2>
-    <input type="time" placeholder="Boil Start">
-    <input type="time" placeholder="Boil End">
+    <input type="time" id="boilStart">
+    <input type="time" id="boilEnd">
+    <input id="boilDuration" placeholder="Duration (min)" readonly>
 
-    <table>
-      <tr>
-        <th>Addition</th>
-        <th>Amount</th>
-        <th>Time (min)</th>
-      </tr>
-      <tr>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-      </tr>
-      <tr>
-        <td><input></td>
-        <td><input></td>
-        <td><input></td>
-      </tr>
+    <table id="hopTable">
+      <thead>
+        <tr>
+          <th>Addition</th>
+          <th>Amount</th>
+          <th>Time (min)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
   </div>
 
@@ -84,12 +107,12 @@
     <input placeholder="KO pH">
   </div>
 
-</div>
+</section>
 
-<div class="footer">
-  <button class="save">Save Brew Log</button>
-</div>
+<footer class="footer">
+  <button class="save" onclick="saveBrew()">Save Brew Log</button>
+</footer>
 
-<script src="script.js"></script>
+<script src="brew-log.js"></script>
 </body>
 </html>
