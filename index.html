@@ -1,222 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Suburban Brewing Company Production Dashboard</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-}
-
-header {
-  background: #1f3a5f;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
-section {
-  padding: 20px 40px;
-}
-
-h2 {
-  color: #1f3a5f;
-  margin-bottom: 10px;
-}
-
-.tank-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
-}
-
-.tank {
-  background: white;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  cursor: pointer;
-  border-top: 6px solid #ccc;
-}
-
-.fermenting { border-top-color: #4CAF50; }
-.cip { border-top-color: #FF9800; }
-.conditioning { border-top-color: #2196F3; }
-.empty { border-top-color: #9E9E9E; }
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  width: 320px;
-  border-radius: 8px;
-}
-
-.modal-content label {
-  display: block;
-  margin-top: 10px;
-}
-
-.modal-content input, select {
-  width: 100%;
-  padding: 6px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 8px;
-  width: 100%;
-}
-
-.timeline {
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Suburban Brewing Company – Production Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-
-<script>
-/* ===== PASSWORD LOCK ===== */
-const PASS = "brew";
-if (!sessionStorage.getItem("auth")) {
-  const input = prompt("Enter dashboard password:");
-  if (input !== PASS) location.reload();
-  sessionStorage.setItem("auth", "true");
-}
-</script>
 
 <header>
   <h1>Suburban Brewing Company</h1>
-  <p>Production Dashboard</p>
+  <h2>Production Dashboard</h2>
 </header>
 
-<section>
-<h2>Fermentation Tanks</h2>
-<div class="tank-grid" id="fermenters"></div>
-</section>
+<main>
+  <section>
+    <h3>Fermentation Tanks</h3>
+    <div id="fermentation" class="tank-grid"></div>
+  </section>
 
-<section>
-<h2>Brite Tanks</h2>
-<div class="tank-grid" id="brites"></div>
-</section>
+  <section>
+    <h3>Brite Tanks</h3>
+    <div id="brite" class="tank-grid"></div>
+  </section>
+</main>
 
-<section>
-<h2>Production Timeline</h2>
-<div class="timeline" id="timeline"></div>
-</section>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <h3 id="modalTitle"></h3>
-
-    <label>Batch</label>
-    <input id="batch">
-
-    <label>Status</label>
-    <select id="status">
-      <option>Fermenting</option>
-      <option>CIP</option>
-      <option>Conditioning</option>
-      <option>Empty</option>
-    </select>
-
-    <label>Start Date</label>
-    <input type="date" id="start">
-
-    <button onclick="saveTank()">Save</button>
-    <button onclick="closeModal()">Cancel</button>
-  </div>
-</div>
-
-<script>
-/* ===== DATA ===== */
-const tanks = JSON.parse(localStorage.getItem("tanks")) || [
-  {id:"FV-1", type:"fermenter"},
-  {id:"FV-2", type:"fermenter"},
-  {id:"FV-3", type:"fermenter"},
-  {id:"FV-4", type:"fermenter"},
-  {id:"FV-5", type:"fermenter"},
-  {id:"FV-6", type:"fermenter"},
-  {id:"BT-1", type:"brite"},
-  {id:"BT-2", type:"brite"}
-];
-
-let currentTank = null;
-
-/* ===== RENDER ===== */
-function render() {
-  fermenters.innerHTML = "";
-  brites.innerHTML = "";
-  timeline.innerHTML = "";
-
-  tanks.forEach(t => {
-    const div = document.createElement("div");
-    div.className = `tank ${t.status?.toLowerCase() || "empty"}`;
-    div.innerHTML = `
-      <h3>${t.id}</h3>
-      <p>Batch: ${t.batch || "—"}</p>
-      <p>Status: ${t.status || "Empty"}</p>
-      <p>Day: ${calcDay(t.start)}</p>
-    `;
-    div.onclick = () => openModal(t);
-
-    if (t.type === "fermenter") fermenters.appendChild(div);
-    else brites.appendChild(div);
-
-    if (t.batch) {
-      timeline.innerHTML += `<p>${t.id} — ${t.batch} (Day ${calcDay(t.start)})</p>`;
-    }
-  });
-
-  localStorage.setItem("tanks", JSON.stringify(tanks));
-}
-
-/* ===== DAY CALC ===== */
-function calcDay(start) {
-  if (!start) return "—";
-  const d = Math.floor((new Date() - new Date(start)) / 86400000) + 1;
-  return d > 0 ? d : "—";
-}
-
-/* ===== MODAL ===== */
-function openModal(t) {
-  currentTank = t;
-  modal.style.display = "flex";
-  modalTitle.textContent = t.id;
-  batch.value = t.batch || "";
-  status.value = t.status || "Empty";
-  start.value = t.start || "";
-}
-
-function closeModal() {
-  modal.style.display = "none";
-}
-
-function saveTank() {
-  currentTank.batch = batch.value;
-  currentTank.status = status.value;
-  currentTank.start = start.value;
-  closeModal();
-  render();
-}
-
-render();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
