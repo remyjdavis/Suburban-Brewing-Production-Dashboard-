@@ -1,70 +1,100 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var API_URL =
-    "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec?action=tanks";
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
 
-  fetch(API_URL)
-    .then(function (res) {
-      return res.json();
-    })
-    .then(function (data) {
-      renderTanks(data);
-    })
-    .catch(function (err) {
-      console.error("FETCH ERROR:", err);
-      alert("Failed to load tank data");
-    });
-});
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #222;
+}
 
-function renderTanks(tanks) {
-  var ferm = document.getElementById("fermentation");
-  var brite = document.getElementById("brite");
+.page-header {
+  background: #111;
+  color: #fff;
+  padding: 20px;
+}
 
-  ferm.innerHTML = "";
-  brite.innerHTML = "";
+.page-header h1 {
+  margin: 0 0 10px;
+}
 
-  tanks.forEach(function (t) {
-    var rawStatus = (t.Status || "Empty").toString();
-    var status = rawStatus.trim().toLowerCase();
+.brew-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
 
-    var card = document.createElement("div");
-    card.className = "tank status-" + status;
+.brew-meta input {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+}
 
-    card.innerHTML =
-      "<h4>" +
-      t.TankID +
-      "</h4>" +
-      "<div><strong>Status:</strong> " +
-      rawStatus +
-      "</div>" +
-      "<div><strong>Batch:</strong> " +
-      (t.Batch || "—") +
-      "</div>" +
-      "<div><strong>Day:</strong> " +
-      (t.Day || "—") +
-      "</div>";
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
 
-    card.addEventListener("click", function () {
-      if (status === "empty") {
-        window.location.href =
-          "brew-log.html?tank=" + encodeURIComponent(t.TankID);
-      } else {
-        alert(
-          "Tank: " +
-            t.TankID +
-            "\nStatus: " +
-            rawStatus +
-            "\nBatch: " +
-            (t.Batch || "—")
-        );
-      }
-    });
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 
-    if (t.Type === "Fermenter") {
-      ferm.appendChild(card);
-    }
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
 
-    if (t.Type === "Brite") {
-      brite.appendChild(card);
-    }
-  });
+.card input {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px;
+}
+
+.inline-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+th {
+  text-align: left;
+  font-size: 12px;
+  color: #666;
+}
+
+td input {
+  width: 100%;
+}
+
+button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+}
+
+.save {
+  padding: 12px 20px;
+  font-size: 16px;
+  background: #1a73e8;
+  color: white;
+  border-radius: 10px;
 }
