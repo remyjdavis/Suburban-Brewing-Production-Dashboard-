@@ -8,13 +8,11 @@
 
 <body>
 
-<header class="app-header">
-  <div class="header-group">
-    <label><span>Date</span><input id="date" type="date" /></label>
-    <label><span>Tank</span><input id="tank" readonly /></label>
-    <label><span>Recipe</span><select id="recipe"></select></label>
-    <label><span>Brewer</span><input id="brewer" placeholder="Name" /></label>
-  </div>
+<header class="header">
+  <label>Date <input type="date" id="date"></label>
+  <label>Tank <input id="tank" readonly></label>
+  <label>Recipe <select id="recipe"></select></label>
+  <label>Brewer <input id="brewer" placeholder="Name"></label>
 </header>
 
 <main class="grid">
@@ -22,13 +20,13 @@
   <!-- Recipe Targets -->
   <section class="card">
     <h3>Recipe Targets</h3>
-    <div class="field-grid">
-      <label><span>Efficiency %</span><input id="efficiency" /></label>
-      <label><span>Target OG</span><input id="targetOG" /></label>
-      <label><span>Target FG</span><input id="targetFG" /></label>
-      <label><span>Volume</span><input id="targetVolume" /></label>
-      <label><span>IBU</span><input id="ibu" /></label>
-      <label><span>SRM</span><input id="srm" /></label>
+    <div class="fields">
+      <label>Efficiency % <input id="efficiency"></label>
+      <label>Target OG <input id="targetOG" readonly></label>
+      <label>Target FG <input id="targetFG" readonly></label>
+      <label>Volume <input id="volume" readonly></label>
+      <label>IBU <input id="ibu" readonly></label>
+      <label>SRM <input id="srm" readonly></label>
     </div>
   </section>
 
@@ -46,13 +44,13 @@
   <!-- Water -->
   <section class="card">
     <h3>Water Profile (ppm)</h3>
-    <div class="field-grid">
-      <label><span>Ca</span><input id="Ca" /></label>
-      <label><span>Mg</span><input id="Mg" /></label>
-      <label><span>Na</span><input id="Na" /></label>
-      <label><span>SO₄</span><input id="SO4" /></label>
-      <label><span>Cl</span><input id="Cl" /></label>
-      <label><span>HCO₃</span><input id="HCO3" /></label>
+    <div class="fields">
+      <label>Ca <input id="ca" readonly></label>
+      <label>Mg <input id="mg" readonly></label>
+      <label>Na <input id="na" readonly></label>
+      <label>SO₄ <input id="so4" readonly></label>
+      <label>Cl <input id="cl" readonly></label>
+      <label>HCO₃ <input id="hco3" readonly></label>
     </div>
   </section>
 
@@ -72,45 +70,45 @@
     <h3>Lauter</h3>
 
     <h4>First Runnings</h4>
-    <div class="field-grid lauter">
-      <label><span>Start</span><input type="time" /></label>
-      <label><span>End</span><input type="time" /></label>
-      <label><span>Gravity</span><input /></label>
-      <label><span>Volume</span><input /></label>
-      <label><span>Deep Cuts</span><input /></label>
+    <div class="fields">
+      <input type="time" placeholder="Start">
+      <input type="time" placeholder="End">
+      <input placeholder="Gravity">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
     <h4>First Sparge</h4>
-    <div class="field-grid lauter">
-      <label><span>Start</span><input type="time" /></label>
-      <label><span>End</span><input type="time" /></label>
-      <label><span>Volume</span><input /></label>
-      <label><span>Deep Cuts</span><input /></label>
+    <div class="fields">
+      <input type="time">
+      <input type="time">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
     <h4>Second Sparge</h4>
-    <div class="field-grid lauter">
-      <label><span>Start</span><input type="time" /></label>
-      <label><span>End</span><input type="time" /></label>
-      <label><span>Volume</span><input /></label>
-      <label><span>Deep Cuts</span><input /></label>
+    <div class="fields">
+      <input type="time">
+      <input type="time">
+      <input placeholder="Volume">
+      <input placeholder="Deep Cuts">
     </div>
 
     <h4>Final Runnings</h4>
-    <div class="field-grid lauter">
-      <label><span>Start</span><input type="time" /></label>
-      <label><span>End</span><input type="time" /></label>
-      <label><span>Gravity</span><input /></label>
-      <label><span>Volume</span><input /></label>
+    <div class="fields">
+      <input type="time">
+      <input type="time">
+      <input placeholder="Gravity">
+      <input placeholder="Volume">
     </div>
   </section>
 
   <!-- Boil -->
   <section class="card">
     <h3>Boil</h3>
-    <div class="field-grid">
-      <label><span>Start</span><input type="time" /></label>
-      <label><span>End</span><input type="time" /></label>
+    <div class="fields">
+      <label>Start <input type="time"></label>
+      <label>End <input type="time"></label>
     </div>
 
     <table id="hopTable">
@@ -124,17 +122,17 @@
   <!-- Knockout -->
   <section class="card">
     <h3>Knockout</h3>
-    <div class="field-grid">
-      <label><span>Volume</span><input id="koVolume" /></label>
-      <label><span>Gravity</span><input id="koGravity" /></label>
-      <label><span>pH</span><input id="koPH" /></label>
+    <div class="fields">
+      <label>Volume <input></label>
+      <label>Gravity <input></label>
+      <label>pH <input></label>
     </div>
   </section>
 
 </main>
 
-<footer class="app-footer">
-  <button class="primary">Save Brew Log</button>
+<footer>
+  <button id="save">Save Brew Log</button>
 </footer>
 
 <script src="brew-log.js"></script>
