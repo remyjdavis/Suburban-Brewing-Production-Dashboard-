@@ -1,69 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Brew Log – Production</title>
   <link rel="stylesheet" href="brew-log.css">
 </head>
+
 <body>
 
-<header>
-  <input id="date" type="date">
-  <input id="tank" readonly>
-  <select id="recipe"></select>
-  <input id="brewer">
+<header class="app-header">
+  <div class="header-group">
+    <label>
+      <span>Date</span>
+      <input id="date" type="date">
+    </label>
+
+    <label>
+      <span>Tank</span>
+      <input id="tank" readonly>
+    </label>
+
+    <label>
+      <span>Recipe</span>
+      <select id="recipe"></select>
+    </label>
+
+    <label>
+      <span>Brewer</span>
+      <input id="brewer" placeholder="Name">
+    </label>
+  </div>
 </header>
 
-<section class="grid">
+<main class="grid">
 
-<div class="card">
-<h3>Recipe Targets</h3>
-<input id="efficiency">
-<input id="targetOG">
-<input id="targetFG">
-<input id="targetVolume">
-<input id="ibu">
-<input id="srm">
-</div>
+  <section class="card">
+    <h3>Recipe Targets</h3>
+    <div class="field-grid">
+      <label><span>Efficiency %</span><input id="efficiency"></label>
+      <label><span>Target OG</span><input id="targetOG"></label>
+      <label><span>Target FG</span><input id="targetFG"></label>
+      <label><span>Volume</span><input id="targetVolume"></label>
+      <label><span>IBU</span><input id="ibu"></label>
+      <label><span>SRM</span><input id="srm"></label>
+    </div>
+  </section>
 
-<div class="card">
-<h3>Grain Bill</h3>
-<table id="grainTable">
-<thead><tr><th>Grain</th><th>Target</th><th>Milled</th></tr></thead>
-<tbody></tbody>
-</table>
-</div>
+  <section class="card">
+    <h3>Grain Bill</h3>
+    <table id="grainTable">
+      <thead>
+        <tr>
+          <th>Grain</th>
+          <th>Target</th>
+          <th>Milled</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-<div class="card">
-<h3>Water Profile</h3>
-<input id="Ca"><input id="Mg"><input id="Na">
-<input id="SO4"><input id="Cl"><input id="HCO3">
-</div>
+  <section class="card">
+    <h3>Water Profile (ppm)</h3>
+    <div class="field-grid">
+      <label><span>Ca</span><input id="Ca"></label>
+      <label><span>Mg</span><input id="Mg"></label>
+      <label><span>Na</span><input id="Na"></label>
+      <label><span>SO₄</span><input id="SO4"></label>
+      <label><span>Cl</span><input id="Cl"></label>
+      <label><span>HCO₃</span><input id="HCO3"></label>
+    </div>
+  </section>
 
-<div class="card">
-<h3>Mash Schedule</h3>
-<table id="mashTable">
-<thead><tr><th>Step</th><th>Temp</th><th>Time</th><th>pH</th></tr></thead>
-<tbody></tbody>
-</table>
-</div>
+  <section class="card">
+    <h3>Mash Schedule</h3>
+    <table id="mashTable">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Temp</th>
+          <th>Time</th>
+          <th>pH</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-<div class="card">
-<h3>Boil</h3>
-<table id="hopTable">
-<thead><tr><th>Hop</th><th>Amount</th><th>Time</th></tr></thead>
-<tbody></tbody>
-</table>
-</div>
+  <section class="card">
+    <h3>Boil</h3>
+    <table id="hopTable">
+      <thead>
+        <tr>
+          <th>Hop</th>
+          <th>Amount</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-<div class="card">
-<h3>Knockout</h3>
-<input id="koVolume">
-<input id="koGravity">
-<input id="koPH">
-</div>
+  <section class="card">
+    <h3>Knockout</h3>
+    <div class="field-grid">
+      <label><span>Volume</span><input id="koVolume"></label>
+      <label><span>Gravity</span><input id="koGravity"></label>
+      <label><span>pH</span><input id="koPH"></label>
+    </div>
+  </section>
 
-</section>
+</main>
 
-<button>Save Brew Log</button>
+<footer class="app-footer">
+  <button class="primary">Save Brew Log</button>
+</footer>
 
 <script src="brew-log.js"></script>
 </body>
