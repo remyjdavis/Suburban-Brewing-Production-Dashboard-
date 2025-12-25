@@ -1,4 +1,3 @@
-/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,7 +11,7 @@ body {
   color: #1f2933;
 }
 
-/* ---------- Header ---------- */
+/* Header */
 .app-header {
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
@@ -31,12 +30,11 @@ body {
 
 .app-header h2 {
   font-size: 16px;
-  font-weight: 400;
   color: #6b7280;
   margin-top: 4px;
 }
 
-/* ---------- Layout ---------- */
+/* Layout */
 .dashboard {
   max-width: 1200px;
   margin: 32px auto;
@@ -53,32 +51,48 @@ body {
   margin-bottom: 16px;
 }
 
-/* ---------- Tank Grid ---------- */
+/* Tank Grid */
 .tank-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* ---------- Tank Cards ---------- */
+/* Tank Cards */
 .tank {
   background: #ffffff;
   border-radius: 12px;
   padding: 14px;
   border: 2px solid #ccc;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tank:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
 
 .tank h4 {
   font-size: 16px;
-  font-weight: 600;
   margin-bottom: 6px;
 }
 
-.tank
+.tank div {
+  font-size: 13px;
+}
+
+/* Status */
+.status-empty {
+  border-color: #adb5bd;
+  background-color: #f8f9fa;
+}
+
+.status-fermenting {
+  border-color: #28a745;
+  background-color: rgba(40, 167, 69, 0.04);
+}
+
+.status-conditioning {
+  border-color: #ffc107;
+  background-color: rgba(255, 193, 7, 0.05);
+}
+
+.status-cip {
+  border-color: #17a2b8;
+  background-color: rgba(23, 162, 184, 0.04);
+}
