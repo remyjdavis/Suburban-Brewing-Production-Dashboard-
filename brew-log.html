@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Brew Day Log</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<section class="grid">
 
-<body>
-
-<div class="page-header">
-  <h1>Brew Day Log</h1>
-  <div class="brew-meta">
-    <input id="date" type="date">
-    <input id="tank" readonly>
-    <select id="recipe"></select>
-    <input id="brewer" placeholder="Brewer">
-  </div>
-</div>
-
-<div class="grid">
-
+  <!-- GRAIN BILL -->
   <div class="card">
     <h2>Grain Bill</h2>
-    <table id="grainTable">
+    <table>
       <thead>
         <tr>
           <th>Grain</th>
@@ -30,38 +11,40 @@
           <th>Milled</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="grainBody"></tbody>
     </table>
   </div>
 
+  <!-- WATER -->
   <div class="card">
     <h2>Water Profile</h2>
-    <div class="inline-fields">
-      <input id="ca" placeholder="Ca">
-      <input id="mg" placeholder="Mg">
-      <input id="na" placeholder="Na">
-      <input id="so4" placeholder="SO4">
-      <input id="cl" placeholder="Cl">
-      <input id="hco3" placeholder="HCO3">
+    <div class="water-grid">
+      <input id="Ca" placeholder="Ca">
+      <input id="Mg" placeholder="Mg">
+      <input id="Na" placeholder="Na">
+      <input id="SO4" placeholder="SO4">
+      <input id="Cl" placeholder="Cl">
+      <input id="HCO3" placeholder="HCO3">
     </div>
   </div>
 
+  <!-- LAUTER -->
   <div class="card">
     <h2>Lauter</h2>
-    <input id="lauterStart" type="time">
-    <input id="lauterEnd" type="time">
-    <input id="lauterDuration" placeholder="Duration (min)" readonly>
-    <input placeholder="First Runnings Gravity">
-    <input placeholder="Final Runnings Gravity">
+    <input type="time" id="lauterStart">
+    <input type="time" id="lauterEnd">
+    <input id="lauterDuration" readonly placeholder="Duration (min)">
+    <input placeholder="First Runnings SG">
+    <input placeholder="Final Runnings SG">
   </div>
 
+  <!-- BOIL -->
   <div class="card">
     <h2>Boil</h2>
-    <input id="boilStart" type="time">
-    <input id="boilEnd" type="time">
-    <input id="boilDuration" placeholder="Duration (min)" readonly>
-
-    <table id="hopTable">
+    <input type="time" id="boilStart">
+    <input type="time" id="boilEnd">
+    <input id="boilDuration" readonly placeholder="Duration (min)">
+    <table>
       <thead>
         <tr>
           <th>Addition</th>
@@ -69,16 +52,8 @@
           <th>Time (min)</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="hopBody"></tbody>
     </table>
   </div>
 
-</div>
-
-<div class="footer">
-  <button class="save" onclick="saveBrew()">Save Brew Log</button>
-</div>
-
-<script src="brew-log.js"></script>
-</body>
-</html>
+</section>
