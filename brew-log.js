@@ -1,49 +1,84 @@
-// Placeholder recipe data – will be replaced by Google Sheets pull
-const recipeData = {
-  grains: [
-    { name: "Pilsner", target: 100 },
-    { name: "Munich", target: 20 }
-  ],
-  mash: [
-    { step: "Mash In", temp: "62C", time: "", ph: true },
-    { step: "Rest", temp: "62C", time: "60", ph: false },
-    { step: "Mash Out", temp: "77C", time: "1", ph: true }
-  ]
-};
+const API =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-// Populate Grain Bill
-const grainBody = document.querySelector("#grainTable tbody");
-recipeData.grains.forEach(g => {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${g.name}</td>
-    <td>${g.target}</td>
-    <td><input data-target="${g.target}"></td>
-  `;
-  grainBody.appendChild(row);
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
 
-// Grain validation ±10%
-grainBody.addEventListener("input", e => {
-  if (!e.target.dataset.target) return;
-  const target = Number(e.target.dataset.target);
-  const val = Number(e.target.value);
-  if (val < target * 0.9 || val > target * 1.1) {
-    e.target.classList.add("mismatch");
-  } else {
-    e.target.classList.remove("mismatch");
+  // ✅ Auto-fill Tank from URL (?tank=FV-5)
+  const tank = params.get("tank");
+  if (tank) {
+    const tankInput = document.getElementById("tank");
+    if (tankInput) tankInput.value = tank;
   }
+
+  // Optional: auto-fill date if empty
+  const dateInput = document.getElementById("date");
+  if (dateInput && !dateInput.value) {
+    dateInput.valueAsDate = new Date();
+  }
+
+  loadRecipes();
 });
 
-// Mash Schedule
-const mashBody = document.querySelector("#mashTable tbody");
-recipeData.mash.forEach(m => {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${m.step}</td>
-    <td>${m.temp}</td>
-    <td>${m.time}</td>
-    <td><input ${m.ph ? "" : "readonly"}></td>
-  `;
-  mashBody.appendChild(row);
-});
+function loadRecipes() {
+  fetch(`${API}?action=recipes`)
+    .then(r => r.json())
+    .then(recipes => {
+      const select = document.getElementById("recipe");
+      select.innerHTML = `<option value="">Select recipe</option>`;
+
+      recipes.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.RecipeID;
+        opt.textContent = r.Beer;
+        select.appendChild(opt);
+      });
+
+      select.addEventListener("change", () => {
+        if (select.value) loadRecipe(select.value);
+      });
+    });
+}
+
+function loadRecipe(id) {
+  fetch(`${API}?action=recipe&recipe=${id}`)
+    .then(r => r.json())
+    .then(data => {
+
+      // Targets
+      Object.entries(data.targets || {}).forEach(([key, val]) => {
+        const el = document.getElementById(key);
+        if (el) el.value = val;
+      });
+
+      fillTable("grainTable", data.grain, ["Grain", "Target", "Milled"]);
+      fillTable("mashTable", data.mash, ["Step", "Temp", "Time", "pH"]);
+      fillTable("hopTable", data.hops, ["Hop", "Amount", "Time"]);
+
+      // Water
+      Object.entries(data.water || {}).forEach(([key, val]) => {
+        const el = document.getElementById(key.toLowerCase());
+        if (el) el.value = val;
+      });
+    });
+}
+
+function fillTable(id, rows = [], cols = []) {
+  const tbody = document.querySelector(`#${id} tbody`);
+  tbody.innerHTML = "";
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="${cols.length}" class="muted">— No data loaded —</td></tr>`;
+    return;
+  }
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    cols.forEach(c => {
+      const td = document.createElement("td");
+      td.textContent = r[c] ?? "";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
