@@ -1,120 +1,68 @@
 body {
-  font-family: system-ui, sans-serif;
   background: #f4f6f8;
-  margin: 0;
+  font-family: system-ui, sans-serif;
 }
 
-/* HEADER */
-.page-header {
+.container {
+  max-width: 1500px;
+  margin: auto;
+}
+
+.top-row,
+.grid-4,
+.grid-2 {
   display: grid;
-  grid-template-columns: 140px 90px 1fr 140px;
-  gap: 10px;
-  padding: 10px 14px;
-  background: #111;
+  gap: 12px;
 }
 
-.page-header input,
-.page-header select {
-  padding: 6px 8px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: none;
-}
+.top-row { grid-template-columns: repeat(4, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
 
-/* GRID */
-.grid {
-  display: grid;
-  gap: 10px;
-  padding: 10px;
-}
-
-.grid.four { grid-template-columns: repeat(4, 1fr); }
-.grid.three { grid-template-columns: repeat(3, 1fr); }
-
-/* CARD */
 .card {
-  background: white;
-  border-radius: 10px;
-  padding: 10px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
 }
 
-.card.small {
-  font-size: 11px;
-}
+.card.full { grid-column: 1 / -1; }
 
-h3 {
-  margin: 0 0 6px 0;
-  font-size: 12px;
-  font-weight: 600;
-}
+h3 { margin: 0 0 8px; font-size: 14px; }
+h4 { margin: 12px 0 4px; font-size: 13px; }
 
-/* INPUTS */
 input, select {
-  padding: 4px 6px;
-  font-size: 11px;
-}
-
-/* INPUT SIZES */
-input.xs { width: 48px; }
-input.sm { width: 64px; }
-input.md { width: 90px; }
-input.lg { width: 110px; }
-
-input.time { width: 90px; }
-input.vol { width: 100px; }
-input.grav { width: 100px; }
-
-/* INLINE */
-.inline {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-}
-
-.inline.mash-ph {
-  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  padding: 6px;
   margin-bottom: 6px;
 }
 
-/* TABLES */
-table.tight {
+table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 12px;
 }
 
-table.tight th,
-table.tight td {
-  padding: 2px;
-  font-size: 11px;
+th, td {
+  padding: 4px;
   text-align: left;
-  vertical-align: middle;
 }
 
-/* LAUTER ALIGNMENT */
-table.lauter td input {
+.lauter input {
+  width: 100%;
+}
+
+.boil-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 6px 10px;
+}
+
+.save {
+  margin: 12px auto;
   display: block;
-}
-
-/* WATER */
-.water-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-}
-
-.water-grid label {
-  display: grid;
-  grid-template-columns: 28px auto;
-  gap: 4px;
-  align-items: center;
-}
-
-.water-grid input {
-  width: 52px;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 10px;
 }
