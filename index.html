@@ -2,31 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Suburban Brewing – Production Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <title>Suburban Brewing Company – Production Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+
+      --green: #22c55e;
+      --blue: #0ea5e9;
+      --orange: #f59e0b;
+      --gray: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 32px 0 12px;
+      font-size: 20px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow:
+        0 4px 12px rgba(0,0,0,0.06),
+        0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card.clickable {
+      cursor: pointer;
+    }
+
+    .card.clickable:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 24px rgba(0,0,0,0.10),
+        0 4px 6px rgba(0,0,0,0.06);
+    }
+
+    .tank-id {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .status {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .Fermenting { background: var(--green); }
+    .CIP { background: var(--blue); }
+    .Conditioning { background: var(--orange); }
+    .Empty { background: var(--gray); }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
 <body>
 
-<header class="page-header">
   <h1>Suburban Brewing Company</h1>
-  <p>Production Dashboard</p>
-</header>
+  <div class="subtitle">Production Dashboard</div>
 
-<main class="container">
+  <h2>Fermentation Tanks</h2>
+  <div class="grid" id="fermenters"></div>
 
-  <section>
-    <h2>Fermentation Tanks</h2>
-    <div id="fermentation" class="tank-grid"></div>
-  </section>
+  <h2>Brite Tanks</h2>
+  <div class="grid" id="brites"></div>
 
-  <section>
-    <h2>Brite Tanks</h2>
-    <div id="brite" class="tank-grid"></div>
-  </section>
+  <script>
+    const tanks = [
+      { TankID: "FV-1", Type: "Fermenter", Status: "Fermenting", Beer: "—", Batch: "West Coast IPA" },
+      { TankID: "FV-2", Type: "Fermenter", Status: "Fermenting", Beer: "—", Batch: "Pilsner" },
+      { TankID: "FV-3", Type: "Fermenter", Status: "CIP", Beer: "—", Batch: "—" },
+      { TankID: "FV-4", Type: "Fermenter", Status: "Conditioning", Beer: "—", Batch: "Lager" },
+      { TankID: "FV-5", Type: "Fermenter", Status: "Empty", Beer: "—", Batch: "—" },
+      { TankID: "FV-6", Type: "Fermenter", Status: "Empty", Beer: "—", Batch: "—" },
+      { TankID: "BT-1", Type: "Brite", Status: "Empty", Beer: "—", Batch: "—" },
+      { TankID: "BT-2", Type: "Brite", Status: "Empty", Beer: "—", Batch: "—" }
+    ];
 
-</main>
+    function createCard(tank) {
+      const card = document.createElement("div");
+      card.className = "card";
 
-<script src="dashboard.js"></script>
+      const clickable =
+        tank.Type === "Fermenter" &&
+        (tank.Status === "Empty" || !tank.Status);
+
+      if (clickable) {
+        card.classList.add("clickable");
+        card.addEventListener("click", () => {
+          const params = new URLSearchParams({
+            tank: tank.TankID
+          });
+          window.location.href = "brew-log.html?" + params.toString();
+        });
+      }
+
+      card.innerHTML = `
+        <div class="tank-id">${tank.TankID}</div>
+        <div class="status ${tank.Status}">${tank.Status}</div>
+        <div class="meta">
+          Beer: ${tank.Beer}<br>
+          Batch: ${tank.Batch}
+        </div>
+      `;
+
+      return card;
+    }
+
+    const fermenterContainer = document.getElementById("fermenters");
+    const briteContainer = document.getElementById("brites");
+
+    tanks.forEach(t => {
+      const card = createCard(t);
+      if (t.Type === "Fermenter") {
+        fermenterContainer.appendChild(card);
+      } else {
+        briteContainer.appendChild(card);
+      }
+    });
+  </script>
+
 </body>
 </html>
