@@ -1,12 +1,17 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  background: #f4f7fa;
   margin: 0;
+  background: #f4f6f8;
 }
 
 .page-header {
-  background: #0e1624;
-  padding: 12px;
+  background: #111;
+  color: white;
+  padding: 14px;
 }
 
 .brew-meta {
@@ -15,41 +20,61 @@ body {
   gap: 10px;
 }
 
-input, select {
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #dcdcdc;
-}
-
 .grid {
   display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.grid-4 {
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .card {
   background: white;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.card.compact input {
-  max-width: 90px;
+h3 {
+  margin: 0 0 8px;
 }
 
-.inline-fields {
+.inline-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 
-/* Water */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th {
+  text-align: left;
+  font-size: 11px;
+  color: #555;
+}
+
+td input {
+  width: 100%;
+}
+
+.water-card {
+  font-size: 12px;
+}
+
 .water-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
 }
 
 .water-grid label {
@@ -58,51 +83,37 @@ input, select {
   align-items: center;
 }
 
-/* Mash */
-.mash-card {
-  grid-column: span 2;
+.water-grid input {
+  width: 60px;
 }
 
-.mash-row {
+.full-width {
+  padding: 0 14px;
+}
+
+.lauter-grid {
   display: grid;
-  grid-template-columns: 140px 120px 1fr 1fr 1fr;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 10px;
+  gap: 6px;
+  font-size: 12px;
 }
 
-.mash-row .label {
-  font-weight: 600;
-}
-
-/* Lauter */
-.full-width-wrapper {
-  padding: 0 20px 20px;
-}
-
-.lauter-header,
 .lauter-row {
   display: grid;
-  grid-template-columns: 180px repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: 1.5fr repeat(5, 1fr);
+  gap: 6px;
   align-items: center;
 }
 
-.lauter-header {
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-/* Footer */
 .footer {
+  text-align: center;
   padding: 20px;
-  text-align: right;
 }
 
 .save {
-  padding: 10px 20px;
-  border-radius: 8px;
-  background: #2563eb;
+  padding: 12px 24px;
+  font-size: 15px;
+  background: #1a73e8;
   color: white;
   border: none;
+  border-radius: 8px;
 }
