@@ -2,40 +2,47 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 fetch(API + "?action=tanks")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(tanks => {
-    if (!Array.isArray(tanks)) {
-      console.error("Invalid tank data");
-      return;
-    }
+    if (!Array.isArray(tanks)) return;
 
-    var fermentation = document.getElementById("fermentation");
-    var brite = document.getElementById("brite");
+    const fermentation = document.getElementById("fermentation");
+    const brite = document.getElementById("brite");
 
     fermentation.innerHTML = "";
     brite.innerHTML = "";
 
     tanks.forEach(t => {
-      var status = (t.Status || "Empty").toLowerCase();
+      const status = (t.Status || "Empty").toLowerCase();
 
-      var card = document.createElement("div");
+      const card = document.createElement("div");
       card.className = "tank status-" + status;
 
-      var header = document.createElement("div");
+      /* CLICK — ALWAYS WORKS */
+      card.addEventListener("click", () => {
+        const params = new URLSearchParams({
+          tank: t.TankID || "",
+          beer: t.Beer || "",
+          batch: t.Batch || ""
+        });
+        window.location.href = "brew-log.html?" + params.toString();
+      });
+
+      const header = document.createElement("div");
       header.className = "tank-header";
 
-      var tankId = document.createElement("span");
+      const tankId = document.createElement("span");
       tankId.className = "tank-id";
       tankId.textContent = t.TankID || "—";
 
-      var badge = document.createElement("span");
+      const badge = document.createElement("span");
       badge.className = "tank-badge";
       badge.textContent = t.Status || "Empty";
 
       header.appendChild(tankId);
       header.appendChild(badge);
 
-      var details = document.createElement("div");
+      const details = document.createElement("div");
       details.className = "tank-details";
       details.innerHTML =
         "<div><strong>Beer:</strong> " + (t.Beer || "—") + "</div>" +
