@@ -230,15 +230,20 @@ function collectFormData() {
 function saveBrewLog() {
   const payload = collectFormData();
 
- fetch(`${API}?action=saveBrewLog`, {
-  method: "POST",
-  body: JSON.stringify(payload)
-})
+  const blob = new Blob(
+    [JSON.stringify(payload)],
+    { type: "text/plain" }
+  );
 
-    .then(r => r.json())
-    .then(res => {
-      if (res.success) alert("Brew log saved 🍺");
-      else alert("Save failed");
-    })
-    .catch(() => alert("Save failed"));
+  const success = navigator.sendBeacon(
+    `${API}?action=saveBrewLog`,
+    blob
+  );
+
+  if (success) {
+    alert("Brew log saved 🍺");
+  } else {
+    alert("Save failed");
+  }
 }
+
