@@ -228,8 +228,6 @@ function collectFormData() {
 }
 
 function saveBrewLog() {
-  alert("SEND BEACON VERSION");
-
   const payload = collectFormData();
 
   const blob = new Blob(
@@ -237,14 +235,9 @@ function saveBrewLog() {
     { type: "text/plain" }
   );
 
-  const ok = navigator.sendBeacon(
+  navigator.sendBeacon(
     `${API}?action=saveBrewLog`,
     blob
   );
-
-  if (ok) {
-    alert("Brew log saved 🍺");
-  } else {
-    alert("Save failed");
-  }
 }
+
