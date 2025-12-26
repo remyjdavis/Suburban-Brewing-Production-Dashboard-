@@ -1,7 +1,8 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-fetch(API + "?action=tanks")
+fetch(`${API}?action=tanks&_=${Date.now()}`)
+
   .then(res => res.json())
   .then(tanks => {
     if (!Array.isArray(tanks)) return;
