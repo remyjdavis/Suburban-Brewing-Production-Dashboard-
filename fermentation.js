@@ -1,40 +1,73 @@
 const API =
-  "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
+/*************************************************
+ * URL PARAMS
+ *************************************************/
 const params = new URLSearchParams(window.location.search);
 const brewId = params.get("brewId");
 const tank = params.get("tank");
 
-const table = document.getElementById("fermentationTable");
+/*************************************************
+ * INIT
+ *************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  if (!brewId || !tank) {
+    alert("Missing fermentation context");
+    return;
+  }
 
-document.getElementById("saveFermentation").addEventListener("click", save);
+  document.getElementById("brewId").textContent = brewId;
+  document.getElementById("tankId").textContent = tank;
 
-loadFermentation();
+  loadFermentationLog();
 
-function loadFermentation() {
-  fetch(`${API}?action=fermentation&brewId=${brewId}`)
+  document
+    .getElementById("saveFermentation")
+    .addEventListener("click", saveFermentation);
+
+  document
+    .getElementById("backToDashboard")
+    .addEventListener("click", () => {
+      window.location.href = "dashboard.html";
+    });
+});
+
+/*************************************************
+ * LOAD FERMENTATION LOG (SORTED)
+ *************************************************/
+function loadFermentationLog() {
+  fetch(`${API}?action=fermentation&brewId=${encodeURIComponent(brewId)}`)
     .then(r => r.json())
-    .then(data => {
-      table.innerHTML = "";
+    .then(rows => {
+      const tbody = document.getElementById("fermentationTable");
+      tbody.innerHTML = "";
 
-      data
+      if (!Array.isArray(rows) || rows.length === 0) return;
+
+      rows
         .sort((a, b) => b.Day - a.Day)
         .forEach(r => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
             <td>Day ${r.Day}</td>
-            <td>${r.Temp || ""}</td>
-            <td>${r.Gravity || ""}</td>
-            <td>${r.pH || ""}</td>
-            <td>${r.Pressure || ""}</td>
-            <td>${r.Notes || ""}</td>
+            <td>${r.Temp ?? ""}</td>
+            <td>${r.Gravity ?? ""}</td>
+            <td>${r.pH ?? ""}</td>
+            <td>${r.Pressure ?? ""}</td>
+            <td>${r.Notes ?? ""}</td>
           `;
-          table.appendChild(row);
+          tbody.appendChild(tr);
         });
-    });
+    })
+    .catch(err => console.error(err));
 }
 
-function save() {
+/*************************************************
+ * SAVE FERMENTATION ENTRY
+ * (Day calculated server-side)
+ *************************************************/
+function saveFermentation() {
   const payload = {
     BrewID: brewId,
     Tank: tank,
@@ -45,19 +78,28 @@ function save() {
     Notes: document.getElementById("notes").value
   };
 
-  fetch(`${API}?action=saveFermentation`, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  })
-    .then(r => r.json())
-    .then(() => {
-      clearForm();
-      loadFermentation();
-    });
+  const blob = new Blob(
+    [JSON.stringify(payload)],
+    { type: "text/plain" }
+  );
+
+  navigator.sendBeacon(
+    `${API}?action=saveFermentation`,
+    blob
+  );
+
+  clearInputs();
+
+  // Reload from server to get correct Day
+  setTimeout(loadFermentationLog, 300);
 }
 
-function clearForm() {
+/*************************************************
+ * UI HELPERS
+ *************************************************/
+function clearInputs() {
   ["temp", "gravity", "ph", "pressure", "notes"].forEach(id => {
-    document.getElementById(id).value = "";
+    const el = document.getElementById(id);
+    if (el) el.value = "";
   });
 }
