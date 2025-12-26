@@ -24,15 +24,10 @@ function loadTanks(fermenters, brites) {
     .then(data => {
       console.log("🧪 RAW TANK API RESPONSE:", data);
 
-      // 🚨 HARD STOP IF API IS WRONG
       if (!Array.isArray(data)) {
-        console.error("❌ Tanks API did NOT return an array");
-        console.error("Returned value:", data);
-
         fermenters.innerHTML =
           `<div style="color:red;font-weight:600;">
-            Tanks failed to load.<br>
-            Check Apps Script deployment.
+            Tanks failed to load.
           </div>`;
         return;
       }
@@ -68,24 +63,99 @@ function renderTankCard(t, fermenters, brites) {
   `;
 
   card.onclick = () => {
-    const params = new URLSearchParams({
-      tank: id,
-      brewId: t.ActiveBrewID || ""
-    });
-
     if (status.includes("FERMENT")) {
-      window.location.href =
-        "fermentation.html?" + params.toString();
+      openFermentationModal({
+        tankId: id,
+        brewId: t.ActiveBrewID || "",
+        recipe: t.ActiveBrewID || ""
+      });
     } else {
+      const params = new URLSearchParams({
+        tank: id,
+        brewId: t.ActiveBrewID || ""
+      });
       window.location.href =
         "brew-log.html?" + params.toString();
     }
   };
 
-  // ✅ SEMANTIC BUCKETING
   if (status.includes("FERMENT")) {
     fermenters.appendChild(card);
   } else {
     brites.appendChild(card);
   }
+}
+
+/*************************************************
+ * FERMENTATION MODAL
+ *************************************************/
+function openFermentationModal({ tankId, brewId, recipe }) {
+  const modal = document.getElementById("fermModal");
+  const title = document.getElementById("fermTitle");
+
+  title.textContent = `Tank ${tankId} – Active Fermentation`;
+  modal.classList.remove("hidden");
+
+  loadFermentationData(tankId, brewId);
+}
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("ferm-close")) {
+    document.getElementById("fermModal").classList.add("hidden");
+  }
+});
+
+/*************************************************
+ * LOAD FERMENTATION DATA
+ *************************************************/
+function loadFermentationData(tankId, brewId) {
+  fetch(`${API}?action=fermentation&tank=${tankId}&brewId=${brewId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!Array.isArray(data)) return;
+
+      renderFermentationCards(data);
+      drawFermentationChart(data);
+    });
+}
+
+function renderFermentationCards(data) {
+  const container = document.getElementById("fermCards");
+  container.innerHTML = "";
+
+  data.slice().reverse().forEach(d => {
+    const card = document.createElement("div");
+    card.className = "ferm-card";
+
+    card.innerHTML = `
+      <div class="ferm-header">
+        <span>Day ${d.Day}</span>
+        <span>${d.Gravity < 1.012 ? "Near Terminal" : "Active"}</span>
+      </div>
+      <div class="ferm-metrics">
+        <div><strong>${d.Temp}°F</strong>Temp</div>
+        <div><strong>${d.Gravity}</strong>Gravity</div>
+        <div><strong>${d.pH}</strong>pH</div>
+        <div><strong>${d.Pressure || "-"} PSI</strong>Pressure</div>
+      </div>
+      ${d.Notes ? `<small>${d.Notes}</small>` : ""}
+    `;
+    container.appendChild(card);
+  });
+}
+
+function drawFermentationChart(data) {
+  const ctx = document.getElementById("fermChart");
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: data.map(d => `Day ${d.Day}`),
+      datasets: [
+        { label: "Gravity", data: data.map(d => d.Gravity) },
+        { label: "Temp", data: data.map(d => d.Temp) },
+        { label: "pH", data: data.map(d => d.pH) }
+      ]
+    }
+  });
 }
