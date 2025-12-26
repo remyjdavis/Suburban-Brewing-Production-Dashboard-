@@ -36,7 +36,8 @@
       gap: 16px;
     }
 
-    .card {
+    /* 🔒 DASHBOARD-SCOPED CARD (NO COLLISION) */
+    .dashboard-card {
       background: #ffffff;
       border-radius: 18px;
       padding: 16px;
@@ -63,50 +64,14 @@
     }
 
     .FERMENTING { background: #22c55e; }
-    .AVAILABLE  { background: #9ca3af; }
-    .CIP        { background: #0ea5e9; }
+    .AVAILABLE { background: #9ca3af; }
+    .CIP { background: #0ea5e9; }
     .CONDITIONING { background: #f59e0b; }
 
     .meta {
       font-size: 13px;
       color: #6b7280;
       line-height: 1.5;
-    }
-
-    /* FERMENTATION */
-    #fermAlerts {
-      color: #b00000;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    #fermInputs {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr) auto;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    #fermInputs input {
-      padding: 8px;
-      font-size: 14px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-    }
-
-    th, td {
-      border: 1px solid #e5e7eb;
-      padding: 6px;
-      text-align: center;
-    }
-
-    th {
-      background: #111827;
-      color: #fff;
     }
   </style>
 </head>
@@ -118,45 +83,8 @@
   <h2>Fermentation Tanks</h2>
   <div class="grid" id="fermenters"></div>
 
-  <h2>Brite Tanks</h2>
+  <h2>Brite / Other Tanks</h2>
   <div class="grid" id="brites"></div>
-
-  <!-- INLINE FERMENTATION MODULE -->
-  <section id="fermCard" style="display:none; margin-top:32px;">
-    <h2>
-      Fermentation – <span id="fermBrew"></span>
-      (<span id="fermTank"></span>)
-    </h2>
-
-    <div id="fermAlerts"></div>
-
-    <div id="fermInputs">
-      <input id="fTemp" placeholder="Temp °F" />
-      <input id="fPlato" placeholder="°Plato" />
-      <div style="text-align:center;font-weight:600;color:#6b7280;">OR</div>
-      <input id="fSG" placeholder="SG" />
-      <input id="fPh" placeholder="pH" />
-      <input id="fPsi" placeholder="PSI" />
-      <input id="fNotes" placeholder="Notes" />
-      <button id="fSave">Save</button>
-    </div>
-
-    <canvas id="fermGraph" height="80" style="margin-bottom:16px;"></canvas>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th>Temp</th>
-          <th>°P</th>
-          <th>pH</th>
-          <th>PSI</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="fermHistory"></tbody>
-    </table>
-  </section>
 
   <script src="dashboard.js"></script>
 </body>
