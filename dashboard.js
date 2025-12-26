@@ -4,42 +4,27 @@ const API =
 console.log("DASHBOARD JS LOADED", Date.now());
 
 document.addEventListener("DOMContentLoaded", () => {
-  const fermenters = document.getElementById("fermenters");
-  const brites = document.getElementById("brites");
-
-  if (!fermenters || !brites) {
-    console.error("❌ Missing dashboard containers");
-    return;
-  }
-
-  loadTanks(fermenters, brites);
+  loadTanks();
 });
 
 /*************************************************
- * LOAD TANKS (SAFE)
+ * LOAD TANKS
  *************************************************/
-function loadTanks(fermenters, brites) {
+function loadTanks() {
   fetch(`${API}?action=tanks&_=${Date.now()}`)
     .then(res => res.json())
     .then(data => {
-      console.log("🧪 RAW TANK API RESPONSE:", data);
+      if (!Array.isArray(data)) return;
 
-      if (!Array.isArray(data)) {
-        fermenters.innerHTML =
-          `<div style="color:red;font-weight:600;">
-            Tanks failed to load.
-          </div>`;
-        return;
-      }
+      const fermenters = document.getElementById("fermenters");
+      const brites = document.getElementById("brites");
 
       fermenters.innerHTML = "";
       brites.innerHTML = "";
 
       data.forEach(t => renderTankCard(t, fermenters, brites));
     })
-    .catch(err => {
-      console.error("❌ Dashboard load failed:", err);
-    });
+    .catch(err => console.error(err));
 }
 
 /*************************************************
@@ -54,7 +39,7 @@ function renderTankCard(t, fermenters, brites) {
   card.className = "dashboard-card";
 
   card.innerHTML = `
-    <div class="tank-id">${id || "—"}</div>
+    <div class="tank-id">${id}</div>
     <div class="status ${status.replace(/\s+/g, "-")}">${statusRaw}</div>
     <div class="meta">
       <strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}<br>
@@ -64,37 +49,29 @@ function renderTankCard(t, fermenters, brites) {
 
   card.onclick = () => {
     if (status.includes("FERMENT")) {
-      openFermentationModal({
-        tankId: id,
-        brewId: t.ActiveBrewID || "",
-        recipe: t.ActiveBrewID || ""
-      });
+      openFermentationModal(id, t.ActiveBrewID || "");
     } else {
       const params = new URLSearchParams({
         tank: id,
         brewId: t.ActiveBrewID || ""
       });
-      window.location.href =
-        "brew-log.html?" + params.toString();
+      window.location.href = "brew-log.html?" + params.toString();
     }
   };
 
-  if (status.includes("FERMENT")) {
-    fermenters.appendChild(card);
-  } else {
-    brites.appendChild(card);
-  }
+  status.includes("FERMENT")
+    ? fermenters.appendChild(card)
+    : brites.appendChild(card);
 }
 
 /*************************************************
  * FERMENTATION MODAL
  *************************************************/
-function openFermentationModal({ tankId, brewId, recipe }) {
-  const modal = document.getElementById("fermModal");
-  const title = document.getElementById("fermTitle");
+function openFermentationModal(tankId, brewId) {
+  document.getElementById("fermTitle").textContent =
+    `Tank ${tankId} – Active Fermentation`;
 
-  title.textContent = `Tank ${tankId} – Active Fermentation`;
-  modal.classList.remove("hidden");
+  document.getElementById("fermModal").classList.remove("hidden");
 
   loadFermentationData(tankId, brewId);
 }
@@ -119,6 +96,9 @@ function loadFermentationData(tankId, brewId) {
     });
 }
 
+/*************************************************
+ * RENDER CARDS
+ *************************************************/
 function renderFermentationCards(data) {
   const container = document.getElementById("fermCards");
   container.innerHTML = "";
@@ -140,14 +120,22 @@ function renderFermentationCards(data) {
       </div>
       ${d.Notes ? `<small>${d.Notes}</small>` : ""}
     `;
+
     container.appendChild(card);
   });
 }
 
+/*************************************************
+ * CHART
+ *************************************************/
+let fermChart;
+
 function drawFermentationChart(data) {
   const ctx = document.getElementById("fermChart");
 
-  new Chart(ctx, {
+  if (fermChart) fermChart.destroy();
+
+  fermChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: data.map(d => `Day ${d.Day}`),
