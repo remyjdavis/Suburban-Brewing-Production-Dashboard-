@@ -21,22 +21,23 @@ document.addEventListener("DOMContentLoaded", () => {
       brites.innerHTML = "";
 
       tanks.forEach(t => {
-        const id = String(t.TankID || "").trim().toUpperCase();
-        const status = String(t.Status || "AVAILABLE").toUpperCase();
+        const id = String(t.TankID || "").trim();
+        const statusRaw = String(t.Status || "AVAILABLE").trim();
+        const status = statusRaw.toUpperCase();
 
         const card = document.createElement("div");
-        card.className = "card clickable";
+        card.className = "dashboard-card";
 
         card.innerHTML = `
           <div class="tank-id">${id || "—"}</div>
-          <div class="status ${status.replace(/\s+/g, "-")}">${status}</div>
+          <div class="status ${status.replace(/\s+/g, "-")}">${statusRaw}</div>
           <div class="meta">
             <strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}<br>
             <strong>Last Brew:</strong> ${t.LastBrewDate || "—"}
           </div>
         `;
 
-        // CLICK ROUTING
+        // CLICK ROUTING (SAFE)
         card.onclick = () => {
           const params = new URLSearchParams({
             tank: id,
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         };
 
-        // ✅ FIXED BUCKETING LOGIC
+        // ✅ FINAL, ROBUST BUCKETING
         if (status.includes("FERMENT")) {
           fermenters.appendChild(card);
         } else {
