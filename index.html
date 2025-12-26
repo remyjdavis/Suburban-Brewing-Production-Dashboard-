@@ -6,33 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root {
-      --bg: #f6f8fa;
-      --card-bg: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-
-      --green: #22c55e;
-      --blue: #0ea5e9;
-      --orange: #f59e0b;
-      --gray: #9ca3af;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
       padding: 32px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f6f8fa;
+      color: #1f2937;
     }
 
-    h1 { margin: 0; font-size: 28px; }
-    h2 { margin: 32px 0 12px; font-size: 20px; }
-    .subtitle { color: var(--muted); }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin: 32px 0 12px;
+      font-size: 20px;
+    }
 
     .grid {
       display: grid;
@@ -41,14 +37,20 @@
     }
 
     .card {
-      background: var(--card-bg);
+      background: #ffffff;
       border-radius: 18px;
       padding: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      box-shadow:
+        0 4px 12px rgba(0,0,0,0.06),
+        0 1px 3px rgba(0,0,0,0.04);
       cursor: pointer;
     }
 
-    .tank-id { font-weight: 700; margin-bottom: 8px; }
+    .tank-id {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
 
     .status {
       display: inline-block;
@@ -60,83 +62,31 @@
       color: #fff;
     }
 
-    .FERMENTING { background: var(--green); }
-    .AVAILABLE { background: var(--gray); }
-    .CIP { background: var(--blue); }
-    .CONDITIONING { background: var(--orange); }
+    .FERMENTING { background: #22c55e; }
+    .AVAILABLE  { background: #9ca3af; }
+    .CIP        { background: #0ea5e9; }
+    .CONDITIONING { background: #f59e0b; }
 
     .meta {
       font-size: 13px;
-      color: var(--muted);
+      color: #6b7280;
       line-height: 1.5;
     }
   </style>
 </head>
 <body>
 
-<h1>Suburban Brewing Company</h1>
-<div class="subtitle">Production Dashboard</div>
+  <h1>Suburban Brewing Company</h1>
+  <div class="subtitle">Production Dashboard</div>
 
-<h2>Fermentation Tanks</h2>
-<div class="grid" id="fermenters"></div>
+  <!-- ⚠️ THESE IDS MUST MATCH dashboard.js -->
+  <h2>Fermentation Tanks</h2>
+  <div class="grid" id="fermenters"></div>
 
-<h2>Brite Tanks</h2>
-<div class="grid" id="brites"></div>
+  <h2>Brite Tanks</h2>
+  <div class="grid" id="brites"></div>
 
-<script>
-const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
-
-function createCard(t) {
-  const card = document.createElement("div");
-  card.className = "card";
-
-  const status = (t.Status || "AVAILABLE").toUpperCase();
-
-  card.innerHTML = `
-    <div class="tank-id">${t.TankID}</div>
-    <div class="status ${status}">${status}</div>
-    <div class="meta">
-      Active Brew: ${t.ActiveBrewID || "—"}<br>
-      Last Brew: ${t.LastBrewDate || "—"}
-    </div>
-  `;
-
-  card.onclick = () => {
-    const params = new URLSearchParams({
-      tank: t.TankID,
-      brewId: t.ActiveBrewID || ""
-    });
-
-    if (status === "FERMENTING") {
-      window.location.href = "fermentation.html?" + params;
-    } else {
-      window.location.href = "brew-log.html?" + params;
-    }
-  };
-
-  return card;
-}
-
-fetch(API + "?action=tanks&_=" + Date.now())
-  .then(r => r.json())
-  .then(tanks => {
-    const fermenters = document.getElementById("fermenters");
-    const brites = document.getElementById("brites");
-
-    fermenters.innerHTML = "";
-    brites.innerHTML = "";
-
-    tanks.forEach(t => {
-      const card = createCard(t);
-      if (t.TankID.startsWith("FV")) {
-        fermenters.appendChild(card);
-      } else {
-        brites.appendChild(card);
-      }
-    });
-  })
-  .catch(err => console.error("Dashboard load failed:", err));
-</script>
-
+  <!-- LOAD JS LAST -->
+  <script src="dashboard.js"></script>
 </body>
 </html>
