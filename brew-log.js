@@ -240,4 +240,15 @@ function saveBrewLog() {
     blob
   );
 }
+/*********************************************************
+ * BACK TO DASHBOARD BUTTON
+ *********************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  const backBtn = document.getElementById("backToDashboard");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.location.href = "dashboard.html";
+    });
+  }
+});
 
