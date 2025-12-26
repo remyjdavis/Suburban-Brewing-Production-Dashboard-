@@ -230,11 +230,11 @@ function collectFormData() {
 function saveBrewLog() {
   const payload = collectFormData();
 
-  fetch(`${API}?action=saveBrewLog`, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" }
-  })
+ fetch(`${API}?action=saveBrewLog`, {
+  method: "POST",
+  body: JSON.stringify(payload)
+})
+
     .then(r => r.json())
     .then(res => {
       if (res.success) alert("Brew log saved 🍺");
