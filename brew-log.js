@@ -14,17 +14,22 @@ window.addEventListener("load", () => {
     saveBtn.onclick = saveBrewLog;
   }
 
-  // 🔥 BACK TO DASHBOARD — FIXED FOR GOOD
+ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.getElementById("backToDashboard");
-  if (backBtn) {
-    backBtn.onclick = () => {
-      window.location.href = "index.html";
-    };
-    console.log("✅ Back to Dashboard wired");
-  } else {
+
+  if (!backBtn) {
     console.error("❌ backToDashboard button not found");
+    return;
   }
+
+  backBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "index.html";
+  });
+
+  console.log("✅ Back to Dashboard wired");
 });
+
 
 /*************************************************
  * BREW ID
