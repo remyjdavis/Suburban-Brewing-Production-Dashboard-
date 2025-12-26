@@ -4,22 +4,36 @@ const API =
 /*************************************************
  * INIT
  *************************************************/
-
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   populateTanks();
-  loadRecipes();
+  loadRecipes?.(); // safe if not present
   autoGenerateBrewId();
 
-  document.getElementById("saveBrewLog").onclick = saveBrewLog;
+  const saveBtn = document.getElementById("saveBrewLog");
+  if (saveBtn) {
+    saveBtn.onclick = saveBrewLog;
+  }
+
+  // 🔥 BACK TO DASHBOARD — FIXED FOR GOOD
+  const backBtn = document.getElementById("backToDashboard");
+  if (backBtn) {
+    backBtn.onclick = () => {
+      window.location.href = "index.html";
+    };
+    console.log("✅ Back to Dashboard wired");
+  } else {
+    console.error("❌ backToDashboard button not found");
+  }
 });
 
 /*************************************************
  * BREW ID
  *************************************************/
-
 function autoGenerateBrewId() {
   const brewId = document.getElementById("brewId");
   const tank = document.getElementById("tank");
+  if (!brewId || !tank) return;
+
   const today = new Date().toISOString().split("T")[0];
   brewId.value = `${today}-${tank.value || "FV"}`;
 }
@@ -27,9 +41,10 @@ function autoGenerateBrewId() {
 /*************************************************
  * TANKS
  *************************************************/
-
 function populateTanks() {
   const tank = document.getElementById("tank");
+  if (!tank) return;
+
   tank.innerHTML = `<option value="">Tank</option>`;
 
   ["FV-1","FV-2","FV-3","FV-4","FV-5","FV-6"].forEach(v => {
@@ -41,16 +56,15 @@ function populateTanks() {
 }
 
 /*************************************************
- * SAVE BREW LOG (THIS IS IT)
+ * SAVE BREW LOG
  *************************************************/
-
 function collectFormData() {
   return {
-    BrewID: document.getElementById("brewId").value,
-    Date: document.getElementById("date").value,
-    Tank: document.getElementById("tank").value,
-    RecipeID: document.getElementById("recipe").value,
-    Brewer: document.getElementById("brewer").value
+    BrewID: document.getElementById("brewId")?.value || "",
+    Date: document.getElementById("date")?.value || "",
+    Tank: document.getElementById("tank")?.value || "",
+    RecipeID: document.getElementById("recipe")?.value || "",
+    Brewer: document.getElementById("brewer")?.value || ""
   };
 }
 
@@ -63,4 +77,6 @@ function saveBrewLog() {
       type: "application/json"
     })
   );
+
+  alert("Brew log saved");
 }
