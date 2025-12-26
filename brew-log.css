@@ -260,7 +260,11 @@ button:hover {
 /* extra separation for bottom section (Knockout / Yeast) */
 .grid-2 {
   row-gap: 64px;
+}/* force spacing before the final row of cards */
+.brew-container > .grid-2 {
+  margin-top: 64px;
 }
+
 
 /* horizontal action buttons */
 .save {
