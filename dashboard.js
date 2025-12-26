@@ -7,7 +7,9 @@ let fermChart = null;
 
 document.addEventListener("DOMContentLoaded", loadTanks);
 
-/* LOAD TANKS */
+/* ===========================
+   LOAD TANKS
+=========================== */
 function loadTanks() {
   fetch(`${API}?action=tanks`)
     .then(r => r.json())
@@ -37,7 +39,9 @@ function renderTank(t) {
   (status.includes("FERMENT") ? fermenters : brites).appendChild(card);
 }
 
-/* OPEN MODAL */
+/* ===========================
+   FERMENTATION MODAL
+=========================== */
 function openFermentation(tank, brew) {
   activeTank = tank;
   activeBrew = brew;
@@ -51,18 +55,22 @@ document.addEventListener("click", e => {
     fermModal.classList.add("hidden");
 });
 
-/* LOAD FERMENTATION */
+/* ===========================
+   LOAD FERMENTATION DATA
+=========================== */
 function loadFermentation() {
   fetch(`${API}?action=fermentation&tank=${activeTank}&brewId=${activeBrew}`)
     .then(r => r.json())
     .then(data => {
       renderCards(data);
       drawChart(data);
-      showPrediction(data);
+      runFermentationIntelligence(data);
     });
 }
 
-/* RENDER CARDS */
+/* ===========================
+   RENDER DAILY CARDS
+=========================== */
 function renderCards(data) {
   fermCards.innerHTML = "";
   data.slice().reverse().forEach(d => {
@@ -70,7 +78,7 @@ function renderCards(data) {
       <div class="ferm-card">
         <div class="ferm-header">
           <span>Day ${d.Day}</span>
-          <span>${fermentationStatus(data)}</span>
+          <span>${d._status}</span>
         </div>
         <div class="ferm-metrics">
           <div><strong>${d.Temp}</strong>Temp</div>
@@ -83,7 +91,9 @@ function renderCards(data) {
   });
 }
 
-/* CHART */
+/* ===========================
+   CHART
+=========================== */
 function drawChart(data) {
   if (fermChart) fermChart.destroy();
   fermChart = new Chart(fermChartEl, {
@@ -99,27 +109,82 @@ function drawChart(data) {
   });
 }
 
-/* ML-LITE LOGIC */
-function fermentationStatus(data) {
-  if (data.length < 3) return "Active";
-  const g = data.map(d => d.Gravity);
-  const delta = Math.abs(g[g.length-1] - g[g.length-3]);
-  if (delta < 0.001) return "⚠️ Stalled";
-  if (g[g.length-1] < 1.012) return "Near Terminal";
-  return "Active";
+/* ===========================
+   FERMENTATION INTELLIGENCE
+=========================== */
+function runFermentationIntelligence(data) {
+  if (data.length < 3) {
+    fermPrediction.textContent = "📈 Collecting data…";
+    return;
+  }
+
+  const gravities = data.map(d => +d.Gravity);
+  const temps = data.map(d => +d.Temp);
+
+  const rate = fermentationRate(gravities);
+  const terminal = estimateTerminalGravity(gravities);
+  const stalled = isStalled(gravities);
+  const nearTerminal = gravities.at(-1) <= terminal + 0.002;
+  const tempDrift = temperatureDrift(temps);
+
+  let status = "Active";
+  let message = "🔥 Fermentation progressing normally";
+
+  if (stalled) {
+    status = "⚠️ Stalled";
+    message = "⚠️ Gravity has stopped dropping — investigate yeast health";
+  } else if (nearTerminal) {
+    status = "Near Terminal";
+    message = "✅ Prepare for diacetyl rest / crash window";
+  }
+
+  if (tempDrift) {
+    message += " | 🌡 Temperature drift detected";
+  }
+
+  fermPrediction.innerHTML = `
+    <strong>Status:</strong> ${status}<br>
+    <strong>ΔSG/day:</strong> ${rate.toFixed(4)}<br>
+    <strong>Est. Terminal:</strong> ${terminal.toFixed(3)}<br>
+    <strong>Est. Days Remaining:</strong> ${estimateDaysRemaining(gravities, terminal)}<br>
+    ${message}
+  `;
+
+  data.forEach(d => d._status = status);
 }
 
-function showPrediction(data) {
-  const status = fermentationStatus(data);
-  fermPrediction.textContent =
-    status === "Near Terminal"
-      ? "✅ Ready for crash / VDK rest soon"
-      : status === "⚠️ Stalled"
-      ? "⚠️ Investigate fermentation"
-      : "🔥 Active fermentation progressing";
+/* ===========================
+   INTELLIGENCE FUNCTIONS
+=========================== */
+function fermentationRate(g) {
+  const recent = g.slice(-3);
+  return (recent[0] - recent.at(-1)) / (recent.length - 1);
 }
 
-/* SAVE DAILY READING */
+function estimateTerminalGravity(g) {
+  const drops = [];
+  for (let i = 1; i < g.length; i++) drops.push(g[i - 1] - g[i]);
+  const avgDrop = drops.slice(-4).reduce((a, b) => a + b, 0) / 4;
+  return g.at(-1) - avgDrop * 2;
+}
+
+function estimateDaysRemaining(g, terminal) {
+  const rate = fermentationRate(g);
+  if (rate <= 0) return "Unknown";
+  return Math.max(0, ((g.at(-1) - terminal) / rate).toFixed(1));
+}
+
+function isStalled(g) {
+  return Math.abs(g.at(-1) - g.at(-3)) < 0.001;
+}
+
+function temperatureDrift(t) {
+  return Math.max(...t.slice(-3)) - Math.min(...t.slice(-3)) > 3;
+}
+
+/* ===========================
+   SAVE DAILY ENTRY
+=========================== */
 saveFermEntry.onclick = () => {
   const payload = {
     action: "saveFermentation",
