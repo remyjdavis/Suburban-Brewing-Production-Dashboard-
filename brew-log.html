@@ -7,31 +7,14 @@
 </head>
 <body>
 
-<!-- PRINT HEADER (PRINT ONLY) -->
-<div class="print-header">
-  <img src="background.jpg" class="print-logo" alt="Suburban Brewing Company Logo">
-
-  <div class="print-title">
-    <h1>Suburban Brewing Company</h1>
-    <h2>Brew Log</h2>
-  </div>
-
-  <div class="print-meta">
-    <div><strong>Date:</strong> <span id="printDate"></span></div>
-    <div><strong>Tank:</strong> <span id="printTank"></span></div>
-    <div><strong>Recipe:</strong> <span id="printRecipe"></span></div>
-    <div><strong>Brewer:</strong> <span id="printBrewer"></span></div>
-  </div>
-</div>
-
 <div class="brew-container">
 
   <!-- HEADER -->
   <div class="header-row">
-    <input type="date" id="date">
+    <input type="date">
     <select id="tank"></select>
     <select id="recipe"></select>
-    <input id="brewer" placeholder="Brewer">
+    <input placeholder="Brewer">
   </div>
 
   <!-- TOP CARDS -->
@@ -93,10 +76,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>First Runnings</td><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-        <tr><td>First Sparge</td><td><input></td><td><input></td><td><input></td><td><input></td><td></td></tr>
-        <tr><td>Second Sparge</td><td><input></td><td><input></td><td><input></td><td></td><td></td></tr>
-        <tr><td>Final Runnings</td><td><input></td><td><input></td><td><input></td><td></td><td><input></td></tr>
+        <tr>
+          <td>First Runnings</td>
+          <td><input></td><td><input></td><td><input></td><td><input></td><td><input></td>
+        </tr>
+        <tr>
+          <td>First Sparge</td>
+          <td><input></td><td><input></td><td><input></td><td><input></td><td></td>
+        </tr>
+        <tr>
+          <td>Second Sparge</td>
+          <td><input></td><td><input></td><td><input></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>Final Runnings</td>
+          <td><input></td><td><input></td><td><input></td><td></td><td><input></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -104,19 +99,22 @@
   <!-- BOIL -->
   <div class="card full">
     <h3>Boil</h3>
+
     <div class="boil-values">
-      <input id="boilStart" placeholder="Boil Start">
-      <input id="boilEnd" placeholder="Boil End">
-      <input id="preBoilVol" placeholder="Pre-Boil Vol">
-      <input id="postBoilVol" placeholder="Post-Boil Vol">
-      <input id="boilGravity" placeholder="Boil Gravity">
-      <input id="trubLoss" placeholder="Trub Loss">
+      <input placeholder="Boil Start">
+      <input placeholder="Boil End">
+      <input placeholder="Pre-Boil Vol">
+      <input placeholder="Post-Boil Vol">
+      <input placeholder="Boil Gravity">
+      <input placeholder="Trub Loss">
     </div>
 
     <h4>Hops / Additions</h4>
     <table>
       <thead>
-        <tr><th>Time</th><th>Type</th><th>Name</th><th>Amount</th><th>IBU</th></tr>
+        <tr>
+          <th>Time</th><th>Type</th><th>Name</th><th>Amount</th><th>IBU</th>
+        </tr>
       </thead>
       <tbody id="boilTable"></tbody>
     </table>
@@ -124,17 +122,35 @@
     <button id="addBoilRow">+ Add Addition</button>
   </div>
 
-  <!-- SIGNATURE (PRINT ONLY) -->
-  <div class="print-signature">
-    <div>Brewer Signature: ____________________________</div>
-    <div>Date: ____________________</div>
+  <!-- KO + YEAST -->
+  <div class="grid-2">
+    <div class="card">
+      <h3>Knockout</h3>
+      <div class="grid-2">
+        <input placeholder="KO Volume">
+        <input placeholder="KO Gravity">
+        <input placeholder="KO Temp">
+        <input placeholder="pH">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Yeast</h3>
+      <div class="grid-3">
+        <input placeholder="Strain">
+        <input placeholder="Pitch Rate">
+        <input placeholder="Pitch Temp">
+        <input placeholder="Generation">
+        <input placeholder="Source">
+      </div>
+    </div>
   </div>
 
-  <!-- ACTION BUTTONS -->
-  <div class="action-buttons">
-    <button id="saveBrewLog" class="save">Save Brew Log</button>
-    <button id="printBrewLog">Print Brew Log</button>
-  </div>
+  <!-- ORIGINAL SAVE BUTTON -->
+  <button class="save" id="saveBrewLog">Save Brew Log</button>
+
+  <!-- ✅ ONLY ADDITION -->
+  <button id="printBrewLog" class="save">Print Brew Log</button>
 
 </div>
 
