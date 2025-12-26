@@ -5,75 +5,7 @@
   <title>Suburban Brewing Company – Production Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    body {
-      margin: 0;
-      padding: 32px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f6f8fa;
-      color: #1f2937;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 24px;
-    }
-
-    h2 {
-      margin: 32px 0 12px;
-      font-size: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    /* 🔒 DASHBOARD-SCOPED CARD (NO COLLISION) */
-    .dashboard-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow:
-        0 4px 12px rgba(0,0,0,0.06),
-        0 1px 3px rgba(0,0,0,0.04);
-      cursor: pointer;
-    }
-
-    .tank-id {
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-
-    .status {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .FERMENTING { background: #22c55e; }
-    .AVAILABLE { background: #9ca3af; }
-    .CIP { background: #0ea5e9; }
-    .CONDITIONING { background: #f59e0b; }
-
-    .meta {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -86,25 +18,25 @@
   <h2>Brite / Other Tanks</h2>
   <div class="grid" id="brites"></div>
 
-  <script src="dashboard.js"></script>
   <!-- FERMENTATION MODAL -->
-<div id="fermModal" class="ferm-modal hidden">
-  <div class="ferm-window">
-    <button class="ferm-close">&times;</button>
+  <div id="fermModal" class="ferm-modal hidden">
+    <div class="ferm-window">
+      <button class="ferm-close">&times;</button>
 
-    <h2 id="fermTitle">Fermentation</h2>
+      <h2 id="fermTitle">Fermentation</h2>
 
-    <!-- CHART -->
-    <canvas id="fermChart" height="120"></canvas>
+      <canvas id="fermChart" height="120"></canvas>
 
-    <!-- DAILY LOG -->
-    <div id="fermCards"></div>
+      <div id="fermCards"></div>
 
-    <button id="addFermReading" class="primary">
-      + Add Daily Reading
-    </button>
+      <button id="addFermReading" class="primary">
+        + Add Daily Reading
+      </button>
+    </div>
   </div>
-</div>
+
+  <script src="chart.js"></script>
+  <script src="dashboard.js"></script>
 
 </body>
 </html>
