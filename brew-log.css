@@ -259,7 +259,7 @@ button:hover {
 
 /* extra separation for bottom section (Knockout / Yeast) */
 .grid-2 {
-  row-gap: 48px;
+  row-gap: 64px;
 }
 
 /* horizontal action buttons */
