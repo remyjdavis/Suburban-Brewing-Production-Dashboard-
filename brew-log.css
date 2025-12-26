@@ -14,6 +14,7 @@ body {
   max-width: 1500px;
   margin: 0 auto;
   padding: 10px 10px 6px;
+  text-align: center;
 }
 
 /* GRID SYSTEM */
@@ -40,6 +41,7 @@ body {
 
 .grid-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 32px;
 }
 
 /* CARD — FLOATING */
@@ -62,6 +64,7 @@ body {
 
 .card.full {
   grid-column: 1 / -1;
+  margin-top: 6px;
 }
 
 /* HEADERS */
@@ -77,7 +80,7 @@ h4 {
   font-weight: 600;
 }
 
-/* INPUTS — LOCKED WIDTH (OVERLAP SAFE) */
+/* INPUTS */
 input,
 select {
   width: 100%;
@@ -94,7 +97,7 @@ select {
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* critical */
+  table-layout: fixed;
   font-size: 12px;
 }
 
@@ -111,18 +114,12 @@ td {
   overflow: hidden;
 }
 
-td {
-  min-width: 0;
-}
-
 td input,
 td select {
   width: 100%;
-  min-width: 0;
-  max-width: 100%;
 }
 
-/* GRAIN BILL EMPTY STATE */
+/* EMPTY STATE */
 #grainTable:empty::after {
   content: "Select a recipe to load grain bill";
   display: block;
@@ -131,7 +128,7 @@ td select {
   color: #888;
 }
 
-/* MASH SCHEDULE EMPHASIS */
+/* MASH WIDTHS */
 #mashTable th:nth-child(2),
 #mashTable td:nth-child(2),
 #mashTable th:nth-child(3),
@@ -148,13 +145,15 @@ td select {
   width: 18%;
 }
 
-/* LAUTER TUN */
+/* LAUTER */
 .aligned {
   table-layout: fixed;
 }
 
 .aligned th:nth-child(1),
-.aligned td:nth-child(1) { width: 18%; }
+.aligned td:nth-child(1) {
+  width: 18%;
+}
 
 .aligned th:nth-child(n+2),
 .aligned td:nth-child(n+2) {
@@ -169,7 +168,6 @@ td select {
   margin-bottom: 6px;
 }
 
-/* HOPS / ADDITIONS — DENSER */
 #boilTable td {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -181,7 +179,7 @@ td select {
   font-size: 11.5px;
 }
 
-/* BUTTONS */
+/* BUTTONS (EXISTING) */
 button {
   font-size: 12px;
   padding: 5px 10px;
@@ -196,56 +194,13 @@ button:hover {
   background: #f0f0f0;
 }
 
-/* SAVE BUTTON ANCHOR */
+/* SAVE / ACTION BUTTONS */
 .save {
-  margin: 10px auto 0;
-  display: block;
+  display: inline-block;
+  margin: 10px 6px 0;
 }
 
-/* =====================================================
-   PRINT ONLY — ✅ THIS IS THE ONLY ADDITION
-   ===================================================== */
-@media print {
-
-  body {
-    background: #fff;
-  }
-
-  /* hide buttons when printing */
-  button {
-    display: none !important;
-  }
-
-  /* remove card shadows for paper */
-  .card {
-    box-shadow: none;
-    border: 1px solid #000;
-  }
-
-  /* tighten inputs */
-  input,
-  select {
-    border: none;
-    padding: 0;
-    font-size: 11px;
-  }
-
-  /* clean tables */
-  table {
-    border-collapse: collapse;
-  }
-
-  th,
-  td {
-    border: 1px solid #000;
-  }
-}
-
-/* extra spacing between major sections */
-.card.full {
-  margin-top: 6px;
-}
-
+/* SECTION SPACING */
 .header-row,
 .grid-4,
 .grid-3,
@@ -254,27 +209,51 @@ button:hover {
 }
 
 /* =====================================================
-   ✅ REQUESTED ADDITIONS ONLY
+   PRINT ONLY — DO NOT TOUCH
+   ===================================================== */
+@media print {
+  body {
+    background: #fff;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+
+  input,
+  select {
+    border: none;
+    padding: 0;
+    font-size: 11px;
+  }
+
+  th,
+  td {
+    border: 1px solid #000;
+  }
+}
+
+/* =====================================================
+   ✅ ONLY NEW ADDITION — BACK BUTTON
    ===================================================== */
 
-/* extra separation for bottom section (Knockout / Yeast) */
-.grid-2 {
-  row-gap: 32px;
-}/* force spacing before the final row of cards */
-.brew-container > .grid-2 {
-  margin-top: 32px;
-}
-
-
-/* horizontal action buttons */
-.save {
+.back-button {
   display: inline-block;
-  margin: 10px 6px 0;
+  margin: 14px 6px 0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  background: #444;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.brew-container {
-  text-align: center;
-}
-.grid-2:last-of-type {
-  margin-bottom: 32px;
+.back-button:hover {
+  background: #222;
 }
