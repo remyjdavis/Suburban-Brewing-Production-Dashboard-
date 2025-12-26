@@ -271,3 +271,6 @@ button:hover {
 .brew-container {
   text-align: center;
 }
+.grid-2:last-of-type {
+  margin-bottom: 64px;
+}
