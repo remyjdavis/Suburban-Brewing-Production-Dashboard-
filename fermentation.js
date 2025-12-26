@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("tankId").textContent = tank;
 
   loadFermentationLog();
+  enforceWeekdayRule();
 
   document
     .getElementById("saveFermentation")
@@ -32,6 +33,23 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "dashboard.html";
     });
 });
+
+/*************************************************
+ * WEEKDAY ENFORCEMENT (MON–FRI)
+ *************************************************/
+function isWeekday() {
+  const day = new Date().getDay(); // 0=Sun, 6=Sat
+  return day >= 1 && day <= 5;
+}
+
+function enforceWeekdayRule() {
+  const btn = document.getElementById("saveFermentation");
+
+  if (!isWeekday()) {
+    btn.disabled = true;
+    btn.textContent = "Weekday Entries Only";
+  }
+}
 
 /*************************************************
  * LOAD FERMENTATION LOG (SORTED)
@@ -65,9 +83,14 @@ function loadFermentationLog() {
 
 /*************************************************
  * SAVE FERMENTATION ENTRY
- * (Day calculated server-side)
+ * (Weekdays only, Day server-calculated)
  *************************************************/
 function saveFermentation() {
+  if (!isWeekday()) {
+    alert("Daily fermentation entries are allowed Monday through Friday only.");
+    return;
+  }
+
   const payload = {
     BrewID: brewId,
     Tank: tank,
@@ -90,7 +113,7 @@ function saveFermentation() {
 
   clearInputs();
 
-  // Reload from server to get correct Day
+  // Reload to get correct Day from server
   setTimeout(loadFermentationLog, 300);
 }
 
