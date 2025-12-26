@@ -2,34 +2,29 @@ const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 /*************************************************
- * INIT
+ * INIT — SINGLE SOURCE OF TRUTH
  *************************************************/
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   populateTanks();
-  loadRecipes?.(); // safe if not present
   autoGenerateBrewId();
 
   const saveBtn = document.getElementById("saveBrewLog");
   if (saveBtn) {
-    saveBtn.onclick = saveBrewLog;
+    saveBtn.addEventListener("click", saveBrewLog);
   }
 
- document.addEventListener("DOMContentLoaded", () => {
+  // 🔥 BACK TO DASHBOARD — THIS WILL WORK
   const backBtn = document.getElementById("backToDashboard");
-
   if (!backBtn) {
     console.error("❌ backToDashboard button not found");
-    return;
+  } else {
+    backBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "index.html";
+    });
+    console.log("✅ Back to Dashboard wired");
   }
-
-  backBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    window.location.href = "index.html";
-  });
-
-  console.log("✅ Back to Dashboard wired");
 });
-
 
 /*************************************************
  * BREW ID
