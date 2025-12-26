@@ -227,7 +227,7 @@ function collectFormData() {
   };
 }
 
-function saveBrewLog() {
+ffunction saveBrewLog() {
   const payload = collectFormData();
 
   const blob = new Blob(
@@ -246,4 +246,5 @@ function saveBrewLog() {
     alert("Save failed");
   }
 }
+
 
