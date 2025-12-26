@@ -247,7 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.getElementById("backToDashboard");
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.location.href = "dashboard.html";
+      window.location.href = "index.html";
+
     });
   }
 });
