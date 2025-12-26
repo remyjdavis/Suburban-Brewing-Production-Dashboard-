@@ -126,3 +126,35 @@ function clearInputs() {
     if (el) el.value = "";
   });
 }
+function loadFermentationCards(tankId) {
+  const container = document.getElementById("fermCards");
+  container.innerHTML = "";
+
+  const data = getFermentationData(tankId); // existing source
+
+  data.reverse().forEach((d, i) => {
+    const card = document.createElement("div");
+    card.className = "ferm-card";
+
+    card.innerHTML = `
+      <div class="ferm-header">
+        <span>Day ${d.day}</span>
+        <span>${d.gravity < 1.012 ? "Near Terminal" : "Active"}</span>
+      </div>
+
+      <div class="ferm-metrics">
+        <div><strong>${d.temp}°F</strong>Temp</div>
+        <div><strong>${d.gravity}</strong>Gravity</div>
+        <div><strong>${d.ph}</strong>pH</div>
+        <div><strong>${d.pressure || "-"} PSI</strong>Pressure</div>
+      </div>
+
+      ${d.notes ? `<small>${d.notes}</small>` : ""}
+    `;
+
+    container.appendChild(card);
+  });
+
+  drawFermentationChart(data);
+}
+
