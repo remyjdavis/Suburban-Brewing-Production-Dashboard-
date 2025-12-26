@@ -30,21 +30,9 @@
       padding: 32px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    h2 {
-      margin: 32px 0 12px;
-      font-size: 20px;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      margin-top: 4px;
-    }
+    h1 { margin: 0; font-size: 28px; }
+    h2 { margin: 32px 0 12px; font-size: 20px; }
+    .subtitle { color: var(--muted); }
 
     .grid {
       display: grid;
@@ -56,28 +44,11 @@
       background: var(--card-bg);
       border-radius: 18px;
       padding: 16px;
-      box-shadow:
-        0 4px 12px rgba(0,0,0,0.06),
-        0 1px 3px rgba(0,0,0,0.04);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .card.clickable {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       cursor: pointer;
     }
 
-    .card.clickable:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.10),
-        0 4px 6px rgba(0,0,0,0.06);
-    }
-
-    .tank-id {
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
+    .tank-id { font-weight: 700; margin-bottom: 8px; }
 
     .status {
       display: inline-block;
@@ -89,10 +60,10 @@
       color: #fff;
     }
 
-    .Fermenting { background: var(--green); }
+    .FERMENTING { background: var(--green); }
+    .AVAILABLE { background: var(--gray); }
     .CIP { background: var(--blue); }
-    .Conditioning { background: var(--orange); }
-    .Empty { background: var(--gray); }
+    .CONDITIONING { background: var(--orange); }
 
     .meta {
       font-size: 13px;
@@ -103,69 +74,69 @@
 </head>
 <body>
 
-  <h1>Suburban Brewing Company</h1>
-  <div class="subtitle">Production Dashboard</div>
+<h1>Suburban Brewing Company</h1>
+<div class="subtitle">Production Dashboard</div>
 
-  <h2>Fermentation Tanks</h2>
-  <div class="grid" id="fermenters"></div>
+<h2>Fermentation Tanks</h2>
+<div class="grid" id="fermenters"></div>
 
-  <h2>Brite Tanks</h2>
-  <div class="grid" id="brites"></div>
+<h2>Brite Tanks</h2>
+<div class="grid" id="brites"></div>
 
-  <script>
-    const tanks = [
-      { TankID: "FV-1", Type: "Fermenter", Status: "Fermenting", Beer: "—", Batch: "West Coast IPA" },
-      { TankID: "FV-2", Type: "Fermenter", Status: "Fermenting", Beer: "—", Batch: "Pilsner" },
-      { TankID: "FV-3", Type: "Fermenter", Status: "CIP", Beer: "—", Batch: "—" },
-      { TankID: "FV-4", Type: "Fermenter", Status: "Conditioning", Beer: "—", Batch: "Lager" },
-      { TankID: "FV-5", Type: "Fermenter", Status: "Empty", Beer: "—", Batch: "—" },
-      { TankID: "FV-6", Type: "Fermenter", Status: "Empty", Beer: "—", Batch: "—" },
-      { TankID: "BT-1", Type: "Brite", Status: "Empty", Beer: "—", Batch: "—" },
-      { TankID: "BT-2", Type: "Brite", Status: "Empty", Beer: "—", Batch: "—" }
-    ];
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-    function createCard(tank) {
-      const card = document.createElement("div");
-      card.className = "card";
+function createCard(t) {
+  const card = document.createElement("div");
+  card.className = "card";
 
-      const clickable =
-        tank.Type === "Fermenter" &&
-        (tank.Status === "Empty" || !tank.Status);
+  const status = (t.Status || "AVAILABLE").toUpperCase();
 
-      if (clickable) {
-        card.classList.add("clickable");
-        card.addEventListener("click", () => {
-          const params = new URLSearchParams({
-            tank: tank.TankID
-          });
-          window.location.href = "brew-log.html?" + params.toString();
-        });
-      }
+  card.innerHTML = `
+    <div class="tank-id">${t.TankID}</div>
+    <div class="status ${status}">${status}</div>
+    <div class="meta">
+      Active Brew: ${t.ActiveBrewID || "—"}<br>
+      Last Brew: ${t.LastBrewDate || "—"}
+    </div>
+  `;
 
-      card.innerHTML = `
-        <div class="tank-id">${tank.TankID}</div>
-        <div class="status ${tank.Status}">${tank.Status}</div>
-        <div class="meta">
-          Beer: ${tank.Beer}<br>
-          Batch: ${tank.Batch}
-        </div>
-      `;
+  card.onclick = () => {
+    const params = new URLSearchParams({
+      tank: t.TankID,
+      brewId: t.ActiveBrewID || ""
+    });
 
-      return card;
+    if (status === "FERMENTING") {
+      window.location.href = "fermentation.html?" + params;
+    } else {
+      window.location.href = "brew-log.html?" + params;
     }
+  };
 
-    const fermenterContainer = document.getElementById("fermenters");
-    const briteContainer = document.getElementById("brites");
+  return card;
+}
+
+fetch(API + "?action=tanks&_=" + Date.now())
+  .then(r => r.json())
+  .then(tanks => {
+    const fermenters = document.getElementById("fermenters");
+    const brites = document.getElementById("brites");
+
+    fermenters.innerHTML = "";
+    brites.innerHTML = "";
 
     tanks.forEach(t => {
       const card = createCard(t);
-      if (t.Type === "Fermenter") {
-        fermenterContainer.appendChild(card);
+      if (t.TankID.startsWith("FV")) {
+        fermenters.appendChild(card);
       } else {
-        briteContainer.appendChild(card);
+        brites.appendChild(card);
       }
     });
-  </script>
+  })
+  .catch(err => console.error("Dashboard load failed:", err));
+</script>
 
 </body>
 </html>
