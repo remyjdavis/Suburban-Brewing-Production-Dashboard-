@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background: #f1f3f6; /* slightly darker so cards lift */
+  background: #e9ecf1; /* slightly darker so cards lift */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -22,7 +22,7 @@ body {
 .grid-3,
 .grid-2 {
   display: grid;
-  gap: 14px; /* a touch more air between cards */
+  gap: 20px; /* a touch more air between cards */
   align-items: start;
 }
 
