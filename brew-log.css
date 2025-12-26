@@ -22,7 +22,7 @@ body {
 .grid-3,
 .grid-2 {
   display: grid;
-  gap: 20px; /* a touch more air between cards */
+  gap: 32px; /* a touch more air between cards */
   align-items: start;
 }
 
