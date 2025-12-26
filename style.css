@@ -139,3 +139,72 @@ h2 {
 .tank-details strong {
   font-weight: 600;
 }
+/* ===============================
+   FERMENTATION MODAL
+================================ */
+
+.ferm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.ferm-modal.hidden {
+  display: none;
+}
+
+.ferm-window {
+  background: #fff;
+  width: 92%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+}
+
+.ferm-close {
+  float: right;
+  font-size: 26px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+#fermCards {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ferm-card {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.ferm-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.ferm-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  font-size: 13px;
+}
+
+.ferm-metrics div strong {
+  display: block;
+  font-size: 15px;
+}
+
