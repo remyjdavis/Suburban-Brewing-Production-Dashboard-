@@ -1,141 +1,92 @@
 const API =
-  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
+"https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-console.log("DASHBOARD JS LOADED", Date.now());
+let activeTank = null;
+let activeBrew = null;
+let fermChart = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadTanks();
-});
+document.addEventListener("DOMContentLoaded", loadTanks);
 
-/*************************************************
- * LOAD TANKS
- *************************************************/
+/* LOAD TANKS */
 function loadTanks() {
-  fetch(`${API}?action=tanks&_=${Date.now()}`)
-    .then(res => res.json())
+  fetch(`${API}?action=tanks`)
+    .then(r => r.json())
     .then(data => {
-      if (!Array.isArray(data)) return;
-
-      const fermenters = document.getElementById("fermenters");
-      const brites = document.getElementById("brites");
-
       fermenters.innerHTML = "";
       brites.innerHTML = "";
-
-      data.forEach(t => renderTankCard(t, fermenters, brites));
-    })
-    .catch(err => console.error(err));
-}
-
-/*************************************************
- * RENDER TANK CARD
- *************************************************/
-function renderTankCard(t, fermenters, brites) {
-  const id = String(t.TankID || "").trim();
-  const statusRaw = String(t.Status || "AVAILABLE").trim();
-  const status = statusRaw.toUpperCase();
-
-  const card = document.createElement("div");
-  card.className = "dashboard-card";
-
-  card.innerHTML = `
-    <div class="tank-id">${id}</div>
-    <div class="status ${status.replace(/\s+/g, "-")}">${statusRaw}</div>
-    <div class="meta">
-      <strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}<br>
-      <strong>Last Brew:</strong> ${t.LastBrewDate || "—"}
-    </div>
-  `;
-
-  card.onclick = () => {
-    if (status.includes("FERMENT")) {
-      openFermentationModal(id, t.ActiveBrewID || "");
-    } else {
-      const params = new URLSearchParams({
-        tank: id,
-        brewId: t.ActiveBrewID || ""
-      });
-      window.location.href = "brew-log.html?" + params.toString();
-    }
-  };
-
-  status.includes("FERMENT")
-    ? fermenters.appendChild(card)
-    : brites.appendChild(card);
-}
-
-/*************************************************
- * FERMENTATION MODAL
- *************************************************/
-function openFermentationModal(tankId, brewId) {
-  document.getElementById("fermTitle").textContent =
-    `Tank ${tankId} – Active Fermentation`;
-
-  document.getElementById("fermModal").classList.remove("hidden");
-
-  loadFermentationData(tankId, brewId);
-}
-
-document.addEventListener("click", e => {
-  if (e.target.classList.contains("ferm-close")) {
-    document.getElementById("fermModal").classList.add("hidden");
-  }
-});
-
-/*************************************************
- * LOAD FERMENTATION DATA
- *************************************************/
-function loadFermentationData(tankId, brewId) {
-  fetch(`${API}?action=fermentation&tank=${tankId}&brewId=${brewId}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!Array.isArray(data)) return;
-
-      renderFermentationCards(data);
-      drawFermentationChart(data);
+      data.forEach(t => renderTank(t));
     });
 }
 
-/*************************************************
- * RENDER CARDS
- *************************************************/
-function renderFermentationCards(data) {
-  const container = document.getElementById("fermCards");
-  container.innerHTML = "";
+function renderTank(t) {
+  const status = t.Status.toUpperCase();
+  const card = document.createElement("div");
+  card.className = "dashboard-card";
+  card.innerHTML = `
+    <div class="tank-id">${t.TankID}</div>
+    <div class="status ${status}">${t.Status}</div>
+    <div class="meta">
+      <strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}
+    </div>
+  `;
+  card.onclick = () => {
+    status.includes("FERMENT")
+      ? openFermentation(t.TankID, t.ActiveBrewID)
+      : location.href = `brew-log.html?tank=${t.TankID}`;
+  };
+  (status.includes("FERMENT") ? fermenters : brites).appendChild(card);
+}
 
+/* OPEN MODAL */
+function openFermentation(tank, brew) {
+  activeTank = tank;
+  activeBrew = brew;
+  fermTitle.textContent = `Tank ${tank} – Active Fermentation`;
+  fermModal.classList.remove("hidden");
+  loadFermentation();
+}
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("ferm-close"))
+    fermModal.classList.add("hidden");
+});
+
+/* LOAD FERMENTATION */
+function loadFermentation() {
+  fetch(`${API}?action=fermentation&tank=${activeTank}&brewId=${activeBrew}`)
+    .then(r => r.json())
+    .then(data => {
+      renderCards(data);
+      drawChart(data);
+      showPrediction(data);
+    });
+}
+
+/* RENDER CARDS */
+function renderCards(data) {
+  fermCards.innerHTML = "";
   data.slice().reverse().forEach(d => {
-    const card = document.createElement("div");
-    card.className = "ferm-card";
-
-    card.innerHTML = `
-      <div class="ferm-header">
-        <span>Day ${d.Day}</span>
-        <span>${d.Gravity < 1.012 ? "Near Terminal" : "Active"}</span>
-      </div>
-      <div class="ferm-metrics">
-        <div><strong>${d.Temp}°F</strong>Temp</div>
-        <div><strong>${d.Gravity}</strong>Gravity</div>
-        <div><strong>${d.pH}</strong>pH</div>
-        <div><strong>${d.Pressure || "-"} PSI</strong>Pressure</div>
-      </div>
-      ${d.Notes ? `<small>${d.Notes}</small>` : ""}
-    `;
-
-    container.appendChild(card);
+    fermCards.innerHTML += `
+      <div class="ferm-card">
+        <div class="ferm-header">
+          <span>Day ${d.Day}</span>
+          <span>${fermentationStatus(data)}</span>
+        </div>
+        <div class="ferm-metrics">
+          <div><strong>${d.Temp}</strong>Temp</div>
+          <div><strong>${d.Gravity}</strong>Gravity</div>
+          <div><strong>${d.pH}</strong>pH</div>
+          <div><strong>${d.Pressure || "-"}</strong>PSI</div>
+        </div>
+        ${d.Notes ? `<small>${d.Notes}</small>` : ""}
+      </div>`;
   });
 }
 
-/*************************************************
- * CHART
- *************************************************/
-let fermChart;
-
-function drawFermentationChart(data) {
-  const ctx = document.getElementById("fermChart");
-
+/* CHART */
+function drawChart(data) {
   if (fermChart) fermChart.destroy();
-
-  fermChart = new Chart(ctx, {
+  fermChart = new Chart(fermChartEl, {
     type: "line",
     data: {
       labels: data.map(d => `Day ${d.Day}`),
@@ -147,3 +98,42 @@ function drawFermentationChart(data) {
     }
   });
 }
+
+/* ML-LITE LOGIC */
+function fermentationStatus(data) {
+  if (data.length < 3) return "Active";
+  const g = data.map(d => d.Gravity);
+  const delta = Math.abs(g[g.length-1] - g[g.length-3]);
+  if (delta < 0.001) return "⚠️ Stalled";
+  if (g[g.length-1] < 1.012) return "Near Terminal";
+  return "Active";
+}
+
+function showPrediction(data) {
+  const status = fermentationStatus(data);
+  fermPrediction.textContent =
+    status === "Near Terminal"
+      ? "✅ Ready for crash / VDK rest soon"
+      : status === "⚠️ Stalled"
+      ? "⚠️ Investigate fermentation"
+      : "🔥 Active fermentation progressing";
+}
+
+/* SAVE DAILY READING */
+saveFermEntry.onclick = () => {
+  const payload = {
+    action: "saveFermentation",
+    tank: activeTank,
+    brewId: activeBrew,
+    temp: fTemp.value,
+    gravity: fGravity.value,
+    ph: fPH.value,
+    pressure: fPressure.value,
+    notes: fNotes.value
+  };
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  }).then(() => loadFermentation());
+};
