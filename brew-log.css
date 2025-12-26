@@ -1,189 +1,203 @@
-/* ================================
-   BASE LAYOUT
-================================ */
+/* GLOBAL RESET */
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
-  padding: 0;
+  background: #f1f3f6; /* slightly darker so cards lift */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
 }
 
-.brew-header {
+/* MAIN CONTAINER */
+.brew-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 10px 10px 6px;
+}
+
+/* GRID SYSTEM */
+.header-row,
+.grid-4,
+.grid-3,
+.grid-2 {
   display: grid;
-  grid-template-columns: repeat(4, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 16px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 14px; /* a touch more air between cards */
+  align-items: start;
 }
 
-.brew-header input,
-.brew-header select {
-  height: 40px;
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: #fff;
+.header-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* ================================
-   MAIN BREW LOG AREA
-================================ */
-
-.brew-log {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 16px;
-  padding: 16px;
+.grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-/* ================================
-   CARD STYLE (FLOATING)
-================================ */
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* CARD — FLOATING */
 .card {
   background: #ffffff;
   border-radius: 12px;
-  padding: 14px;
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04);
+  padding: 10px 12px 12px;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+
+  /* floating effect */
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.08);
+
+  /* subtle separation from background */
+  border: 1px solid rgba(0,0,0,0.04);
 }
 
-.card h3 {
-  margin: 0 0 10px 0;
-  font-size: 15px;
+.card.full {
+  grid-column: 1 / -1;
+}
+
+/* HEADERS */
+h3 {
+  font-size: 14px;
+  margin: 0 0 6px;
   font-weight: 600;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 6px;
 }
 
-/* ================================
-   TABLES
-================================ */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
+h4 {
   font-size: 13px;
-}
-
-thead th {
-  text-align: left;
+  margin: 8px 0 4px;
   font-weight: 600;
-  padding: 6px 4px;
-  border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;
 }
 
-tbody td {
-  padding: 6px 4px;
-  vertical-align: middle;
-}
-
-/* Prevent overlap */
-td {
-  position: relative;
-}
-
-/* ================================
-   INPUTS (NO OVERLAP)
-================================ */
-
+/* INPUTS — LOCKED WIDTH (OVERLAP SAFE) */
 input,
 select {
   width: 100%;
-  height: 34px;
-  padding: 4px 8px;
-  font-size: 13px;
-  border: 1px solid #d1d5db;
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
   border-radius: 6px;
-  box-sizing: border-box;
-  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  background: #fff;
 }
 
-input[type="time"] {
-  padding: 2px 6px;
+/* TABLES */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* critical */
+  font-size: 12px;
 }
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
-}
-
-/* Larger inputs where needed */
-input.large {
-  height: 40px;
-  font-size: 14px;
-}
-
-/* ================================
-   FOOTER
-================================ */
-
-.brew-footer {
-  display: flex;
-  gap: 12px;
-  padding: 16px;
-  border-top: 1px solid #e5e7eb;
-  background: #ffffff;
-}
-
-.brew-footer button {
-  height: 40px;
-  padding: 0 16px;
-  font-size: 14px;
+thead th {
   font-weight: 600;
-  border-radius: 8px;
-  border: none;
+  padding-bottom: 3px;
+}
+
+th,
+td {
+  padding: 3px 4px;
+  text-align: left;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+td {
+  min-width: 0;
+}
+
+td input,
+td select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* GRAIN BILL EMPTY STATE */
+#grainTable:empty::after {
+  content: "Select a recipe to load grain bill";
+  display: block;
+  padding: 6px 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+/* MASH SCHEDULE EMPHASIS */
+#mashTable th:nth-child(2),
+#mashTable td:nth-child(2),
+#mashTable th:nth-child(3),
+#mashTable td:nth-child(3),
+#mashTable th:nth-child(4),
+#mashTable td:nth-child(4) {
+  width: 14%;
+}
+
+#mashTable th:nth-child(5),
+#mashTable td:nth-child(5),
+#mashTable th:nth-child(6),
+#mashTable td:nth-child(6) {
+  width: 18%;
+}
+
+/* LAUTER TUN */
+.aligned {
+  table-layout: fixed;
+}
+
+.aligned th:nth-child(1),
+.aligned td:nth-child(1) { width: 18%; }
+
+.aligned th:nth-child(n+2),
+.aligned td:nth-child(n+2) {
+  width: 16.4%;
+}
+
+/* BOIL */
+.boil-values {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+/* HOPS / ADDITIONS — DENSER */
+#boilTable td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#boilTable input,
+#boilTable select {
+  padding: 4px 6px;
+  font-size: 11.5px;
+}
+
+/* BUTTONS */
+button {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
   cursor: pointer;
-  background: #2563eb;
-  color: #ffffff;
+  max-width: 200px;
 }
 
-.brew-footer button:hover {
-  background: #1e4fd8;
+button:hover {
+  background: #f0f0f0;
 }
 
-/* ================================
-   PRINT (PHASE 1)
-================================ */
-
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .brew-log,
-  .brew-log * {
-    visibility: visible;
-  }
-
-  .brew-log {
-    position: absolute;
-    inset: 0;
-    padding: 0;
-    gap: 12px;
-  }
-
-  .card {
-    box-shadow: none !important;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    page-break-inside: avoid;
-  }
-
-  .brew-header,
-  .brew-footer,
-  button,
-  select {
-    display: none !important;
-  }
+/* SAVE BUTTON ANCHOR */
+.save {
+  margin: 10px auto 0;
+  display: block;
 }
