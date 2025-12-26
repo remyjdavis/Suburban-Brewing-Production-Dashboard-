@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Suburban Brewing Company – Production Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suburban Brewing – Production Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,34 +16,9 @@
 <h2>Brite / Other Tanks</h2>
 <div class="grid" id="brites"></div>
 
-<!-- FERMENTATION MODAL -->
-<div id="fermModal" class="ferm-modal hidden">
-  <div class="ferm-window">
-    <button class="ferm-close">&times;</button>
+<h2>🔥 Brew Priority (Inventory Intelligence)</h2>
+<div id="brewPriority" class="brew-priority"></div>
 
-    <h2 id="fermTitle"></h2>
-    <div id="fermPrediction" class="ferm-prediction"></div>
-
-    <canvas id="fermChart" height="120"></canvas>
-
-    <div id="fermCards"></div>
-
-    <!-- ADD DAILY READING -->
-    <div class="ferm-entry">
-      <h3>Add Daily Reading</h3>
-      <div class="ferm-entry-grid">
-        <input id="fTemp" placeholder="Temp °F">
-        <input id="fGravity" placeholder="Gravity">
-        <input id="fPH" placeholder="pH">
-        <input id="fPressure" placeholder="Pressure PSI">
-        <input id="fNotes" placeholder="Notes">
-      </div>
-      <button id="saveFermEntry" class="primary">Save Reading</button>
-    </div>
-  </div>
-</div>
-
-<script src="chart.js"></script>
 <script src="dashboard.js"></script>
 </body>
 </html>
