@@ -1,154 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Brew Log</title>
-  <link rel="stylesheet" href="brew-log.css">
+  <meta charset="UTF-8" />
+  <title>Brew Log – Production</title>
+  <link rel="stylesheet" href="brew-log.css" />
 </head>
+
 <body>
 
-<div class="brew-container">
+<header class="page-header">
+  <input type="date">
+  <input id="tank" placeholder="FV">
+  <select id="recipe"></select>
+  <input placeholder="Brewer">
+</header>
 
-  <!-- HEADER -->
-  <div class="header-row">
-    <input type="date">
-    <select id="tank"></select>
-    <select id="recipe"></select>
-    <input placeholder="Brewer">
-  </div>
+<!-- FIRST ROW -->
+<section class="grid four brew-log-card">
 
-  <!-- TOP CARDS -->
-  <div class="grid-4">
-    <div class="card">
-      <h3>Recipe Targets</h3>
-      <div class="grid-3">
-        <input placeholder="Eff %">
-        <input placeholder="OG">
-        <input placeholder="FG">
-        <input placeholder="Vol">
-        <input placeholder="IBU">
-        <input placeholder="SRM">
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Grain Bill</h3>
-      <table>
-        <thead>
-          <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
-        </thead>
-        <tbody id="grainTable"></tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h3>Water Profile (ppm)</h3>
-      <div class="grid-3">
-        <input placeholder="Ca">
-        <input placeholder="Mg">
-        <input placeholder="Na">
-        <input placeholder="SO₄">
-        <input placeholder="Cl">
-        <input placeholder="HCO₃">
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Mash Schedule</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Step</th><th>Temp</th><th>Min</th><th>pH</th><th>Start</th><th>End</th>
-          </tr>
-        </thead>
-        <tbody id="mashTable"></tbody>
-      </table>
+  <div class="card small">
+    <h3>Recipe Targets</h3>
+    <div class="inline">
+      <input placeholder="Eff %">
+      <input placeholder="OG">
+      <input placeholder="FG">
+      <input placeholder="Vol">
+      <input placeholder="IBU">
+      <input placeholder="SRM">
     </div>
   </div>
 
-  <!-- LAUTER -->
+  <div class="card small">
+    <h3>Grain Bill</h3>
+    <table class="tight">
+      <thead>
+        <tr><th>Grain</th><th>Target</th><th>Milled</th></tr>
+      </thead>
+      <tbody id="grainTable"></tbody>
+    </table>
+  </div>
+
+  <div class="card small water-card">
+    <h3>Water Profile (ppm)</h3>
+    <div class="water-grid">
+      <label><span>Ca</span><input></label>
+      <label><span>Mg</span><input></label>
+      <label><span>Na</span><input></label>
+      <label><span>SO₄</span><input></label>
+      <label><span>Cl</span><input></label>
+      <label><span>HCO₃</span><input></label>
+    </div>
+  </div>
+
+  <div class="card small">
+    <h3>Mash Schedule</h3>
+    <table class="tight">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Temp</th>
+          <th>Min</th>
+          <th>pH</th>
+          <th>Start</th>
+          <th>End</th>
+        </tr>
+      </thead>
+      <tbody id="mashTable"></tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- LAUTER -->
+<section class="card brew-log-card">
+  <h3>Lauter Tun</h3>
+  <table class="tight">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Vol</th>
+        <th>Deep Cuts</th>
+        <th>Gravity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>First Runnings</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td><input></td>
+      </tr>
+      <tr>
+        <td><strong>First Sparge</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Second Sparge</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td><input></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Final Runnings</strong></td>
+        <td><input type="time"></td>
+        <td><input type="time"></td>
+        <td><input></td>
+        <td></td>
+        <td><input></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- THIRD ROW -->
+<section class="grid three brew-log-card">
+
   <div class="card">
-    <h3>Lauter Tun</h3>
-    <table class="aligned">
-      <thead>
-        <tr>
-          <th></th><th>Start</th><th>End</th><th>Vol</th><th>Deep Cuts</th><th>Gravity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>First Runnings</td>
-          <td><input></td><td><input></td><td><input></td><td><input></td><td><input></td>
-        </tr>
-        <tr>
-          <td>First Sparge</td>
-          <td><input></td><td><input></td><td><input></td><td><input></td><td></td>
-        </tr>
-        <tr>
-          <td>Second Sparge</td>
-          <td><input></td><td><input></td><td><input></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td>Final Runnings</td>
-          <td><input></td><td><input></td><td><input></td><td></td><td><input></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- BOIL (FULL WIDTH) -->
-  <div class="card full">
     <h3>Boil</h3>
-
-    <div class="boil-values">
-      <input placeholder="Boil Start">
-      <input placeholder="Boil End">
-      <input placeholder="Pre-Boil Vol">
-      <input placeholder="Post-Boil Vol">
-      <input placeholder="Boil Gravity">
-      <input placeholder="Trub Loss">
-    </div>
-
-    <h4>Hops / Additions</h4>
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th><th>Type</th><th>Name</th><th>Amount</th><th>IBU</th>
-        </tr>
-      </thead>
-      <tbody id="boilTable"></tbody>
-    </table>
-
-    <button id="addBoilRow">+ Add Addition</button>
+    <input type="time">
+    <input type="time">
   </div>
 
-  <!-- KO + YEAST -->
-  <div class="grid-2">
-    <div class="card">
-      <h3>Knockout</h3>
-      <div class="grid-2">
-        <input placeholder="KO Volume">
-        <input placeholder="KO Gravity">
-        <input placeholder="KO Temp">
-        <input placeholder="pH">
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Yeast</h3>
-      <div class="grid-3">
-        <input placeholder="Strain">
-        <input placeholder="Pitch Rate">
-        <input placeholder="Pitch Temp">
-        <input placeholder="Generation">
-        <input placeholder="Source">
-      </div>
-    </div>
+  <div class="card">
+    <h3>Knockout</h3>
+    <input placeholder="Volume">
+    <input placeholder="Gravity">
+    <input placeholder="pH">
   </div>
 
-  <button class="save">Save Brew Log</button>
+  <div class="card">
+    <h3>Yeast</h3>
+    <input placeholder="Strain">
+    <input placeholder="Pitch Rate">
+    <input placeholder="Temp">
+    <input placeholder="Generation">
+  </div>
 
-</div>
+</section>
+
+<footer>
+  <button id="printBrewLog">Print Brew Log</button>
+  <button>Save Brew Log</button>
+</footer>
 
 <script src="brew-log.js"></script>
 </body>
