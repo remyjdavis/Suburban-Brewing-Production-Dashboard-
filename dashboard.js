@@ -19,13 +19,19 @@ fetch(API + "?action=tanks")
       card.className = "tank status-" + status;
 
       /* CLICK → OPEN BREW LOG */
-      card.addEventListener("click", () => {
-        const params = new URLSearchParams({
-          tank: t.TankID || "",
-          brewId: t.ActiveBrewID || ""
-        });
-        window.location.href = "brew-log.html?" + params.toString();
-      });
+     card.addEventListener("click", () => {
+  const params = new URLSearchParams({
+    brewId: t.Batch || "",
+    tank: t.TankID || ""
+  });
+
+  if ((t.Status || "").toUpperCase() === "FERMENTING") {
+    window.location.href = "fermentation.html?" + params.toString();
+  } else {
+    window.location.href = "brew-log.html?" + params.toString();
+  }
+});
+
 
       const header = document.createElement("div");
       header.className = "tank-header";
