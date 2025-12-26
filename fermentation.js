@@ -1,55 +1,119 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
+/*************************************************
+ * URL PARAMS
+ *************************************************/
 const params = new URLSearchParams(window.location.search);
 const brewId = params.get("brewId");
 const tank = params.get("tank");
 
-const tbody = document.getElementById("fermentationTable");
+/*************************************************
+ * INIT
+ *************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  if (!brewId || !tank) {
+    alert("Missing fermentation context");
+    return;
+  }
 
-document.getElementById("title").textContent =
-  `Fermentation — ${tank}`;
+  document.getElementById("brewId").textContent = brewId;
+  document.getElementById("tankId").textContent = tank;
 
-fetch(`${API}?action=fermentation&brewId=${brewId}`)
-  .then(r => r.json())
-  .then(rows => rows.forEach(addRowFromData));
+  loadFermentationLog();
 
-document.getElementById("addRow").onclick = () => addRow();
-document.getElementById("saveFermentation").onclick = saveAll;
+  document
+    .getElementById("saveFermentation")
+    .addEventListener("click", saveFermentation);
 
-function addRowFromData(d = {}) {
+  document
+    .getElementById("backToDashboard")
+    .addEventListener("click", () => {
+      window.location.href = "dashboard.html";
+    });
+});
+
+/*************************************************
+ * LOAD FERMENTATION LOG
+ *************************************************/
+function loadFermentationLog() {
+  fetch(`${API}?action=fermentation&brewId=${encodeURIComponent(brewId)}`)
+    .then(r => r.json())
+    .then(rows => {
+      const tbody = document.getElementById("fermentationTable");
+      tbody.innerHTML = "";
+
+      if (!Array.isArray(rows) || rows.length === 0) return;
+
+      rows.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.Day ?? ""}</td>
+          <td>${r.Temp ?? ""}</td>
+          <td>${r.Gravity ?? ""}</td>
+          <td>${r.pH ?? ""}</td>
+          <td>${r.Pressure ?? ""}</td>
+          <td>${r.Notes ?? ""}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => console.error(err));
+}
+
+/*************************************************
+ * SAVE FERMENTATION ENTRY
+ * (sendBeacon — no CORS issues)
+ *************************************************/
+function saveFermentation() {
+  const payload = {
+    BrewID: brewId,
+    Tank: tank,
+    Day: document.getElementById("day").value,
+    Temp: document.getElementById("temp").value,
+    Gravity: document.getElementById("gravity").value,
+    pH: document.getElementById("ph").value,
+    Pressure: document.getElementById("pressure").value,
+    Notes: document.getElementById("notes").value
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(payload)],
+    { type: "text/plain" }
+  );
+
+  navigator.sendBeacon(
+    `${API}?action=saveFermentation`,
+    blob
+  );
+
+  // optimistic UI update
+  appendRow(payload);
+  clearInputs();
+}
+
+/*************************************************
+ * UI HELPERS
+ *************************************************/
+function appendRow(r) {
+  const tbody = document.getElementById("fermentationTable");
   const tr = document.createElement("tr");
+
   tr.innerHTML = `
-    <td><input value="${d.Day || ""}"></td>
-    <td><input value="${d.Temp || ""}"></td>
-    <td><input value="${d.Gravity || ""}"></td>
-    <td><input value="${d.pH || ""}"></td>
-    <td><input value="${d.Pressure || ""}"></td>
-    <td><input value="${d.Notes || ""}"></td>
+    <td>${r.Day}</td>
+    <td>${r.Temp}</td>
+    <td>${r.Gravity}</td>
+    <td>${r.pH}</td>
+    <td>${r.Pressure}</td>
+    <td>${r.Notes || ""}</td>
   `;
+
   tbody.appendChild(tr);
 }
 
-function addRow() {
-  addRowFromData();
-}
-
-function saveAll() {
-  [...tbody.children].forEach((tr, i) => {
-    const inputs = tr.querySelectorAll("input");
-
-    navigator.sendBeacon(
-      `${API}?action=saveFermentation`,
-      new Blob([JSON.stringify({
-        BrewID: brewId,
-        Tank: tank,
-        Day: inputs[0].value,
-        Temp: inputs[1].value,
-        Gravity: inputs[2].value,
-        pH: inputs[3].value,
-        Pressure: inputs[4].value,
-        Notes: inputs[5].value
-      })], { type: "text/plain" })
-    );
+function clearInputs() {
+  ["day", "temp", "gravity", "ph", "pressure", "notes"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
   });
 }
