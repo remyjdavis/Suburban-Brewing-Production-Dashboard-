@@ -191,7 +191,7 @@ function collectBoilRows() {
 }
 
 /*********************************************************
- * SAVE
+ * SAVE (SEND BEACON — NO CORS EVER)
  *********************************************************/
 function collectFormData() {
   return {
@@ -228,6 +228,8 @@ function collectFormData() {
 }
 
 function saveBrewLog() {
+  alert("SEND BEACON VERSION");
+
   const payload = collectFormData();
 
   const blob = new Blob(
@@ -235,16 +237,14 @@ function saveBrewLog() {
     { type: "text/plain" }
   );
 
-  const success = navigator.sendBeacon(
+  const ok = navigator.sendBeacon(
     `${API}?action=saveBrewLog`,
     blob
   );
 
-  if (success) {
+  if (ok) {
     alert("Brew log saved 🍺");
   } else {
     alert("Save failed");
   }
 }
-
-
