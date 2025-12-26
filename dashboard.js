@@ -18,20 +18,19 @@ fetch(API + "?action=tanks")
       const card = document.createElement("div");
       card.className = "tank status-" + status;
 
-      /* CLICK → OPEN BREW LOG */
-     card.addEventListener("click", () => {
-  const params = new URLSearchParams({
-    brewId: t.Batch || "",
-    tank: t.TankID || ""
-  });
+      /* CLICK — ROUTE BASED ON STATUS */
+      card.addEventListener("click", () => {
+        const params = new URLSearchParams({
+          brewId: t.Batch || "",
+          tank: t.TankID || ""
+        });
 
-  if ((t.Status || "").toUpperCase() === "FERMENTING") {
-    window.location.href = "fermentation.html?" + params.toString();
-  } else {
-    window.location.href = "brew-log.html?" + params.toString();
-  }
-});
-
+        if ((t.Status || "").toUpperCase() === "FERMENTING") {
+          window.location.href = "fermentation.html?" + params.toString();
+        } else {
+          window.location.href = "brew-log.html?" + params.toString();
+        }
+      });
 
       const header = document.createElement("div");
       header.className = "tank-header";
@@ -51,7 +50,7 @@ fetch(API + "?action=tanks")
       details.className = "tank-details";
       details.innerHTML =
         "<div><strong>Active Brew:</strong> " +
-        (t.ActiveBrewID || "—") +
+        (t.Batch || "—") +
         "</div>" +
         "<div><strong>Last Brew:</strong> " +
         (t.LastBrewDate || "—") +
@@ -60,8 +59,12 @@ fetch(API + "?action=tanks")
       card.appendChild(header);
       card.appendChild(details);
 
-      /* ALL FV GO TO FERMENTATION COLUMN */
-      fermentation.appendChild(card);
+      /* ROUTE BY TANK TYPE */
+      if (t.Type === "Fermenter") {
+        fermentation.appendChild(card);
+      } else {
+        brite.appendChild(card);
+      }
     });
   })
   .catch(err => console.error(err));
