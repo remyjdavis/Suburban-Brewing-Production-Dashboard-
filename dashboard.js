@@ -1,53 +1,68 @@
 const API =
   "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
-document.addEventListener("DOMContentLoaded", loadTanks);
+console.log("DASHBOARD JS LOADED", Date.now());
 
-function loadTanks() {
+document.addEventListener("DOMContentLoaded", () => {
+  const fermenters = document.getElementById("fermenters");
+  const brites = document.getElementById("brites");
+
+  if (!fermenters || !brites) {
+    console.error("Dashboard containers missing");
+    return;
+  }
+
   fetch(`${API}?action=tanks&_=${Date.now()}`)
     .then(res => res.json())
-    .then(renderTanks)
-    .catch(err => console.error("Tank load failed:", err));
-}
+    .then(tanks => {
+      console.table(tanks);
 
-function renderTanks(tanks) {
-  const fermentation = document.getElementById("fermentation");
-  const brite = document.getElementById("brite");
+      fermenters.innerHTML = "";
+      brites.innerHTML = "";
 
-  fermentation.innerHTML = "";
-  brite.innerHTML = "";
+      tanks.forEach(t => {
+        const id = String(t.TankID || "").trim().toUpperCase();
+        const status = String(t.Status || "AVAILABLE").toUpperCase();
 
-  tanks.forEach(t => {
-    const status = (t.Status || "AVAILABLE").toUpperCase();
-    const isFV = t.TankID.startsWith("FV");
+        const card = document.createElement("div");
+        card.className = "card clickable";
 
-    const card = document.createElement("div");
-    card.className = `tank status-${status.toLowerCase()}`;
+        card.innerHTML = `
+          <div class="tank-id">${id || "—"}</div>
+          <div class="status ${status}">${status}</div>
+          <div class="meta">
+            <strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}<br>
+            <strong>Last Brew:</strong> ${t.LastBrewDate || "—"}
+          </div>
+        `;
 
-    card.onclick = () => {
-      const params = new URLSearchParams({
-        tank: t.TankID,
-        brewId: t.ActiveBrewID || ""
+        // CLICK ROUTING (CORRECT + FINAL)
+        card.onclick = () => {
+          const params = new URLSearchParams({
+            tank: id,
+            brewId: t.ActiveBrewID || ""
+          });
+
+          if (status === "FERMENTING") {
+            window.location.href =
+              "fermentation.html?" + params.toString();
+          } else {
+            window.location.href =
+              "brew-log.html?" + params.toString();
+          }
+        };
+
+        // 🔒 BULLETPROOF BUCKETING
+        if (id.startsWith("FV")) {
+          fermenters.appendChild(card);
+        } else if (id.startsWith("BT")) {
+          brites.appendChild(card);
+        } else {
+          console.warn("Unknown TankID:", id);
+        }
       });
-
-      if (status === "FERMENTING") {
-        window.location.href = `fermentation.html?${params}`;
-      } else {
-        window.location.href = `brew-log.html?${params}`;
-      }
-    };
-
-    card.innerHTML = `
-      <div class="tank-header">
-        <span class="tank-id">${t.TankID}</span>
-        <span class="tank-badge">${status}</span>
-      </div>
-      <div class="tank-details">
-        <div><strong>Active Brew:</strong> ${t.ActiveBrewID || "—"}</div>
-        <div><strong>Last Brew:</strong> ${t.LastBrewDate || "—"}</div>
-      </div>
-    `;
-
-    (isFV ? fermentation : brite).appendChild(card);
-  });
-}
+    })
+    .catch(err => {
+      console.error("Dashboard load failed:", err);
+    });
+});
