@@ -22,7 +22,7 @@ body {
 .grid-3,
 .grid-2 {
   display: grid;
-  gap: 32px; /* a touch more air between cards */
+  gap: 14px; /* a touch more air between cards */
   align-items: start;
 }
 
@@ -243,4 +243,10 @@ button:hover {
 /* extra spacing between major sections */
 .card.full {
   margin-top: 6px;
+}
+.header-row,
+.grid-4,
+.grid-3,
+.grid-2 {
+  margin-bottom: 32px;
 }
