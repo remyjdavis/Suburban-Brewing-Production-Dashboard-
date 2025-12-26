@@ -1,5 +1,5 @@
-const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
-
+const API =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 fetch(API + "?action=tanks")
   .then(res => res.json())
@@ -13,22 +13,24 @@ fetch(API + "?action=tanks")
     brite.innerHTML = "";
 
     tanks.forEach(t => {
-      const status = (t.Status || "EMPTY").toLowerCase();
+      const status = (t.Status || "AVAILABLE").toUpperCase();
 
       const card = document.createElement("div");
-      card.className = "tank status-" + status;
+      card.className = "tank status-" + status.toLowerCase();
 
-      /* CLICK — ROUTE BASED ON STATUS */
+      // ✅ CORRECT ROUTING — NO FAKE FIELDS
       card.addEventListener("click", () => {
         const params = new URLSearchParams({
-          brewId: t.Batch || "",
+          brewId: t.ActiveBrewID || "",
           tank: t.TankID || ""
         });
 
-        if ((t.Status || "").toUpperCase() === "FERMENTING") {
-          window.location.href = "fermentation.html?" + params.toString();
+        if (status === "FERMENTING") {
+          window.location.href =
+            "fermentation.html?" + params.toString();
         } else {
-          window.location.href = "brew-log.html?" + params.toString();
+          window.location.href =
+            "brew-log.html?" + params.toString();
         }
       });
 
@@ -41,7 +43,7 @@ fetch(API + "?action=tanks")
 
       const badge = document.createElement("span");
       badge.className = "tank-badge";
-      badge.textContent = t.Status || "EMPTY";
+      badge.textContent = status;
 
       header.appendChild(tankId);
       header.appendChild(badge);
@@ -50,7 +52,7 @@ fetch(API + "?action=tanks")
       details.className = "tank-details";
       details.innerHTML =
         "<div><strong>Active Brew:</strong> " +
-        (t.Batch || "—") +
+        (t.ActiveBrewID || "—") +
         "</div>" +
         "<div><strong>Last Brew:</strong> " +
         (t.LastBrewDate || "—") +
@@ -59,12 +61,8 @@ fetch(API + "?action=tanks")
       card.appendChild(header);
       card.appendChild(details);
 
-      /* ROUTE BY TANK TYPE */
-      if (t.Type === "Fermenter") {
-        fermentation.appendChild(card);
-      } else {
-        brite.appendChild(card);
-      }
+      // ✅ FV GOES TO FERMENTATION COLUMN
+      fermentation.appendChild(card);
     });
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error("Dashboard load failed:", err));
