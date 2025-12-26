@@ -15,14 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
   loadRecipes();
   addBoilRow();
 
+  autoGenerateBrewId();
+
   document.getElementById("addBoilRow").onclick = addBoilRow;
   document.getElementById("saveBrewLog").onclick = saveBrewLog;
-
-  /* ✅ PRINT — ONLY ADDITION */
-  document
-    .getElementById("printBrewLog")
-    ?.addEventListener("click", () => window.print());
 });
+
+/*********************************************************
+ * BREW ID
+ *********************************************************/
+function autoGenerateBrewId() {
+  const brewId = document.getElementById("brewId");
+  const tank = document.getElementById("tank");
+
+  if (!brewId) return;
+
+  const today = new Date().toISOString().split("T")[0];
+  brewId.value = `${today}-${tank?.value || "FV"}`;
+}
 
 /*********************************************************
  * TANKS
@@ -99,7 +109,7 @@ function populateGrainTable(grains) {
 }
 
 /*********************************************************
- * MASH SCHEDULE (WITH MASH IN / OUT pH)
+ * MASH
  *********************************************************/
 function populateMashTable(steps) {
   const tbody = document.getElementById("mashTable");
@@ -112,11 +122,10 @@ function populateMashTable(steps) {
     let phCell = "—";
 
     if (stepName === "mash in") {
-      phCell = `<input type="number" step="0.01" value="${mashPHState.mashIn}">`;
+      phCell = `<input type="number" step="0.01">`;
     }
-
     if (stepName === "mash out") {
-      phCell = `<input type="number" step="0.01" value="${mashPHState.mashOut}">`;
+      phCell = `<input type="number" step="0.01">`;
     }
 
     const tr = document.createElement("tr");
@@ -142,7 +151,7 @@ function populateMashTable(steps) {
 }
 
 /*********************************************************
- * BOIL / HOPS
+ * BOIL
  *********************************************************/
 function addBoilRow() {
   const tbody = document.getElementById("boilTable");
@@ -182,17 +191,17 @@ function collectBoilRows() {
 }
 
 /*********************************************************
- * SAVE BREW LOG
+ * SAVE
  *********************************************************/
 function collectFormData() {
   return {
+    BrewID: document.getElementById("brewId")?.value || "",
     Date: document.getElementById("date")?.value || "",
     Tank: document.getElementById("tank")?.value || "",
     RecipeID: document.getElementById("recipe")?.value || "",
     Brewer: document.getElementById("brewer")?.value || "",
 
     GrainMilled: JSON.stringify(grainMilledState),
-
     MashIn_pH: mashPHState.mashIn,
     MashOut_pH: mashPHState.mashOut,
 
@@ -231,8 +240,5 @@ function saveBrewLog() {
       if (res.success) alert("Brew log saved 🍺");
       else alert("Save failed");
     })
-    .catch(err => {
-      console.error(err);
-      alert("Save failed");
-    });
+    .catch(() => alert("Save failed"));
 }
