@@ -16,7 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
   addBoilRow();
 
   document.getElementById("addBoilRow").onclick = addBoilRow;
-  document.getElementById("saveBrewLog").onclick = saveBrewLog;
+  document.getElementById("saveBrewLog")?.addEventListener("click", saveBrewLog);
+
+  /* PRINT */
+  document
+    .getElementById("printBrewLog")
+    ?.addEventListener("click", () => window.print());
 });
 
 /*********************************************************
