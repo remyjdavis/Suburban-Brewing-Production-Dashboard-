@@ -240,13 +240,34 @@ button:hover {
     border: 1px solid #000;
   }
 }
+
 /* extra spacing between major sections */
 .card.full {
   margin-top: 6px;
 }
+
 .header-row,
 .grid-4,
 .grid-3,
 .grid-2 {
   margin-bottom: 32px;
+}
+
+/* =====================================================
+   ✅ REQUESTED ADDITIONS ONLY
+   ===================================================== */
+
+/* extra separation for bottom section (Knockout / Yeast) */
+.grid-2 {
+  row-gap: 48px;
+}
+
+/* horizontal action buttons */
+.save {
+  display: inline-block;
+  margin: 10px 6px 0;
+}
+
+.brew-container {
+  text-align: center;
 }
