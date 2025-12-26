@@ -2,143 +2,74 @@
   box-sizing: border-box;
 }
 
-/* BASE */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: #f1f5f9;
-  color: #0f172a;
+  padding: 32px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f6f8fa;
+  color: #1f2937;
 }
 
-/* HEADER */
-.page-header {
-  background: #ffffff;
-  padding: 20px 28px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.page-header h1 {
+h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.page-header p {
-  margin: 4px 0 0;
-  color: #64748b;
-}
-
-/* LAYOUT */
-.container {
-  max-width: 1280px;
-  margin: auto;
-  padding: 28px;
-}
-
-section {
-  margin-top: 36px;
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 24px;
 }
 
 h2 {
-  margin-bottom: 14px;
-  font-size: 18px;
+  margin: 32px 0 12px;
+  font-size: 20px;
 }
 
-/* GRID */
-.tank-grid {
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
 }
 
-/* CARD */
-.tank {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
-  border: none;
-  cursor: pointer; /* 👈 CLICK AFFORDANCE */
+/* DASHBOARD CARD */
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px;
   box-shadow:
-    0 6px 18px rgba(0,0,0,0.08),
-    0 2px 6px rgba(0,0,0,0.05);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.tank:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 14px 36px rgba(0,0,0,0.12),
-    0 6px 14px rgba(0,0,0,0.08);
-}
-
-/* STATUS TINTS */
-.status-fermenting {
-  background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 70%);
-}
-
-.status-conditioning {
-  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 70%);
-}
-
-.status-cip {
-  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 70%);
-}
-
-.status-empty {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 70%);
-}
-
-/* HEADER ROW */
-.tank-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+    0 4px 12px rgba(0,0,0,0.06),
+    0 1px 3px rgba(0,0,0,0.04);
+  cursor: pointer;
 }
 
 .tank-id {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* BADGE */
-.tank-badge {
-  font-size: 11px;
   font-weight: 700;
-  padding: 5px 12px;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.status {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
   border-radius: 999px;
-  text-transform: uppercase;
-  background: #e5e7eb;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
-.status-fermenting .tank-badge {
-  background: #bbf7d0;
-  color: #14532d;
-}
+.FERMENTING { background: #22c55e; }
+.AVAILABLE { background: #9ca3af; }
+.CIP { background: #0ea5e9; }
+.CONDITIONING { background: #f59e0b; }
 
-.status-conditioning .tank-badge {
-  background: #fde68a;
-  color: #92400e;
-}
-
-.status-cip .tank-badge {
-  background: #bae6fd;
-  color: #075985;
-}
-
-.status-empty .tank-badge {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-/* DETAILS */
-.tank-details {
+.meta {
   font-size: 13px;
+  color: #6b7280;
   line-height: 1.5;
 }
 
-.tank-details strong {
-  font-weight: 600;
-}
 /* ===============================
    FERMENTATION MODAL
 ================================ */
@@ -170,7 +101,7 @@ h2 {
 
 .ferm-close {
   float: right;
-  font-size: 26px;
+  font-size: 28px;
   border: none;
   background: none;
   cursor: pointer;
@@ -203,8 +134,18 @@ h2 {
   font-size: 13px;
 }
 
-.ferm-metrics div strong {
+.ferm-metrics strong {
   display: block;
   font-size: 15px;
 }
 
+.primary {
+  margin-top: 14px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
