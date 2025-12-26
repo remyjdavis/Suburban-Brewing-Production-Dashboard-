@@ -1,30 +1,16 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   padding: 32px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system-ui, sans-serif;
   background: #f6f8fa;
   color: #1f2937;
 }
 
-h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.subtitle {
-  color: #6b7280;
-  margin-bottom: 24px;
-}
-
-h2 {
-  margin: 32px 0 12px;
-  font-size: 20px;
-}
+h1 { font-size: 28px; margin: 0; }
+.subtitle { color: #6b7280; margin-bottom: 24px; }
+h2 { margin: 32px 0 12px; }
 
 .grid {
   display: grid;
@@ -32,71 +18,47 @@ h2 {
   gap: 16px;
 }
 
-/* DASHBOARD CARD */
 .dashboard-card {
-  background: #ffffff;
+  background: #fff;
   border-radius: 18px;
   padding: 16px;
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.06),
-    0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
   cursor: pointer;
 }
 
-.tank-id {
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
+.tank-id { font-weight: 700; }
 .status {
-  display: inline-block;
   font-size: 12px;
-  font-weight: 600;
   padding: 4px 10px;
   border-radius: 999px;
-  margin-bottom: 10px;
-  color: #fff;
+  color: white;
 }
-
 .FERMENTING { background: #22c55e; }
 .AVAILABLE { background: #9ca3af; }
 .CIP { background: #0ea5e9; }
 .CONDITIONING { background: #f59e0b; }
 
-.meta {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.5;
-}
+.meta { font-size: 13px; color: #6b7280; }
 
-/* ===============================
-   FERMENTATION MODAL
-================================ */
-
+/* MODAL */
 .ferm-modal {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(0,0,0,.55);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
-
-.ferm-modal.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 .ferm-window {
-  background: #fff;
-  width: 92%;
-  max-width: 900px;
-  max-height: 90vh;
+  background: white;
+  width: 95%;
+  max-width: 950px;
+  max-height: 92vh;
   overflow-y: auto;
-  border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  border-radius: 20px;
 }
 
 .ferm-close {
@@ -107,45 +69,56 @@ h2 {
   cursor: pointer;
 }
 
+.ferm-prediction {
+  margin: 6px 0 12px;
+  font-weight: 600;
+}
+
 #fermCards {
   display: grid;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .ferm-card {
   background: #f8fafc;
-  border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
 }
 
 .ferm-header {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  margin-bottom: 8px;
 }
 
 .ferm-metrics {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4,1fr);
   gap: 8px;
   font-size: 13px;
 }
 
-.ferm-metrics strong {
-  display: block;
-  font-size: 15px;
-}
-
 .primary {
-  margin-top: 14px;
+  margin-top: 10px;
   padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
   background: #2563eb;
   color: white;
+  border: none;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.ferm-entry {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ferm-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 8px;
 }
