@@ -1,5 +1,5 @@
-const API = "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
-
+const API =
+  "https://script.google.com/macros/s/AKfycbzB0d5yltjq5Y1kmk9jDmrgUpRw9NnozKctgh0ELGb6cde7I51xqbcXDoUBbPDjygI5/exec";
 
 /*********************************************************
  * STATE
@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   populateTanks();
   loadRecipes();
   addBoilRow();
-
   autoGenerateBrewId();
 
   document.getElementById("addBoilRow").onclick = addBoilRow;
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function autoGenerateBrewId() {
   const brewId = document.getElementById("brewId");
   const tank = document.getElementById("tank");
-
   if (!brewId) return;
 
   const today = new Date().toISOString().split("T")[0];
@@ -89,7 +87,6 @@ function loadRecipe(id) {
 function populateGrainTable(grains) {
   const tbody = document.getElementById("grainTable");
   if (!tbody) return;
-
   tbody.innerHTML = "";
 
   grains.forEach(g => {
@@ -114,17 +111,13 @@ function populateGrainTable(grains) {
 function populateMashTable(steps) {
   const tbody = document.getElementById("mashTable");
   if (!tbody) return;
-
   tbody.innerHTML = "";
 
   steps.forEach(s => {
     const stepName = (s.Step || "").toLowerCase();
     let phCell = "—";
 
-    if (stepName === "mash in") {
-      phCell = `<input type="number" step="0.01">`;
-    }
-    if (stepName === "mash out") {
+    if (stepName === "mash in" || stepName === "mash out") {
       phCell = `<input type="number" step="0.01">`;
     }
 
@@ -191,7 +184,7 @@ function collectBoilRows() {
 }
 
 /*********************************************************
- * SAVE (SEND BEACON — NO CORS EVER)
+ * SAVE — FIXED SEND BEACON
  *********************************************************/
 function collectFormData() {
   return {
@@ -201,7 +194,6 @@ function collectFormData() {
     RecipeID: document.getElementById("recipe")?.value || "",
     Brewer: document.getElementById("brewer")?.value || "",
 
-    GrainMilled: JSON.stringify(grainMilledState),
     MashIn_pH: mashPHState.mashIn,
     MashOut_pH: mashPHState.mashOut,
 
@@ -230,26 +222,19 @@ function collectFormData() {
 function saveBrewLog() {
   const payload = collectFormData();
 
-  const blob = new Blob(
-    [JSON.stringify(payload)],
-    { type: "text/plain" }
-  );
+  const url =
+    `${API}?action=saveBrewLog&payload=` +
+    encodeURIComponent(JSON.stringify(payload));
 
-  navigator.sendBeacon(
-    `${API}?action=saveBrewLog`,
-    blob
-  );
+  navigator.sendBeacon(url);
 }
+
 /*********************************************************
- * BACK TO DASHBOARD BUTTON
+ * BACK TO DASHBOARD
  *********************************************************/
 document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.getElementById("backToDashboard");
   if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
-
-    });
+    backBtn.onclick = () => window.location.href = "index.html";
   }
 });
-
