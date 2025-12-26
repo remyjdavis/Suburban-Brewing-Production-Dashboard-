@@ -1,27 +1,124 @@
-/* existing styles remain unchanged */
+* { box-sizing: border-box; }
 
-.brew-priority {
+body {
+  margin: 0;
+  padding: 32px;
+  font-family: system-ui, sans-serif;
+  background: #f6f8fa;
+  color: #1f2937;
+}
+
+h1 { font-size: 28px; margin: 0; }
+.subtitle { color: #6b7280; margin-bottom: 24px; }
+h2 { margin: 32px 0 12px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dashboard-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  cursor: pointer;
+}
+
+.tank-id { font-weight: 700; }
+.status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: white;
+}
+.FERMENTING { background: #22c55e; }
+.AVAILABLE { background: #9ca3af; }
+.CIP { background: #0ea5e9; }
+.CONDITIONING { background: #f59e0b; }
+
+.meta { font-size: 13px; color: #6b7280; }
+
+/* MODAL */
+.ferm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hidden { display: none; }
+
+.ferm-window {
+  background: white;
+  width: 95%;
+  max-width: 950px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.ferm-close {
+  float: right;
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.ferm-prediction {
+  margin: 6px 0 12px;
+  font-weight: 600;
+}
+
+#fermCards {
   display: grid;
   gap: 12px;
+  margin-top: 12px;
 }
 
-.brew-card {
-  background: #ffffff;
-  border-radius: 16px;
+.ferm-card {
+  background: #f8fafc;
   padding: 14px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
 }
 
-.brew-card strong {
-  font-size: 15px;
-}
-
-.brew-meta {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.brew-alert {
-  margin-top: 6px;
+.ferm-header {
+  display: flex;
+  justify-content: space-between;
   font-weight: 600;
+}
+
+.ferm-metrics {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  font-size: 13px;
+}
+
+.primary {
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ferm-entry {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ferm-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 8px;
 }
