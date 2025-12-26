@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Fermentation Log</title>
-  <link rel="stylesheet" href="fermentation.css">
+  <link rel="stylesheet" href="fermentation.css" />
 </head>
 <body>
 
 <h2 id="title">Fermentation Log</h2>
 
-<table>
+<table id="fermTable">
   <thead>
     <tr>
       <th>Day</th>
@@ -23,8 +23,17 @@
   <tbody id="fermentationTable"></tbody>
 </table>
 
-<button id="addRow">+ Add Reading</button>
-<button id="saveFermentation">Save</button>
+<h3>Add Daily Reading</h3>
+
+<div class="form">
+  <input id="temp" placeholder="Temp" />
+  <input id="gravity" placeholder="Gravity" />
+  <input id="ph" placeholder="pH" />
+  <input id="pressure" placeholder="Pressure" />
+  <input id="notes" placeholder="Notes" />
+  <button id="saveFermentation">Save</button>
+</div>
+
 <button onclick="window.location.href='dashboard.html'">
   Back to Dashboard
 </button>
