@@ -240,3 +240,7 @@ button:hover {
     border: 1px solid #000;
   }
 }
+/* extra spacing between major sections */
+.card.full {
+  margin-top: 6px;
+}
