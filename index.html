@@ -87,5 +87,24 @@
   <div class="grid" id="brites"></div>
 
   <script src="dashboard.js"></script>
+  <!-- FERMENTATION MODAL -->
+<div id="fermModal" class="ferm-modal hidden">
+  <div class="ferm-window">
+    <button class="ferm-close">&times;</button>
+
+    <h2 id="fermTitle">Fermentation</h2>
+
+    <!-- CHART -->
+    <canvas id="fermChart" height="120"></canvas>
+
+    <!-- DAILY LOG -->
+    <div id="fermCards"></div>
+
+    <button id="addFermReading" class="primary">
+      + Add Daily Reading
+    </button>
+  </div>
+</div>
+
 </body>
 </html>
